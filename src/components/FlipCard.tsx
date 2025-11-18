@@ -16,8 +16,8 @@ export default function FlipCard({ title, content }: FlipCardProps) {
         <div className="absolute inset-0 border-2 border-brand-1 bg-brand-1 rounded-lg [backface-visibility:hidden]">
           <div className="relative flex items-center justify-center h-full">
             <h3 className="text-2xl md:text-3xl font-light text-brand-4">{title}</h3>
-            {/* Arrow hint - mobile/tablet only, bottom right corner */}
-            <svg className="absolute bottom-4 right-4 md:hidden text-brand-4" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            {/* Arrow hint - bottom right corner */}
+            <svg className="absolute bottom-4 right-4 text-brand-4" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
               <path d="M13.025 1l-2.847 2.828 6.176 6.176h-16.354v3.992h16.354l-6.176 6.176 2.847 2.828 10.975-11z"/>
             </svg>
           </div>
