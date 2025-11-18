@@ -51,7 +51,7 @@ export default async function IndexPage() {
               content="As a church, we believe in the importance of maturing disciples in their knowledge and practice of Scripture. We take seriously the truths of God's Word and aim to equip believers to vigorously live out a robust Christian faith."
             />
             <FlipCard
-              title="We multiply disciples"
+              title="We mobilize disciples"
               content="God has called the church to be kingdom-oriented. Therefore, at Grace, we aim to be a church that develops leaders, plants churches, and invests in God's larger kingdom purposes."
             />
           </div>

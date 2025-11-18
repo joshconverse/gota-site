@@ -93,6 +93,19 @@ npm run build
 npm run start
 ```
 
+## TODO
+
+- [ ] Create visit page - @username
+- [ ] Create about page - @username
+- [ ] Create ministries page - @username
+- [ ] Create resources page - @username
+- [ ] Create volunteer page - @username
+- [ ] Create events page - @username
+- [ ] Link the links - @username
+- [ ] Add address to the "we exist to make mature and multiple disciples" section - @username
+- [ ] Change the Events heading to "Get plugged in" - @username
+- [ ] Include site map links at bottom of footer - @username
+
 ## License
 
 This project is private and proprietary to Grace on the Ashley church.
