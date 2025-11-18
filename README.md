@@ -1,6 +1,6 @@
 # Grace on the Ashley Church Website
 
-This is the official website for Grace on the Ashley church, a community dedicated to making, maturing, and multiplying disciples of Jesus.
+This is the official website for Grace on the Ashley Baptist church, dedicated to making, maturing, and multiplying disciples of Jesus.
 
 ## About
 
