@@ -1,0 +1,139 @@
+@import "tailwindcss";
+
+:root {
+  --background: var(--brand-4);
+  --foreground: #111827;
+  --accent: #0ea5a4; /* teal-ish accent */
+  --muted: #6b7280;
+
+  /* Brand palette */
+  --brand-1: #96A78D; /* deep sage */
+  --brand-2: #B6CEB4; /* light sage */
+  --brand-3: #D9E9CF; /* pale green */
+  --brand-4: #F0F0F0; /* light gray */
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0a0a0a;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-geist-sans), system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+
+/* Improve font rendering */
+/* Improve font rendering */
+html, body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Ensure a reasonable minimum width on small portrait devices to avoid layout collapse */
+@media (max-width: 480px) {
+  body {
+    min-width: 360px;
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+.container {
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+@media (min-width: 768px) {
+  .container {
+    padding-left: 3rem; /* 48px */
+    padding-right: 3rem;
+  }
+}
+
+.prose img {
+  border-radius: 0.5rem;
+}
+
+/* Headline spacing: match requested 0.67em margin */
+h1 {
+  /* tighten spacing and improve rendering for large headlines */
+  margin-block: 0.6em;
+  font-family: "Gotham", "Geist Sans", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 4rem;
+  font-weight: 400;
+  line-height: 1.03;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Accent utilities */
+.bg-accent { background-color: var(--accent); }
+.text-accent { color: var(--accent); }
+
+/* Brand color utilities */
+.bg-brand-1 { background-color: var(--brand-1); }
+.bg-brand-2 { background-color: var(--brand-2); }
+.bg-brand-3 { background-color: var(--brand-3); }
+.bg-brand-4 { background-color: var(--brand-4); }
+.text-brand-1 { color: var(--brand-1); }
+.text-brand-2 { color: var(--brand-2); }
+.text-brand-3 { color: var(--brand-3); }
+.text-brand-4 { color: var(--brand-4); }
+.border-brand-1 { border-color: var(--brand-1); }
+.border-brand-2 { border-color: var(--brand-2); }
+.border-brand-3 { border-color: var(--brand-3); }
+.border-brand-4 { border-color: var(--brand-4); }
+
+/* Simple button look */
+.btn {
+  display: inline-block;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-radius: 0.375rem;
+  font-weight: 600;
+}
+
+/* Navigation link styling to better match Seacoast */
+nav a, .header-nav a {
+  font-family: var(--font-geist-sans), system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+  font-weight: 400; /* thinner */
+  font-size: 1.18rem; /* slightly larger */
+  line-height: 1.12;
+  letter-spacing: -0.004em;
+  color: var(--foreground);
+  text-decoration: none;
+  transition: color 150ms ease, opacity 150ms ease;
+}
+
+nav a:hover, .header-nav a:hover {
+  color: var(--accent);
+  opacity: 0.95;
+  text-decoration: underline;
+}
+
+/* Force header navigation links to be black regardless of prefers-color-scheme */
+header nav a, header .header-nav a {
+  color: #000000 !important;
+}
+
+
+
+/* Responsive navbar breakpoint at 1185px
+  - Below 1185px: hide desktop nav, show hamburger
+  - At/above 1185px: show desktop nav, hide hamburger */
+.nav-desktop { display: none; }
+.nav-hamburger { display: inline-flex; }
+@media (min-width: 1185px) {
+  .nav-desktop { display: block; }
+  .nav-hamburger { display: none; }
+}
+
+
+
