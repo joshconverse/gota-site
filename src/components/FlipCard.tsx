@@ -13,7 +13,7 @@ export default function FlipCard({ title, content }: FlipCardProps) {
     >
       <div className="relative h-full w-full transition-all duration-500 [transform-style:preserve-3d] group-hover:[transform:rotateY(180deg)] group-[.flipped]:[transform:rotateY(180deg)]">
         {/* Front */}
-        <div className="absolute inset-0 border-2 border-brand-1 bg-brand-1 rounded-lg [backface-visibility:hidden]">
+        <div className="absolute inset-0 border-2 border-brand-1 bg-brand-1 rounded-lg [backface-visibility:hidden] p-8">
           <div className="relative flex items-center justify-center h-full">
             <h3 className="text-2xl md:text-3xl font-light text-brand-4">{title}</h3>
             {/* Arrow hint - bottom right corner */}
@@ -23,7 +23,7 @@ export default function FlipCard({ title, content }: FlipCardProps) {
           </div>
         </div>
         {/* Back */}
-        <div className="absolute inset-0 flex items-center justify-center border-2 border-brand-1 bg-brand-1 rounded-lg p-6 [backface-visibility:hidden] [transform:rotateY(180deg)]">
+        <div className="absolute inset-0 flex items-center justify-center border-2 border-brand-1 bg-brand-1 rounded-lg p-8 [backface-visibility:hidden] [transform:rotateY(180deg)]">
           <p className="text-brand-4 leading-relaxed text-center">{content}</p>
         </div>
       </div>

@@ -1,6 +1,7 @@
 import { type SanityDocument } from "next-sanity";
 import { client } from "@/sanity/client";
 import queries from "@/sanity/queries";
+import Image from "next/image";
 import Hero from "@/components/Hero";
 import PostCard from "@/components/PostCard";
 import EventCard from "@/components/EventCard";
@@ -20,9 +21,64 @@ export default async function IndexPage() {
     <main className="min-h-screen bg-brand-4">
       <Hero doc={homepage} />
 
-      {/* Gather with us full section */}
-          
-      <section className="relative bg-brand-1 -mt-1 min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Gather with us section */}
+      <section className="relative bg-brand-1 -mt-1 min-h-[60vh] flex items-center justify-center overflow-hidden">
+        {/* Overlay for better text readability */}
+        <div className="absolute inset-0 bg-[#96A78D]/40" />
+        
+        {/* Content overlay */}
+        <div className="relative z-10 container mx-auto max-w-[1200px] px-6 md:px-12 lg:px-20 mt-8 md:mt-0 pb-16 md:pb-0">
+          {/* Service Times and Location */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12 mb-16">
+            {/* Service Times */}
+            <div className="text-center h-full">
+              <h2 className="text-2xl md:text-3xl font-light text-brand-4 mb-6">Service Times</h2>
+              <div className="bg-brand-4/10 rounded-lg p-6 border border-brand-4/20 h-full flex flex-col justify-center">
+                <div className="flex flex-col justify-center items-center gap-4">
+                  <div className="text-brand-4 text-center">
+                    <div className="flex justify-center mb-2">
+                      <svg className="w-6 h-6 text-brand-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <polyline points="12,6 12,12 16,14"></polyline>
+                      </svg>
+                    </div>
+                    <p className="text-lg font-semibold">Sunday School</p>
+                    <p className="text-xl">9:30 AM</p>
+                  </div>
+                  <div className="text-brand-4 text-center">
+                    <p className="text-lg font-semibold">Main Service</p>
+                    <p className="text-xl">10:45 AM</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            {/* Location */}
+            <div className="text-center h-full">
+              <h2 className="text-2xl md:text-3xl font-light text-brand-4 mb-6">Location</h2>
+              <div className="bg-brand-4/10 rounded-lg p-6 border border-brand-4/20 h-full flex flex-col justify-center">
+                <div className="flex justify-center mb-4">
+                  <svg className="w-8 h-8 text-brand-4" fill="currentColor" viewBox="0 0 20 20">
+                    <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                  </svg>
+                </div>
+                <a
+                  href="https://www.google.com/maps/search/?api=1&query=2025+BEES+FERRY+ROAD+CHARLESTON+SC+29414"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-lg text-brand-4 font-medium hover:underline block"
+                >
+                  2025 BEES FERRY ROAD<br />
+                  CHARLESTON, SC 29414
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Mission section */}
+      <section className="relative bg-brand-1 min-h-screen flex items-center justify-center overflow-hidden">
         {/* Background video */}
         <video
           src="/12579306_3840_2160_24fps.mp4"
@@ -35,7 +91,7 @@ export default async function IndexPage() {
         />
         
         {/* Content overlay */}
-        <div className="relative z-10 container mx-auto max-w-[1200px] px-6 md:px-12 lg:px-20 mt-8 md:mt-0 pb-16 md:pb-0">
+        <div className="relative z-10 container mx-auto max-w-[1200px] px-6 md:px-12 lg:px-20">
           <h1 className="text-lg sm:text-4xl md:text-5xl font-light text-brand-4 text-center mb-12">
             We exist to make, mature<br />and multiply disciples of Jesus
           </h1>
@@ -64,29 +120,13 @@ export default async function IndexPage() {
               Visit Us
             </a>
           </div>
-          
-          {/* Service Times */}
-          <div className="mt-12 mb-16 md:mb-12 text-center">
-            <h2 className="text-2xl md:text-3xl font-light text-brand-4 mb-6">Service Times</h2>
-            <div className="flex flex-col sm:flex-row justify-center items-center gap-6">
-              <div className="text-brand-4">
-                <p className="text-lg font-semibold">Sunday School</p>
-                <p className="text-xl">9:30 AM</p>
-              </div>
-              <div className="hidden sm:block text-brand-4 text-2xl">|</div>
-              <div className="text-brand-4">
-                <p className="text-lg font-semibold">Main Service</p>
-                <p className="text-xl">10:45 AM</p>
-              </div>
-            </div>
-          </div>
         </div>
       </section>
 
 
-  <section className="bg-brand-4 py-12">
+  <section className="bg-brand-4 min-h-screen flex items-center justify-center">
     <div className="container mx-auto max-w-3xl px-8 md:px-12 lg:px-20">
-        <h1 className="text-2xl font-light text-black mb-4">Events</h1>
+        <h1 className="text-2xl font-light text-black mb-4">Get plugged in</h1>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {announcements.length ? announcements.map((a) => <AnnouncementCard key={a._id} announcement={a} />) : <p>No announcements.</p>}
         </div>
