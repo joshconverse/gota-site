@@ -78,7 +78,7 @@ export default function Hero({ doc }: { doc: SanityDocument | null }) {
       </div>
       {/* Tease next section: show heading at the very bottom of the hero */}
 
-      <div className="absolute inset-x-0 bottom-0 z-20 flex justify-center bg-brand-1 py-2">
+      <div className="absolute inset-x-0 bottom-0 z-20 flex justify-center bg-brand-1 py-2 rounded-t-[32px]">
         <div className="container relative mx-auto max-w-[1440px] px-6 md:px-12 lg:px-20 text-brand-4">
           {/* Social icons positioned 30px above the green bar - hidden on mobile */}
           <div className="hidden md:flex absolute -top-[45px] left-6 md:left-12 lg:left-20 z-10 items-center gap-3 text-black">
