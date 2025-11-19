@@ -1,6 +1,6 @@
 # Grace on the Ashley Church Website
 
-This is the official website for Grace on the Ashley church, a community dedicated to making, maturing, and multiplying disciples of Jesus.
+This is the official website for Grace on the Ashley Baptist church, dedicated to making, maturing, and multiplying disciples of Jesus.
 
 ## About
 
@@ -95,16 +95,16 @@ npm run start
 
 ## TODO
 
-- [ ] Create visit page - @joshconverse
-- [x] Create about page - @joshconverse
-- [ ] Create ministries page - @joshconverse
-- [ ] Create resources page - @joshconverse
-- [ ] Create volunteer page - @joshconverse
-- [ ] Create events page - @joshconverse
-- [ ] Link the links - @joshconverse
-- [ ] Add address to the "we exist to make mature and multiple disciples" section - @joshconverse
-- [ ] Change the Events heading to "Get plugged in" - @joshconverse
-- [ ] Include site map links at bottom of footer - @joshconverse
+- [ ] Create visit page - @username
+- [ ] Create about page - @username
+- [ ] Create ministries page - @username
+- [ ] Create resources page - @username
+- [ ] Create volunteer page - @username
+- [ ] Create events page - @username
+- [ ] Link the links - @username
+- [ ] Add address to the "we exist to make mature and multiple disciples" section - @username
+- [ ] Change the Events heading to "Get plugged in" - @username
+- [ ] Include site map links at bottom of footer - @username
 
 ## License
 
