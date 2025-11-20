@@ -121,7 +121,7 @@ export default function AboutPage() {
                       onClick={() => toggleItem(index)}
                       className="w-full px-0 py-6 text-left flex justify-between items-center transition-colors group"
                     >
-                      <h3 className="text-xl font-normal text-black pr-4 transition-colors text-left">
+                      <h3 className="text-xl font-light text-black pr-4 transition-colors text-left">
                         {item.title}
                       </h3>
                       <div className="flex-shrink-0 w-8 h-8 rounded-full bg-brand-4 flex items-center justify-center">
@@ -172,15 +172,17 @@ export default function AboutPage() {
       {/* Leadership Section */}
       <section id="leadership" className="py-24" style={{ backgroundColor: '#96A78D' }}>
         <div className="container mx-auto max-w-screen-2xl px-6 md:px-12 lg:px-20">
+
+          {/* Elders Section */}
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-light text-white mb-8">
-              Meet our Pastors
+              Meet our Elders
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 max-w-6xl mx-auto mb-24">
             {/* Greg Smith */}
-            <div className="text-center lg:border-r lg:border-white/30 lg:pr-8">
+            <div className="text-center">
               <div className="mb-6">
                 <img
                   src="/bioImage_1.jpg"
@@ -190,9 +192,6 @@ export default function AboutPage() {
               </div>
               <h3 className="text-2xl font-light text-white mb-2">Greg Smith</h3>
               <p className="text-lg text-white/90 mb-4">Elder and Lead Pastor</p>
-              <p className="text-white leading-relaxed text-left">
-                A native of the lowcountry, Greg has a special love for Charleston and the surrounding areas. He and his wife Daniell have been married for over 20 years and enjoy being parents to their son Aiden. Greg served as Lead Pastor at Pierpont Baptist Church for eleven years before leading the merger that formed Grace on the Ashley, where he has served as Lead Pastor since 2011. A graduate of Charleston Southern University and Columbia International University, Greg is currently pursuing his Doctor of Ministry. He also serves as a Navy Reserve chaplain and enjoys sports, reading, and traveling.
-              </p>
             </div>
 
             {/* Kelly Graham */}
@@ -206,29 +205,10 @@ export default function AboutPage() {
               </div>
               <h3 className="text-2xl font-light text-white mb-2">Kelly Graham</h3>
               <p className="text-lg text-white/90 mb-4">Elder and Associate Pastor</p>
-              <p className="text-white leading-relaxed text-left">
-                Kelly has served the local church for over two decades in worship, family ministry, preaching, and church planting. He began serving Grace on the Ashley as Associate Pastor in May 2022. A graduate of Charleston Southern University, he is completing his Master's at Southeastern Baptist Theological Seminary. He and his wife Carissa have been married since 2004 and have three children. Kelly enjoys Americana music, camping, hunting, fishing, and reading fiction.
-              </p>
             </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Elders Section */}
-      <section className="py-24" style={{ backgroundColor: '#96A78D' }}>
-        <div className="container mx-auto max-w-screen-2xl px-6 md:px-12 lg:px-20">
-          {/* Horizontal Separator */}
-          <div className="w-full h-px bg-white/30 mb-16"></div>
-
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-light text-white mb-8">
-              Meet our Elders
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
             {/* John Butz */}
-            <div className="text-center lg:border-r lg:border-white/30 lg:pr-8">
+            <div className="text-center">
               <div className="mb-6">
                 <img
                   src="/bioImage_4.jpg"
@@ -238,9 +218,6 @@ export default function AboutPage() {
               </div>
               <h3 className="text-2xl font-light text-white mb-2">John Butz</h3>
               <p className="text-lg text-white/90 mb-4">Elder</p>
-              <p className="text-white leading-relaxed text-left">
-                John was born in Jacksonville, FL but has lived in Charleston for over 35 years. He became a follower of Christ after Hurricane Hugo in 1989 and has been committed to knowing God through all circumstances. John has been married to his wife Melody for 36 years and they have three children and five grandchildren. He has been a part of Grace on the Ashley for almost 4 years and is privileged to serve in the advancement of God's Kingdom. In his spare time, John enjoys Sudoku and reading.
-              </p>
             </div>
 
             {/* Roger Parker */}
@@ -254,9 +231,124 @@ export default function AboutPage() {
               </div>
               <h3 className="text-2xl font-light text-white mb-2">Roger Parker</h3>
               <p className="text-lg text-white/90 mb-4">Elder, Chairman</p>
-              <p className="text-white leading-relaxed text-left">
-                Roger was born in Calhoun City, Mississippi and has been married to his wife Neicy for 50 years. They have three adult children and two grandchildren. Roger served in the United States Army and has worked as a Vice President with REI Engineers for 15 years, holding leadership positions in industry associations. He was a member of the Church of the Nazarene for 30 years and served in various roles. Roger joined Grace on the Ashley as a charter member in 2011 and served on the transition team for the church merger. He was one of the first lay elders elected by the congregation. In his spare time, Roger enjoys golf, the beach, and traveling.
-              </p>
+            </div>
+
+            {/* Jim Pitts */}
+            <div className="text-center">
+              <div className="mb-6">
+                <img
+                  src="/bioImage_3.jpg"
+                  alt="Jim Pitts"
+                  className="w-48 h-48 rounded-full mx-auto object-cover shadow-lg"
+                />
+              </div>
+              <h3 className="text-2xl font-light text-white mb-2">Jim Pitts</h3>
+              <p className="text-lg text-white/90 mb-4">Elder</p>
+            </div>
+
+            {/* Aaron Barney */}
+            <div className="text-center">
+              <div className="mb-6">
+                <div className="w-48 h-48 rounded-full mx-auto bg-white/20 flex items-center justify-center shadow-lg">
+                  <span className="text-white text-lg">Photo Coming Soon</span>
+                </div>
+              </div>
+              <h3 className="text-2xl font-light text-white mb-2">Aaron Barney</h3>
+              <p className="text-lg text-white/90 mb-4">Elder</p>
+            </div>
+          </div>
+
+          {/* Horizontal Separator */}
+          <div className="w-full h-px bg-white/30 mb-16"></div>
+
+          {/* Pastors Section */}
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-light text-white mb-8">
+              Meet our Pastors
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto mb-24">
+            {/* Greg Smith */}
+            <div className="text-center">
+              <div className="mb-6">
+                <img
+                  src="/bioImage_1.jpg"
+                  alt="Greg Smith"
+                  className="w-48 h-48 rounded-full mx-auto object-cover shadow-lg"
+                />
+              </div>
+              <h3 className="text-2xl font-light text-white mb-2">Greg Smith</h3>
+              <p className="text-lg text-white/90 mb-4">Lead Pastor</p>
+            </div>
+
+            {/* Kelly Graham */}
+            <div className="text-center">
+              <div className="mb-6">
+                <img
+                  src="/bioImage_14.jpg"
+                  alt="Kelly Graham"
+                  className="w-48 h-48 rounded-full mx-auto object-cover shadow-lg"
+                />
+              </div>
+              <h3 className="text-2xl font-light text-white mb-2">Kelly Graham</h3>
+              <p className="text-lg text-white/90 mb-4">Associate Pastor</p>
+            </div>
+          </div>
+
+          {/* Horizontal Separator */}
+          <div className="w-full h-px bg-white/30 mb-16"></div>
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-light text-white mb-8">
+              Meet our Staff
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 max-w-6xl mx-auto">
+            {/* Donna Faulk */}
+            <div className="text-center">
+              <div className="mb-6">
+                <img
+                  src="/bioImage_7.jpg"
+                  alt="Donna Faulk"
+                  className="w-48 h-48 rounded-full mx-auto object-cover shadow-lg"
+                />
+              </div>
+              <h3 className="text-2xl font-light text-white mb-2">Donna Faulk</h3>
+              <p className="text-lg text-white/90 mb-4">Director of Children's Ministry and Financial Secretary</p>
+            </div>
+
+            {/* Daniell Smith */}
+            <div className="text-center">
+              <div className="mb-6">
+                <div className="w-48 h-48 rounded-full mx-auto bg-white/20 flex items-center justify-center shadow-lg">
+                  <span className="text-white text-lg">Photo Coming Soon</span>
+                </div>
+              </div>
+              <h3 className="text-2xl font-light text-white mb-2">Daniell Smith</h3>
+              <p className="text-lg text-white/90 mb-4">Staff</p>
+            </div>
+
+            {/* Audrey Yadon */}
+            <div className="text-center">
+              <div className="mb-6">
+                <div className="w-48 h-48 rounded-full mx-auto bg-white/20 flex items-center justify-center shadow-lg">
+                  <span className="text-white text-lg">Photo Coming Soon</span>
+                </div>
+              </div>
+              <h3 className="text-2xl font-light text-white mb-2">Audrey Yadon</h3>
+              <p className="text-lg text-white/90 mb-4">Staff</p>
+            </div>
+
+            {/* Justin Waycaster */}
+            <div className="text-center">
+              <div className="mb-6">
+                <div className="w-48 h-48 rounded-full mx-auto bg-white/20 flex items-center justify-center shadow-lg">
+                  <span className="text-white text-lg">Photo Coming Soon</span>
+                </div>
+              </div>
+              <h3 className="text-2xl font-light text-white mb-2">Justin Waycaster</h3>
+              <p className="text-lg text-white/90 mb-4">Treasurer</p>
             </div>
           </div>
         </div>
