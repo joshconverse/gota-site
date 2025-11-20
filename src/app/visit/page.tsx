@@ -91,9 +91,7 @@ export default function VisitPage() {
               What to Expect
             </h2>
             
-            <p className="text-lg text-gray-700 mb-12 leading-relaxed">
-              We invite you to worship with us this Sunday. If you have any questions or needs while you're with us, stop by our Welcome Center. We'd love to meet you!
-            </p>
+
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mt-12">
               {/* FAQ Section */}
@@ -104,7 +102,7 @@ export default function VisitPage() {
                       onClick={() => toggleItem(index)}
                       className="w-full px-0 py-6 text-left flex justify-between items-center transition-colors group"
                     >
-                      <h3 className="text-xl font-normal text-black pr-4 transition-colors">
+                      <h3 className="text-xl font-light text-black pr-4 transition-colors">
                         {item.question}
                       </h3>
                       <div className="flex-shrink-0 w-8 h-8 rounded-full bg-brand-4 flex items-center justify-center">
