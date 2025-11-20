@@ -97,24 +97,34 @@ export default function VisitPage() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mt-12">
               {/* FAQ Section */}
-              <div className="space-y-6 h-[700px] overflow-hidden">
+              <div className="space-y-6 h-[700px] overflow-hidden lg:border-r lg:border-gray-300 lg:pr-8">
                 {faqItems.map((item, index) => (
-                  <div key={index} className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
+                  <div key={index} className="overflow-hidden">
                     <button
                       onClick={() => toggleItem(index)}
-                      className="w-full px-8 py-6 text-left flex justify-between items-center hover:bg-gray-50 transition-colors group"
+                      className="w-full px-0 py-6 text-left flex justify-between items-center transition-colors group"
                     >
-                      <h3 className="text-lg font-semibold text-black pr-4 group-hover:text-brand-1 transition-colors">
+                      <h3 className="text-xl font-normal text-black pr-4 transition-colors">
                         {item.question}
                       </h3>
                       <div className="flex-shrink-0 w-8 h-8 rounded-full bg-brand-4 flex items-center justify-center">
-                        <span className={`text-brand-1 font-bold text-lg transition-transform duration-200 ${openItems.includes(index) ? 'rotate-45' : ''}`}>
-                          +
-                        </span>
+                        <svg
+                          className={`w-6 h-6 text-brand-1 transition-transform duration-200 ${openItems.includes(index) ? 'rotate-180' : ''}`}
+                          viewBox="0 0 32 32"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            clipRule="evenodd"
+                            d="M16.5303 20.8839C16.2374 21.1768 15.7626 21.1768 15.4697 20.8839L7.82318 13.2374C7.53029 12.9445 7.53029 12.4697 7.82318 12.1768L8.17674 11.8232C8.46963 11.5303 8.9445 11.5303 9.2374 11.8232L16 18.5858L22.7626 11.8232C23.0555 11.5303 23.5303 11.5303 23.8232 11.8232L24.1768 12.1768C24.4697 12.4697 24.4697 12.9445 24.1768 13.2374L16.5303 20.8839Z"
+                            fill="currentColor"
+                          />
+                        </svg>
                       </div>
                     </button>
                     <div className={`overflow-hidden transition-all duration-500 ease-out ${openItems.includes(index) ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
-                      <div className="px-8 pb-6">
+                      <div className="px-0 pb-6">
                         <p className="text-gray-600 leading-relaxed text-left">
                           {item.answer}
                         </p>
@@ -124,14 +134,38 @@ export default function VisitPage() {
                 ))}
               </div>
 
-              {/* Image Section */}
-              <div className="hidden lg:block lg:sticky lg:top-32">
-                <div className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden aspect-[3/4]">
-                  <img
-                    src="/mature2.jpg"
-                    alt="Worship at Grace on the Ashley"
-                    className="w-full h-full object-cover"
-                  />
+              {/* Mission Section */}
+              <div className="hidden lg:block">
+                <div className="space-y-8">
+                  <div className="text-left">
+                    <h3 className="text-2xl md:text-3xl font-light text-black mb-6">
+                      We exist to make, mature<br />
+                      and multiply disciples of Jesus
+                    </h3>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-8">
+                    <div>
+                      <h4 className="text-xl font-semibold text-black mb-3 text-left">We make disciples</h4>
+                      <p className="text-gray-600 leading-relaxed text-left">
+                        At Grace, we aim to live as sent people for purposes of reaching those without the hope of the Gospel. The Great Commission is a central feature of our vision and mission as a local church.
+                      </p>
+                    </div>
+
+                    <div>
+                      <h4 className="text-xl font-semibold text-black mb-3 text-left">We mature disciples</h4>
+                      <p className="text-gray-600 leading-relaxed text-left">
+                        As a church, we believe in the importance of maturing disciples in their knowledge and practice of Scripture. We take seriously the truths of God's Word and aim to equip believers to vigorously live out a robust Christian faith.
+                      </p>
+                    </div>
+
+                    <div className="col-span-2">
+                      <h4 className="text-xl font-semibold text-black mb-3 text-left">We mobilize disciples</h4>
+                      <p className="text-gray-600 leading-relaxed text-left">
+                        God has called the church to be kingdom-oriented. Therefore, at Grace, we aim to be a church that develops leaders, plants churches, and invests in God's larger kingdom purposes.
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

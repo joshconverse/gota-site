@@ -83,6 +83,12 @@ export default function AboutPage() {
                     Beliefs
                   </Link>
                   <Link
+                    href="#leadership"
+                    className="inline-block bg-white text-black px-8 py-4 rounded-md font-semibold shadow hover:opacity-95 transition text-lg border border-gray-200"
+                  >
+                    Our Leadership
+                  </Link>
+                  <Link
                     href="/visit"
                     className="inline-block bg-white text-black px-8 py-4 rounded-md font-semibold shadow hover:opacity-95 transition text-lg border border-gray-200"
                   >
@@ -93,10 +99,13 @@ export default function AboutPage() {
             </div>
           </div>
         </div>
+
+        {/* Transition Bar */}
+        <div className="absolute bottom-0 left-0 right-0 h-24" style={{ backgroundColor: '#F0F0F0' }}></div>
       </section>
 
       {/* Mission Section */}
-      <section id="beliefs" className="min-h-screen flex items-center py-16" style={{ backgroundColor: '#F0F0F0' }}>
+      <section id="beliefs" className="min-h-screen flex items-center py-24 scroll-mt-24" style={{ backgroundColor: '#F0F0F0' }}>
         <div className="container mx-auto max-w-screen-2xl px-6 md:px-12 lg:px-20">
           <div className="text-center mx-auto">
             <h2 className="text-3xl md:text-4xl font-light text-black mb-8">
@@ -105,24 +114,34 @@ export default function AboutPage() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
               {/* Beliefs FAQ Section */}
-              <div className="space-y-6 h-[1400px] overflow-hidden">
+              <div className="space-y-6 h-[1800px] overflow-hidden lg:border-r lg:border-gray-300 lg:pr-8">
                 {beliefsItems.map((item, index) => (
-                  <div key={index} className="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
+                  <div key={index} className="overflow-hidden">
                     <button
                       onClick={() => toggleItem(index)}
-                      className="w-full px-8 py-6 text-left flex justify-between items-center hover:bg-gray-50 transition-colors group"
+                      className="w-full px-0 py-6 text-left flex justify-between items-center transition-colors group"
                     >
-                      <h3 className="text-lg font-semibold text-black pr-4 group-hover:text-brand-1 transition-colors">
+                      <h3 className="text-xl font-normal text-black pr-4 transition-colors text-left">
                         {item.title}
                       </h3>
                       <div className="flex-shrink-0 w-8 h-8 rounded-full bg-brand-4 flex items-center justify-center">
-                        <span className={`text-brand-1 font-bold text-lg transition-transform duration-200 ${openItems.includes(index) ? 'rotate-45' : ''}`}>
-                          +
-                        </span>
+                        <svg
+                          className={`w-6 h-6 text-brand-1 transition-transform duration-200 ${openItems.includes(index) ? 'rotate-180' : ''}`}
+                          viewBox="0 0 32 32"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            clipRule="evenodd"
+                            d="M16.5303 20.8839C16.2374 21.1768 15.7626 21.1768 15.4697 20.8839L7.82318 13.2374C7.53029 12.9445 7.53029 12.4697 7.82318 12.1768L8.17674 11.8232C8.46963 11.5303 8.9445 11.5303 9.2374 11.8232L16 18.5858L22.7626 11.8232C23.0555 11.5303 23.5303 11.5303 23.8232 11.8232L24.1768 12.1768C24.4697 12.4697 24.4697 12.9445 24.1768 13.2374L16.5303 20.8839Z"
+                            fill="currentColor"
+                          />
+                        </svg>
                       </div>
                     </button>
                     <div className={`overflow-hidden transition-all duration-500 ease-out ${openItems.includes(index) ? 'max-h-[2000px] opacity-100' : 'max-h-0 opacity-0'}`}>
-                      <div className="px-8 py-6">
+                      <div className="px-0 py-6">
                         <div className="text-gray-600 leading-relaxed text-left">
                           <p>{item.description}</p>
                         </div>
@@ -133,10 +152,10 @@ export default function AboutPage() {
               </div>
 
               {/* Basic Beliefs Section */}
-              <div className="lg:sticky lg:top-32">
-                <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-8">
-                  <h3 className="text-2xl font-semibold text-black mb-6">Our Basic Beliefs Are:</h3>
-                  <ul className="space-y-4 text-gray-700">
+              <div>
+                <div>
+                  <h3 className="text-2xl font-normal text-black mb-6 text-left">Our Basic Beliefs Are:</h3>
+                  <ul className="space-y-4 text-gray-700 text-left">
                     <li>• The Bible is God&apos;s written revelation to man and is infallible, authoritative, and all-sufficient.</li>
                     <li>• The Word of God is objective and absolutely inerrant in the original documents.</li>
                     <li>• There is but one living and true God, perfect in all His attributes, one in essence, eternally existing in three Persons—Father, Son, and Holy Spirit.</li>
@@ -145,6 +164,99 @@ export default function AboutPage() {
                   </ul>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Leadership Section */}
+      <section id="leadership" className="py-24" style={{ backgroundColor: '#96A78D' }}>
+        <div className="container mx-auto max-w-screen-2xl px-6 md:px-12 lg:px-20">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-light text-white mb-8">
+              Meet our Pastors
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+            {/* Greg Smith */}
+            <div className="text-center lg:border-r lg:border-white/30 lg:pr-8">
+              <div className="mb-6">
+                <img
+                  src="/bioImage_1.jpg"
+                  alt="Greg Smith"
+                  className="w-48 h-48 rounded-full mx-auto object-cover shadow-lg"
+                />
+              </div>
+              <h3 className="text-2xl font-light text-white mb-2">Greg Smith</h3>
+              <p className="text-lg text-white/90 mb-4">Elder and Lead Pastor</p>
+              <p className="text-white leading-relaxed text-left">
+                A native of the lowcountry, Greg has a special love for Charleston and the surrounding areas. He and his wife Daniell have been married for over 20 years and enjoy being parents to their son Aiden. Greg served as Lead Pastor at Pierpont Baptist Church for eleven years before leading the merger that formed Grace on the Ashley, where he has served as Lead Pastor since 2011. A graduate of Charleston Southern University and Columbia International University, Greg is currently pursuing his Doctor of Ministry. He also serves as a Navy Reserve chaplain and enjoys sports, reading, and traveling.
+              </p>
+            </div>
+
+            {/* Kelly Graham */}
+            <div className="text-center">
+              <div className="mb-6">
+                <img
+                  src="/bioImage_14.jpg"
+                  alt="Kelly Graham"
+                  className="w-48 h-48 rounded-full mx-auto object-cover shadow-lg"
+                />
+              </div>
+              <h3 className="text-2xl font-light text-white mb-2">Kelly Graham</h3>
+              <p className="text-lg text-white/90 mb-4">Elder and Associate Pastor</p>
+              <p className="text-white leading-relaxed text-left">
+                Kelly has served the local church for over two decades in worship, family ministry, preaching, and church planting. He began serving Grace on the Ashley as Associate Pastor in May 2022. A graduate of Charleston Southern University, he is completing his Master's at Southeastern Baptist Theological Seminary. He and his wife Carissa have been married since 2004 and have three children. Kelly enjoys Americana music, camping, hunting, fishing, and reading fiction.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Elders Section */}
+      <section className="py-24" style={{ backgroundColor: '#96A78D' }}>
+        <div className="container mx-auto max-w-screen-2xl px-6 md:px-12 lg:px-20">
+          {/* Horizontal Separator */}
+          <div className="w-full h-px bg-white/30 mb-16"></div>
+
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-light text-white mb-8">
+              Meet our Elders
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto">
+            {/* John Butz */}
+            <div className="text-center lg:border-r lg:border-white/30 lg:pr-8">
+              <div className="mb-6">
+                <img
+                  src="/bioImage_4.jpg"
+                  alt="John Butz"
+                  className="w-48 h-48 rounded-full mx-auto object-cover shadow-lg"
+                />
+              </div>
+              <h3 className="text-2xl font-light text-white mb-2">John Butz</h3>
+              <p className="text-lg text-white/90 mb-4">Elder</p>
+              <p className="text-white leading-relaxed text-left">
+                John was born in Jacksonville, FL but has lived in Charleston for over 35 years. He became a follower of Christ after Hurricane Hugo in 1989 and has been committed to knowing God through all circumstances. John has been married to his wife Melody for 36 years and they have three children and five grandchildren. He has been a part of Grace on the Ashley for almost 4 years and is privileged to serve in the advancement of God's Kingdom. In his spare time, John enjoys Sudoku and reading.
+              </p>
+            </div>
+
+            {/* Roger Parker */}
+            <div className="text-center">
+              <div className="mb-6">
+                <img
+                  src="/bioImage_11.jpg"
+                  alt="Roger Parker"
+                  className="w-48 h-48 rounded-full mx-auto object-cover shadow-lg"
+                />
+              </div>
+              <h3 className="text-2xl font-light text-white mb-2">Roger Parker</h3>
+              <p className="text-lg text-white/90 mb-4">Elder, Chairman</p>
+              <p className="text-white leading-relaxed text-left">
+                Roger was born in Calhoun City, Mississippi and has been married to his wife Neicy for 50 years. They have three adult children and two grandchildren. Roger served in the United States Army and has worked as a Vice President with REI Engineers for 15 years, holding leadership positions in industry associations. He was a member of the Church of the Nazarene for 30 years and served in various roles. Roger joined Grace on the Ashley as a charter member in 2011 and served on the transition team for the church merger. He was one of the first lay elders elected by the congregation. In his spare time, Roger enjoys golf, the beach, and traveling.
+              </p>
             </div>
           </div>
         </div>
