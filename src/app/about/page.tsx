@@ -53,7 +53,7 @@ export default function AboutPage() {
         {/* Background Image with Tint */}
         <div className="absolute inset-0">
           <img
-            src="/mature2.jpg"
+            src="/MATURE2.jpg"
             alt="Community background"
             className="w-full h-full object-cover opacity-20"
           />
