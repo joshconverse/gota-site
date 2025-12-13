@@ -19,13 +19,13 @@ export default function Footer() {
 
           {/* Ministries */}
           <div className="space-y-2">
-            <Link href="/children" className="block text-slate-900 hover:text-brand-1 transition-colors">Children</Link>
-            <Link href="/students" className="block text-slate-900 hover:text-brand-1 transition-colors">Students</Link>
-            <Link href="/care" className="block text-slate-900 hover:text-brand-1 transition-colors">Care</Link>
-            <Link href="/men" className="block text-slate-900 hover:text-brand-1 transition-colors">Men</Link>
-            <Link href="/women" className="block text-slate-900 hover:text-brand-1 transition-colors">Women</Link>
-            <Link href="/married" className="block text-slate-900 hover:text-brand-1 transition-colors">Married</Link>
-            <Link href="/missions" className="block text-slate-900 hover:text-brand-1 transition-colors">Missions</Link>
+            <Link href="/ministries#children" className="block text-slate-900 hover:text-brand-1 transition-colors">Children</Link>
+            <Link href="/ministries#students" className="block text-slate-900 hover:text-brand-1 transition-colors">Students</Link>
+            <Link href="/ministries#care" className="block text-slate-900 hover:text-brand-1 transition-colors">Care</Link>
+            <Link href="/ministries#men" className="block text-slate-900 hover:text-brand-1 transition-colors">Men</Link>
+            <Link href="/ministries#women" className="block text-slate-900 hover:text-brand-1 transition-colors">Women</Link>
+            <Link href="/ministries#married" className="block text-slate-900 hover:text-brand-1 transition-colors">Married</Link>
+            <Link href="/ministries#missions" className="block text-slate-900 hover:text-brand-1 transition-colors">Missions</Link>
           </div>
         </div>
 
