@@ -46,12 +46,20 @@ Grace on the Ashley exists to live as sent people for the purposes of reaching t
    - Update `src/sanity/client.ts` with your project ID, dataset, and API version
    - Configure your content in Sanity Studio
 
-4. Run the development server:
+4. Set up YouTube API (for homepage background images):
+   - Go to [Google Cloud Console](https://console.cloud.google.com/)
+   - Create a new project or select an existing one
+   - Enable the YouTube Data API v3
+   - Create credentials (API key)
+   - Copy `.env.example` to `.env.local`
+   - Add your API key: `YOUTUBE_API_KEY=your_api_key_here`
+
+5. Run the development server:
    ```bash
    npm run dev
    ```
 
-5. Open [http://localhost:3000](http://localhost:3000) in your browser.
+6. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## Scripts
 

@@ -1,7 +1,13 @@
 import Image from "next/image";
 import type { SanityDocument } from "next-sanity";
+import HeroImage from "./HeroImage";
 
-export default function Hero({ doc }: { doc: SanityDocument | null }) {
+export default function Hero({ doc, thumbnailUrl, streamTitle, streamUrl }: { 
+  doc: SanityDocument | null; 
+  thumbnailUrl?: string | null;
+  streamTitle?: string | null;
+  streamUrl?: string | null;
+}) {
   // Full-bleed background uses Enrique image, mirrored; foreground panel remains
 
   return (
@@ -27,18 +33,18 @@ export default function Hero({ doc }: { doc: SanityDocument | null }) {
             <p className="text-xs uppercase tracking-wide text-slate-600 mb-0 leading-none">Latest Sermon</p>
           </div>
 
-          {/* Right column: overlaid image panel with imagecap.png */}
+          {/* Right column: overlaid image panel with YouTube thumbnail or imagecap.png */}
           <div
             className="relative w-full order-2 lg:order-2 rounded-2xl border border-white/80 shadow-lg overflow-hidden"
             style={{ aspectRatio: "16 / 9" }}
           >
-            <Image src="/imagecap.png" alt="2 Timothy" fill className="object-cover" sizes="(min-width: 1024px) 50vw, 100vw" />
+            <HeroImage thumbnailUrl={thumbnailUrl} streamTitle={streamTitle} />
             {/* Subtle gradient for readability */}
             <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-transparent to-black/30" />
 
             {/* Centered play button linking to stream */}
             <a
-              href="https://www.youtube.com/watch?v=uMTiRg7Kcfo"
+              href={streamUrl || "https://www.youtube.com/watch?v=uMTiRg7Kcfo"}
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Play stream on YouTube"
@@ -55,16 +61,16 @@ export default function Hero({ doc }: { doc: SanityDocument | null }) {
             {/* Desktop: Full sermon info */}
             <div className="hidden lg:block">
               <p className="text-xs sm:text-sm uppercase tracking-wide text-slate-600 mb-0 leading-none">Latest Sermon</p>
-              <h1 className="-mt-1 text-2xl sm:text-3xl font-semibold leading-tight text-slate-900">2 Timothy 3:16-17 Part 2</h1>
+              <h1 className="-mt-1 text-2xl sm:text-3xl font-semibold leading-tight text-slate-900">{streamTitle || "2 Timothy 3:16-17 Part 2"}</h1>
             </div>
             {/* Mobile: Only title (no "Latest Sermon" label since it's above) */}
             <div className="lg:hidden">
-              <h1 className="!text-sm md:text-3xl font-semibold leading-tight text-slate-900 mb-4">2 Timothy 3:16-17 Part 2</h1>
+              <h1 className="!text-sm md:text-3xl font-semibold leading-tight text-slate-900 mb-4">{streamTitle || "2 Timothy 3:16-17 Part 2"}</h1>
             </div>
             {/* Button for both mobile and desktop */}
             <div className="mt-4 mb-24 lg:mb-0 text-center lg:text-right">
               <a
-                href="https://www.youtube.com/watch?v=uMTiRg7Kcfo"
+                href={streamUrl || "https://www.youtube.com/watch?v=uMTiRg7Kcfo"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-block bg-brand-2 text-slate-900 px-5 py-2.5 rounded-md font-semibold shadow hover:opacity-95"

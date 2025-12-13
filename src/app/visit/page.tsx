@@ -153,14 +153,14 @@ export default function VisitPage() {
                     <div>
                       <h4 className="text-xl font-semibold text-black mb-3 text-left">We mature disciples</h4>
                       <p className="text-gray-600 leading-relaxed text-left">
-                        As a church, we believe in the importance of maturing disciples in their knowledge and practice of Scripture. We take seriously the truths of God's Word and aim to equip believers to vigorously live out a robust Christian faith.
+                        As a church, we believe in the importance of maturing disciples in their knowledge and practice of Scripture. We take seriously the truths of God&apos;s Word and aim to equip believers to vigorously live out a robust Christian faith.
                       </p>
                     </div>
 
                     <div className="col-span-2">
                       <h4 className="text-xl font-semibold text-black mb-3 text-left">We mobilize disciples</h4>
                       <p className="text-gray-600 leading-relaxed text-left">
-                        God has called the church to be kingdom-oriented. Therefore, at Grace, we aim to be a church that develops leaders, plants churches, and invests in God's larger kingdom purposes.
+                        God has called the church to be kingdom-oriented. Therefore, at Grace, we aim to be a church that develops leaders, plants churches, and invests in God&apos;s larger kingdom purposes.
                       </p>
                     </div>
                   </div>

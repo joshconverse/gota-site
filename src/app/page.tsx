@@ -7,19 +7,22 @@ import PostCard from "@/components/PostCard";
 import EventCard from "@/components/EventCard";
 import AnnouncementCard from "@/components/AnnouncementCard";
 import FlipCard from "@/components/FlipCard";
+import { getLatestYouTubeStream } from "@/utils/youtube";
+import MissionBackground from "@/components/MissionBackground";
 
-const options = { next: { revalidate: 30 } };
+const options = { next: { revalidate: process.env.NODE_ENV === 'development' ? 0 : 30 } };
 
 export default async function IndexPage() {
   const homepage = await client.fetch<SanityDocument | null>(queries.HOMEPAGE_QUERY, {}, options);
   const announcements = await client.fetch<SanityDocument[]>(queries.ANNOUNCEMENTS_QUERY, {}, options);
+  const latestStream = await getLatestYouTubeStream();
 
   const posts = (homepage?.recentPosts as SanityDocument[] | undefined) ?? [];
   const events = (homepage?.upcomingEvents as SanityDocument[] | undefined) ?? [];
 
   return (
     <main className="min-h-screen bg-brand-4">
-      <Hero doc={homepage} />
+      <Hero doc={homepage} thumbnailUrl={latestStream?.thumbnailUrl} streamTitle={latestStream?.title} streamUrl={latestStream?.videoUrl} />
 
       {/* Gather with us section */}
       <section className="relative bg-brand-1 -mt-1 min-h-[60vh] flex items-center justify-center overflow-hidden">
@@ -79,17 +82,9 @@ export default async function IndexPage() {
 
       {/* Mission section */}
       <section className="relative bg-brand-1 min-h-screen flex items-center justify-center overflow-hidden">
-        {/* Background video */}
-        <video
-          src="/12579306_3840_2160_24fps.mp4"
-          muted
-          autoPlay
-          loop
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover opacity-30"
-          aria-hidden="true"
-        />
-        
+        {/* Background image from latest YouTube stream or fallback */}
+        <MissionBackground />
+
         {/* Content overlay */}
         <div className="relative z-10 container mx-auto max-w-[1200px] px-6 md:px-12 lg:px-20">
           <h1 className="text-lg sm:text-4xl md:text-5xl font-light text-brand-4 text-center mb-12">

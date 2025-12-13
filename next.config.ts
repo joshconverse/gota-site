@@ -10,6 +10,11 @@ const nextConfig: NextConfig = {
         hostname: 'cdn.sanity.io',
         pathname: '/images/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'i.ytimg.com',
+        pathname: '/vi/**',
+      },
     ],
   },
 };

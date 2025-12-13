@@ -315,7 +315,8 @@ export default function AboutPage() {
                 />
               </div>
               <h3 className="text-2xl font-light text-white mb-2">Donna Faulk</h3>
-              <p className="text-lg text-white/90 mb-4">Director of Children's Ministry and Financial Secretary</p>
+              <p className="text-lg text-white/90 mb-4">Director of Children&apos;s Ministry and Financial Secretary</p>
+
             </div>
 
             {/* Daniell Smith */}
