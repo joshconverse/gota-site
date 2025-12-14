@@ -49,7 +49,7 @@ export default function AboutPage() {
   return (
     <main className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative min-h-[60vh] md:min-h-[70vh] flex items-center" style={{ backgroundColor: '#B6CEB4' }}>
+      <section className="relative min-h-screen md:min-h-[70vh] flex items-center" style={{ backgroundColor: '#B6CEB4' }}>
         {/* Background Image with Tint */}
         <div className="absolute inset-0">
           <img

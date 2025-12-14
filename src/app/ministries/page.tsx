@@ -50,7 +50,7 @@ export default function MinistriesPage() {
   return (
     <main className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative min-h-[60vh] md:min-h-[70vh] flex items-center" style={{ backgroundColor: '#B6CEB4' }}>
+      <section className="relative min-h-screen md:min-h-[70vh] flex items-center" style={{ backgroundColor: '#B6CEB4' }}>
         {/* Background Image with Tint */}
         <div className="absolute inset-0">
           <img
@@ -84,7 +84,7 @@ export default function MinistriesPage() {
                     Our Ministries
                   </Link>
                   <Link
-                    href="/volunteer"
+                    href="/connect"
                     className="inline-block bg-white text-black px-8 py-4 rounded-md font-semibold shadow hover:opacity-95 transition text-lg border border-gray-200"
                   >
                     Get Involved
@@ -113,7 +113,7 @@ export default function MinistriesPage() {
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
-                  href="/volunteer"
+                  href="/connect"
                   className="inline-block bg-brand-2 text-slate-900 px-6 py-3 rounded-md font-semibold shadow hover:opacity-95 transition"
                 >
                   Get Involved

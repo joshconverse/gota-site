@@ -28,7 +28,7 @@ export default function VisitPage() {
   return (
     <main className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative min-h-[60vh] md:min-h-[70vh] flex items-center" style={{ backgroundColor: '#B6CEB4' }}>
+      <section className="relative min-h-screen md:min-h-[70vh] flex items-center" style={{ backgroundColor: '#B6CEB4' }}>
         {/* Background Image with Tint */}
         <div className="absolute inset-0">
           <img
@@ -43,7 +43,7 @@ export default function VisitPage() {
           <div className="max-w-6xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               {/* Left column: Heading */}
-              <div className="text-center lg:text-left">
+              <div className="text-center lg:text-left mt-8 md:mt-0">
                 <h1 className="text-4xl md:text-6xl lg:text-7xl font-light text-white mb-6">
                   Visit Us
                 </h1>
@@ -72,7 +72,7 @@ export default function VisitPage() {
                     href="https://www.google.com/maps/search/?api=1&query=2025+BEES+FERRY+ROAD+CHARLESTON+SC+29414"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-block bg-white text-black px-8 py-4 rounded-md font-semibold shadow hover:opacity-95 transition text-lg border border-gray-200"
+                    className="inline-block bg-white text-black px-8 py-4 rounded-md font-semibold shadow hover:opacity-95 transition text-lg border border-gray-200 mb-8 md:mb-4"
                   >
                     Get Directions
                   </a>
@@ -87,7 +87,7 @@ export default function VisitPage() {
       <section id="welcome" className="min-h-screen flex items-center py-16" style={{ backgroundColor: '#F0F0F0' }}>
         <div className="container mx-auto max-w-[1440px] px-6 md:px-12 lg:px-20">
           <div className="text-center max-w-6xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-light text-black mb-8">
+            <h2 className="text-3xl md:text-4xl font-light text-black mb-8 mt-8 md:mt-0">
               What to Expect
             </h2>
             
