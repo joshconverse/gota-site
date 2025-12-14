@@ -30,7 +30,7 @@ export default function Header() {
               <li><Link href="/about">About</Link></li>
               <li><Link href="/ministries">Ministries</Link></li>
               <li><Link href="/resources">Resources</Link></li>
-              <li><Link href="/volunteer">Volunteer</Link></li>
+              <li><Link href="/connect">Connect</Link></li>
               <li><Link href="/events">Events</Link></li>
             </ul>
           </nav>

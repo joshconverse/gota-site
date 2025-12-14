@@ -87,8 +87,8 @@ export default function MobileNav({ isOpen, onClose }: MobileNavProps) {
               </Link>
             </li>
             <li>
-              <Link href="/volunteer" onClick={onClose} className="text-lg !text-black">
-                Volunteer
+              <Link href="/connect" onClick={onClose} className="text-lg !text-black">
+                Connect
               </Link>
             </li>
             <li>
