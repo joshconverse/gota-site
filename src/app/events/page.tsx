@@ -1,29 +1,99 @@
 "use client";
-import { type SanityDocument } from "next-sanity";
-import { client } from "@/sanity/client";
-import queries from "@/sanity/queries";
-import EventCard from "@/components/EventCard";
+// Sanity events removed: using Planning Center events via server proxy
 import Link from "next/link";
+import Image from 'next/image';
 import { useState, useEffect } from 'react';
+import type { PCEvent, PCEventTime } from '@/utils/planningcenter';
+import { formatEventRange, formatDateTime } from '@/utils/dates';
+import type { EventFormatOpts } from '@/utils/dates';
 
 export default function EventsPage() {
-  const [events, setEvents] = useState<SanityDocument[]>([]);
-  const [loading, setLoading] = useState(true);
+  // NOTE: Sanity-backed events were intentionally removed here.
+  // This page now sources events from Planning Center via `/api/planning-center/events`.
+  // Use `.env.local` to provide `PLANNING_CENTER_PAT` or client credentials for local testing.
+  const [pcoEvents, setPcoEvents] = useState<PCEvent[] | null>(null);
+  const [pcoLoading, setPcoLoading] = useState(true);
+  const [pcoError, setPcoError] = useState<string | null>(null);
+  const [pcoErrorStatus, setPcoErrorStatus] = useState<number | null>(null);
 
   useEffect(() => {
-    const fetchEvents = async () => {
+    // fetch planning center events from server-side proxy (if configured)
+    const fetchPco = async () => {
+      // Helper to retry server errors a few times (dev HMR can cause transient 500s)
+      const fetchWithRetry = async (url: string, retries = 2, backoff = 300) => {
+        for (let attempt = 0; attempt <= retries; attempt++) {
+          try {
+            if (process.env.NODE_ENV !== 'production' && attempt > 0) console.debug('[EventsPage] retry attempt', attempt, url);
+            const res = await fetch(url);
+            if (res.ok) return res;
+            // Retry on server errors (5xx)
+            if (res.status >= 500 && attempt < retries) {
+              await new Promise((r) => setTimeout(r, backoff * (attempt + 1)));
+              continue;
+            }
+            return res;
+          } catch (err) {
+            if (attempt < retries) {
+              await new Promise((r) => setTimeout(r, backoff * (attempt + 1)));
+              continue;
+            }
+            throw err;
+          }
+        }
+        throw new Error('Failed to fetch after retries');
+      };
+
       try {
-        const eventsData = await client.fetch<SanityDocument[]>(queries.EVENTS_INDEX_QUERY, {}, { next: { revalidate: 30 } });
-        setEvents(eventsData);
-      } catch (error) {
-        console.error('Error fetching events:', error);
+        const res = await fetchWithRetry('/api/planning-center/events');
+  const json = (await res.json().catch(() => null)) as Record<string, unknown> | null;
+          if (!res.ok) {
+          // Surface server-provided error details when available, including
+          // small env hints and stack traces in development.
+          const errBody = (json && (json.body ?? json.error)) ?? 'Planning Center request failed';
+          const envHint = json?.env ? ` env:${JSON.stringify(json.env)}` : '';
+          const stack = json?.stack ? ` Stack: ${Array.isArray(json.stack) ? (json.stack as string[]).slice(0, 5).join(' | ') : String(json.stack)}` : '';
+          setPcoError(`${res.status}: ${errBody}${envHint}${stack}`);
+          setPcoErrorStatus(res.status);
+          setPcoEvents(null);
+        } else {
+          const eventsVal = json?.events;
+          const evs: PCEvent[] = Array.isArray(eventsVal) ? (eventsVal as unknown as PCEvent[]) : [];
+
+          // Client-side filtering: remove events that contain prohibited keywords
+          // ("election(s)" or "vertical") in the title or description.
+          const forbiddenRegex = /\b(?:election|elections|rehearsal|rehearsals|vertical)\b/i;
+          const filtered = evs.filter((ev) => {
+            const title = (ev.title ?? '') as string;
+            const desc = (ev.description ?? '') as string;
+            return !forbiddenRegex.test(`${title} ${desc}`);
+          });
+
+          if (process.env.NODE_ENV !== 'production' && filtered.length !== evs.length) {
+            console.debug('[EventsPage] filtered Planning Center events', { total: evs.length, shown: filtered.length });
+          }
+
+          // Sort by upcoming date (events with no date go last)
+          filtered.sort((a, b) => {
+            const at = a.startsAt ? new Date(a.startsAt).getTime() : Number.POSITIVE_INFINITY;
+            const bt = b.startsAt ? new Date(b.startsAt).getTime() : Number.POSITIVE_INFINITY;
+            return at - bt;
+          });
+
+          setPcoEvents(filtered);
+        }
+      } catch (err) {
+        console.error('Error fetching PCO events:', err);
+        setPcoError(String(err));
+        setPcoEvents(null);
       } finally {
-        setLoading(false);
+        setPcoLoading(false);
       }
     };
 
-    fetchEvents();
+    void fetchPco();
   }, []);
+
+  // Use shared formatting util to display start/end times nicely
 
   const eventTypes = [
     {
@@ -109,15 +179,105 @@ export default function EventsPage() {
               Upcoming Events
             </h2>
 
-            {/* Event Cards Grid */}
+            {/* Event list (Planning Center) */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-16">
-              {loading ? (
+              {pcoLoading ? (
                 <div className="md:col-span-2 text-center py-12">
-                  <p className="text-lg text-gray-600">Loading events...</p>
+                  <p className="text-lg text-gray-600">Checking external calendar...</p>
                 </div>
-              ) : events.length ? events.map((event) => (
-                <EventCard key={event._id} event={event} />
-              )) : (
+              ) : pcoError ? (
+                <div className="md:col-span-2 text-center py-12">
+                      <p className="text-lg text-red-600">Planning Center error: {pcoError}</p>
+                      {pcoErrorStatus && pcoErrorStatus >= 500 ? (
+                        <p className="text-sm text-gray-500 mt-2">It looks like our external calendar service is temporarily unavailable. Try again in a few minutes. If this persists, contact Planning Center support.</p>
+                      ) : null}
+                  <p className="text-sm text-gray-500 mt-2">Check `.env.local` and your PAT or client credentials.</p>
+                </div>
+              ) : pcoEvents && pcoEvents.length ? (
+                pcoEvents.map((evt) => (
+                  <div key={evt.id} className="border-b border-gray-200 py-6 first:pt-0 last:border-b-0">
+                    <div className="flex gap-4">
+                      {evt.image ? (
+                        <div className="w-48 relative flex-shrink-0 aspect-video bg-gray-100">
+                          <Image src={evt.image} alt={evt.title ?? 'Event image'} fill className="object-contain rounded" sizes="(max-width: 640px) 100vw, 192px" />
+                        </div>
+                      ) : null}
+
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-lg font-semibold text-black">{evt.title}</h3>
+                        {evt.description ? <p className="text-sm text-gray-700 mt-2">{evt.description}</p> : null}
+                      {(() => {
+                        // Prefer next instance start, then explicit starts/ends,
+                        // then any single instance, then fall back to raw attr dates
+                        if (evt.nextInstanceStartsAt) {
+                          // If we have instances, prefer to show the matching instance
+                          // (which may include an end time) instead of just the start.
+                          const match = evt.instances?.find((it) => it.startAt === evt.nextInstanceStartsAt);
+                          if (match) return <p className="text-sm text-gray-600 mt-1"><strong>Next:</strong> {formatEventRange(match.startAt, match.endAt, { style: 'long' } as EventFormatOpts)}</p>;
+                          return <p className="text-sm text-gray-600 mt-1"><strong>Next:</strong> {formatEventRange(evt.nextInstanceStartsAt, undefined, { style: 'long' } as EventFormatOpts)}</p>;
+                        }
+
+                        if (evt.startsAt || evt.endsAt) {
+                          return <p className="text-sm text-gray-600 mt-1">{formatEventRange(evt.startsAt, evt.endsAt, { style: 'long' } as EventFormatOpts)}</p>;
+                        }
+
+                        if (evt.instances && evt.instances.length > 0) {
+                          // single-instance events: show the first/next instance
+                          const first = evt.instances[0];
+                          return <p className="text-sm text-gray-600 mt-1"><strong>Next:</strong> {formatEventRange(first.startAt, first.endAt, { style: 'long' } as EventFormatOpts)}</p>;
+                        }
+
+                        // Last-resort: inspect raw attributes for any timestamp-like field
+                        try {
+                          const raw = evt.raw as unknown;
+                          let attrs: Record<string, unknown> | undefined;
+                          if (raw && typeof raw === 'object' && !Array.isArray(raw)) {
+                            attrs = (raw as Record<string, unknown>)['attributes'] as Record<string, unknown> | undefined;
+                          }
+
+                          const toStr = (v: unknown) => (typeof v === 'string' ? v : null);
+                          const rawStart = toStr(attrs?.['start_at'] ?? attrs?.['starts_at'] ?? attrs?.['end_at'] ?? attrs?.['ends_at']);
+                          if (rawStart) return <p className="text-sm text-gray-600 mt-1">{formatEventRange(rawStart)}</p>;
+
+                          // Do not display created/updated timestamps or direct
+                          // links to Planning Center on the public site. If there
+                          // is no scheduled date available, render nothing here.
+                        } catch {
+                          // ignore and fall through
+                        }
+
+                          return null;
+                      })()}
+                      {/* Display location if available */}
+                      {evt.location ? (
+                        <p className="text-sm text-gray-600 mt-1">
+                          <strong>Location:</strong> {evt.location}
+                        </p>
+                      ) : null}
+                      {/* Display event_times if available */}
+                      {evt.eventTimes && evt.eventTimes.length > 0 ? (
+                        <div className="mt-2 text-sm text-gray-600">
+                          <strong>Schedule:</strong>
+                          <ul className="ml-4 mt-1 space-y-1">
+                            {evt.eventTimes.map((et, idx) => (
+                              <li key={et.id ?? idx}>
+                                {et.name && <span className="font-medium">{et.name}: </span>}
+                                {et.startsAt && et.endsAt 
+                                  ? formatEventRange(et.startsAt, et.endsAt, { style: 'long' } as EventFormatOpts)
+                                  : et.startsAt 
+                                    ? formatDateTime(et.startsAt)
+                                    : 'Time TBD'}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ) : null}
+                      {/* Intentionally omit direct "View in Planning Center" links on the public site */}
+                      </div>
+                    </div>
+                  </div>
+                ))
+              ) : (
                 <div className="md:col-span-2 text-center py-12">
                   <p className="text-lg text-gray-600">No upcoming events at this time.</p>
                   <p className="text-gray-500 mt-2">Check back soon for future events and gatherings.</p>

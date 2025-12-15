@@ -67,7 +67,7 @@ export default function VolunteerPage() {
                 <div>
                   <h3 className="text-2xl font-light text-brand-4 mb-4">Sunday Service Roles</h3>
                   <p className="text-brand-4 mb-6">
-                    Serve during our worship services as greeters, ushers, children's ministry helpers, worship team members, or tech/AV support. Your presence helps create a welcoming atmosphere for our congregation.
+                    Serve during our worship services as greeters, ushers, children&apos;s ministry helpers, worship team members, or tech/AV support. Your presence helps create a welcoming atmosphere for our congregation.
                   </p>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="bg-brand-4/10 p-6 rounded-lg border border-white">
@@ -89,9 +89,9 @@ export default function VolunteerPage() {
 
                 {/* Children's Ministry */}
                 <div>
-                  <h3 className="text-2xl font-light text-brand-4 mb-4">Children's Ministry</h3>
+                  <h3 className="text-2xl font-light text-brand-4 mb-4">Children&apos;s Ministry</h3>
                   <p className="text-brand-4 mb-6">
-                    Work with our kids during Sunday school and services. Help teach Bible lessons, lead activities, and provide a safe, nurturing environment where children can learn about God's love.
+                    Work with our kids during Sunday school and services. Help teach Bible lessons, lead activities, and provide a safe, nurturing environment where children can learn about God&apos;s love.
                   </p>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div className="bg-brand-4/10 p-6 rounded-lg border border-white">

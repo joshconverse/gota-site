@@ -61,6 +61,23 @@ Grace on the Ashley exists to live as sent people for the purposes of reaching t
 
 6. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
+### Planning Center Calendar (optional)
+
+This project can display events from Planning Center (Calendar API v2). To enable it locally, set one of the following environment options in your `.env.local`:
+
+- `PLANNING_CENTER_PAT` — a Personal Access Token (recommended)
+- or `PLANNING_CENTER_CLIENT_ID` and `PLANNING_CENTER_SECRET` — client credentials
+
+There is a small probe script to inspect `event_instances` for specific event IDs (useful to confirm concrete `start_at`/`end_at` values are present):
+
+PowerShell example:
+
+```powershell
+$env:PLANNING_CENTER_PAT = 'your_pat_here'; node scripts/probe-pco-instances.mjs
+```
+
+The script writes results to `logs/pco-instances.log` and prints a short summary to the console. The site also exposes a server-side proxy at `/api/planning-center/events` which fetches events and the next upcoming instances.
+
 ## Scripts
 
 - `npm run dev` - Start development server

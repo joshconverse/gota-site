@@ -12,23 +12,34 @@ export default function HeroImage({ thumbnailUrl, streamTitle }: HeroImageProps)
   const [imageSrc, setImageSrc] = useState('/imagecap.png');
 
   useEffect(() => {
-    if (thumbnailUrl) {
-      console.log('Testing YouTube thumbnail for hero:', thumbnailUrl);
-      // Test if the YouTube thumbnail loads
-      const img = document.createElement('img');
-      img.onload = () => {
-        console.log('YouTube thumbnail loaded successfully for hero');
-        setImageSrc(thumbnailUrl);
-      };
-      img.onerror = () => {
-        console.log('YouTube thumbnail failed to load for hero, using fallback');
-        setImageSrc('/imagecap.png');
-      };
-      img.src = `${thumbnailUrl}?t=${Date.now()}`; // Add cache-busting parameter for testing
-    } else {
-      console.log('No thumbnail URL provided for hero, using fallback');
+    // If there's a thumbnail URL, test whether it loads and only update
+    // state from the async load/error handlers. Avoid calling setState
+    // synchronously inside the effect body to prevent cascading renders.
+    if (!thumbnailUrl) return;
+
+    console.log('Testing YouTube thumbnail for hero:', thumbnailUrl);
+    const img = document.createElement('img');
+    let mounted = true;
+
+    img.onload = () => {
+      if (!mounted) return;
+      console.log('YouTube thumbnail loaded successfully for hero');
+      setImageSrc(thumbnailUrl);
+    };
+
+    img.onerror = () => {
+      if (!mounted) return;
+      console.log('YouTube thumbnail failed to load for hero, using fallback');
       setImageSrc('/imagecap.png');
-    }
+    };
+
+    img.src = `${thumbnailUrl}?t=${Date.now()}`; // Add cache-busting parameter for testing
+
+    return () => {
+      mounted = false;
+      img.onload = null;
+      img.onerror = null;
+    };
   }, [thumbnailUrl]);
 
   // Use Next.js Image for local images, regular img for external URLs

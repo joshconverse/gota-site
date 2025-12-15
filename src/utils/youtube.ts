@@ -155,14 +155,43 @@ export async function getYouTubePlaylists(): Promise<YouTubePlaylist[]> {
     const playlistsData = await playlistsResponse.json();
 
     // Filter out funeral services playlist and map to our interface
+    interface YouTubeApiPlaylist {
+      id: string;
+      snippet?: {
+        title?: string;
+        description?: string;
+        thumbnails?: {
+          maxres?: { url: string };
+          high?: { url: string };
+          medium?: { url: string };
+          default?: { url: string };
+        };
+        publishedAt?: string;
+      };
+      contentDetails?: { itemCount?: number };
+    }
+
+    interface YouTubeApiPlaylistItem {
+      snippet?: {
+        thumbnails?: {
+          maxres?: { url: string };
+          high?: { url: string };
+          medium?: { url: string };
+          default?: { url: string };
+        };
+      };
+    }
+
+    const items = playlistsData.items as YouTubeApiPlaylist[] | undefined;
+
     const playlists = await Promise.all(
-      playlistsData.items
-        ?.filter((playlist: any) => !playlist.snippet.title.toLowerCase().includes('funeral'))
-        .map(async (playlist: any) => {
-          let thumbnailUrl = playlist.snippet.thumbnails?.maxres?.url || 
-                           playlist.snippet.thumbnails?.high?.url || 
-                           playlist.snippet.thumbnails?.medium?.url || 
-                           playlist.snippet.thumbnails?.default?.url;
+      (items
+        ?.filter((playlist) => !(playlist.snippet?.title ?? '').toLowerCase().includes('funeral'))
+        .map(async (playlist) => {
+          let thumbnailUrl = playlist.snippet?.thumbnails?.maxres?.url ||
+            playlist.snippet?.thumbnails?.high?.url ||
+            playlist.snippet?.thumbnails?.medium?.url ||
+            playlist.snippet?.thumbnails?.default?.url;
 
           // If no playlist thumbnail, try to get thumbnail from first video in playlist
           if (!thumbnailUrl) {
@@ -170,15 +199,15 @@ export async function getYouTubePlaylists(): Promise<YouTubePlaylist[]> {
               const playlistItemsResponse = await fetch(
                 `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${playlist.id}&key=${YOUTUBE_API_KEY}&maxResults=1`
               );
-              
+
               if (playlistItemsResponse.ok) {
-                const playlistItemsData = await playlistItemsResponse.json();
+                const playlistItemsData = (await playlistItemsResponse.json()) as { items?: YouTubeApiPlaylistItem[] };
                 const firstVideo = playlistItemsData.items?.[0];
                 if (firstVideo) {
-                  thumbnailUrl = firstVideo.snippet.thumbnails?.maxres?.url || 
-                               firstVideo.snippet.thumbnails?.high?.url || 
-                               firstVideo.snippet.thumbnails?.medium?.url || 
-                               firstVideo.snippet.thumbnails?.default?.url;
+                  thumbnailUrl = firstVideo.snippet?.thumbnails?.maxres?.url ||
+                    firstVideo.snippet?.thumbnails?.high?.url ||
+                    firstVideo.snippet?.thumbnails?.medium?.url ||
+                    firstVideo.snippet?.thumbnails?.default?.url;
                 }
               }
             } catch (error) {
@@ -188,14 +217,14 @@ export async function getYouTubePlaylists(): Promise<YouTubePlaylist[]> {
 
           return {
             id: playlist.id,
-            title: playlist.snippet.title,
-            description: playlist.snippet.description,
+            title: playlist.snippet?.title ?? '',
+            description: playlist.snippet?.description ?? '',
             thumbnailUrl: thumbnailUrl || '/WorshipEdited.jpg', // Fallback to default image
             videoCount: playlist.contentDetails?.itemCount || 0,
             url: `https://www.youtube.com/playlist?list=${playlist.id}`,
-            publishedAt: playlist.snippet.publishedAt
+            publishedAt: playlist.snippet?.publishedAt ?? ''
           };
-        }) || []
+        }) ?? [])
     );
 
     // Cache the results

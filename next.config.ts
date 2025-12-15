@@ -15,6 +15,11 @@ const nextConfig: NextConfig = {
         hostname: 'i.ytimg.com',
         pathname: '/vi/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'images.planningcenterusercontent.com',
+        pathname: '/**',
+      },
     ],
   },
 };
