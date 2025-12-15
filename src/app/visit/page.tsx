@@ -1,15 +1,8 @@
 "use client";
 import Link from 'next/link';
-import { useState } from 'react';
 
 export default function VisitPage() {
-  const [openItems, setOpenItems] = useState<number[]>([0]);
-
-  const toggleItem = (index: number) => {
-    setOpenItems(prev => 
-      prev.includes(index) ? [] : [index]
-    );
-  };
+  // FAQ answers are always visible
 
   const faqItems = [
     {
@@ -64,7 +57,7 @@ export default function VisitPage() {
                 <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
                   <Link
                     href="#welcome"
-                    className="inline-block bg-white text-black px-8 py-4 rounded-md font-semibold shadow hover:opacity-95 transition text-lg border border-gray-200"
+                    className="flex-1 min-w-0 flex items-center justify-center whitespace-nowrap truncate bg-white text-black px-8 py-4 rounded-md font-semibold shadow hover:opacity-95 transition text-lg border border-gray-200 mb-8 md:mb-4 min-h-[56px]"
                   >
                     What to Expect
                   </Link>
@@ -72,9 +65,9 @@ export default function VisitPage() {
                     href="https://www.google.com/maps/search/?api=1&query=2025+BEES+FERRY+ROAD+CHARLESTON+SC+29414"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-block bg-white text-black px-8 py-4 rounded-md font-semibold shadow hover:opacity-95 transition text-lg border border-gray-200 mb-8 md:mb-4"
+                    className="flex-1 min-w-0 flex items-center justify-center whitespace-nowrap truncate bg-white text-black px-8 py-4 rounded-md font-semibold shadow hover:opacity-95 transition text-lg border border-gray-200 mb-8 md:mb-4 min-h-[56px]"
                   >
-                    Get Directions
+                    Directions
                   </a>
                 </div>
               </div>
@@ -98,30 +91,10 @@ export default function VisitPage() {
               <div className="space-y-6 h-[700px] overflow-hidden lg:border-r lg:border-gray-300 lg:pr-8">
                 {faqItems.map((item, index) => (
                   <div key={index} className="overflow-hidden">
-                    <button
-                      onClick={() => toggleItem(index)}
-                      className="w-full px-0 py-6 text-left flex justify-between items-center transition-colors group"
-                    >
-                      <h3 className="text-xl font-light text-black pr-4 transition-colors">
+                    <div className="w-full px-0 py-6 text-left">
+                      <h3 className="text-xl font-light text-black pr-4">
                         {item.question}
                       </h3>
-                      <div className="flex-shrink-0 w-8 h-8 rounded-full bg-brand-4 flex items-center justify-center">
-                        <svg
-                          className={`w-6 h-6 text-brand-1 transition-transform duration-200 ${openItems.includes(index) ? 'rotate-180' : ''}`}
-                          viewBox="0 0 32 32"
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            clipRule="evenodd"
-                            d="M16.5303 20.8839C16.2374 21.1768 15.7626 21.1768 15.4697 20.8839L7.82318 13.2374C7.53029 12.9445 7.53029 12.4697 7.82318 12.1768L8.17674 11.8232C8.46963 11.5303 8.9445 11.5303 9.2374 11.8232L16 18.5858L22.7626 11.8232C23.0555 11.5303 23.5303 11.5303 23.8232 11.8232L24.1768 12.1768C24.4697 12.4697 24.4697 12.9445 24.1768 13.2374L16.5303 20.8839Z"
-                            fill="currentColor"
-                          />
-                        </svg>
-                      </div>
-                    </button>
-                    <div className={`overflow-hidden transition-all duration-500 ease-out ${openItems.includes(index) ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
                       <div className="px-0 pb-6">
                         <p className="text-gray-600 leading-relaxed text-left">
                           {item.answer}
