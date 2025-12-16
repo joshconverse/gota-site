@@ -101,7 +101,7 @@ export default function ResourcesPage() {
       </section>
 
       {/* Resources Section */}
-      <section id="resources" className="min-h-screen flex items-center py-16 bg-brand-1">
+      <section id="resources" className="min-h-screen flex items-center py-16 pt-32 scroll-mt-24 bg-brand-1">
         <div className="container mx-auto max-w-[1440px] px-6 md:px-12 lg:px-20">
           <div className="text-center max-w-6xl mx-auto">
             <h2 className="text-3xl md:text-4xl font-light text-brand-4 mb-8">
