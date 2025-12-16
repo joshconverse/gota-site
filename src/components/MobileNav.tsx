@@ -24,7 +24,7 @@ export default function MobileNav({ onClose }: MobileNavProps) {
 
     <aside className="flex flex-col w-full bg-white ">
       <nav className="flex-1 overflow-y-auto p-6 flex flex-col">
-        <ul className="flex flex-col gap-4">
+        <ul className="flex flex-col">
           {menuItems.map(({ link, text }) => (
             <li key={link}>
               <Item size="sm" asChild>
@@ -42,7 +42,7 @@ export default function MobileNav({ onClose }: MobileNavProps) {
         </ul>
 
         {/* Social Links at bottom of nav area, left justified */}
-        <div className="flex items-center gap-4 pt-12">
+        <div className="flex items-center gap-4 pt-2">
           <a
             href="https://www.youtube.com/"
             target="_blank"
@@ -81,3 +81,6 @@ export default function MobileNav({ onClose }: MobileNavProps) {
     </aside >
   );
 }
+
+
+
