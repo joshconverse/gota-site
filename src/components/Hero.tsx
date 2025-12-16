@@ -11,7 +11,7 @@ export default function Hero({ doc, thumbnailUrl, streamTitle, streamUrl }: {
   // Full-bleed background uses Enrique image, mirrored; foreground panel remains
 
   return (
-  <section className="relative min-h-screen md:min-h-[100svh] flex items-center -mt-20 md:mt-0">
+  <section className="relative min-h-screen md:min-h-[100svh] flex items-center">
       {/* Full-bleed background image (mirrored) */}
       <Image
         src="/pexels-enrique-12172754.jpg"
@@ -123,7 +123,7 @@ export default function Hero({ doc, thumbnailUrl, streamTitle, streamUrl }: {
               </svg>
             </a>
           </div>
-          <h1 className="text-xs md:text-xl lg:text-2xl font-semibold text-center">Gather with us</h1>
+          <h1 className="text-[8px] md:text-xl lg:text-2xl font-semibold text-center">Gather with us</h1>
         </div>
       </div>
     </section>

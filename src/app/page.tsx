@@ -22,10 +22,12 @@ export default async function IndexPage() {
 
   return (
     <main className="min-h-screen bg-brand-4">
+
       <Hero doc={homepage} thumbnailUrl={latestStream?.thumbnailUrl} streamTitle={latestStream?.title} streamUrl={latestStream?.videoUrl} />
 
       {/* Gather with us section */}
       <section className="relative bg-brand-1 -mt-1 min-h-[60vh] flex items-center justify-center overflow-hidden">
+      
         {/* Overlay for better text readability */}
         <div className="absolute inset-0 bg-[#96A78D]/40" />
         
@@ -87,7 +89,7 @@ export default async function IndexPage() {
 
         {/* Content overlay */}
         <div className="relative z-10 container mx-auto max-w-[1200px] px-6 md:px-12 lg:px-20">
-          <h1 className="text-lg sm:text-4xl md:text-5xl font-light text-brand-4 text-center mb-12">
+          <h1 className="text-sm sm:text-4xl md:text-5xl font-light text-brand-4 text-center mb-12">
             We exist to make, mature<br />and multiply disciples of Jesus
           </h1>
           
