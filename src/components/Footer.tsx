@@ -9,7 +9,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
           {/* Main Links */}
           <div className="space-y-2">
-            <Link href="/watch" className="block text-slate-900 hover:text-brand-1 transition-colors">Watch</Link>
+            <Link href="/resources#resources" className="block text-slate-900 hover:text-brand-1 transition-colors">Watch</Link>
             <Link href="/visit" className="block text-slate-900 hover:text-brand-1 transition-colors">Visit</Link>
             <Link href="/about" className="block text-slate-900 hover:text-brand-1 transition-colors">About</Link>
             <Link href="/resources" className="block text-slate-900 hover:text-brand-1 transition-colors">Resources</Link>
