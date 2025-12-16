@@ -10,8 +10,9 @@ interface HeroImageProps {
 export default function HeroImage({ thumbnailUrl, streamTitle }: HeroImageProps) {
   // imageUrl is the external thumbnail to show when available
   const [imageUrl, setImageUrl] = useState<string | null>(null);
-  // isVisible controls the opacity for cross-fade
-  const [isVisible, setIsVisible] = useState(true);
+  // isVisible controls the opacity for cross-fade (image visibility)
+  // start false so placeholder is visible initially
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
     let mounted = true;
@@ -33,13 +34,13 @@ export default function HeroImage({ thumbnailUrl, streamTitle }: HeroImageProps)
     const img = new Image();
     img.onload = () => {
       if (!mounted) return;
-      // cross-fade from placeholder -> thumbnail
-      setIsVisible(false);
-      setTimeout(() => {
+      // Put the image URL into state (adds <img> to DOM), then
+      // on the next animation frame trigger visibility to fade it in.
+      setImageUrl(thumbnailUrl as string);
+      requestAnimationFrame(() => {
         if (!mounted) return;
-        setImageUrl(thumbnailUrl as string);
-        setIsVisible(true);
-      }, 300);
+        requestAnimationFrame(() => setIsVisible(true));
+      });
     };
     img.onerror = () => {
       if (!mounted) return;
@@ -55,23 +56,31 @@ export default function HeroImage({ thumbnailUrl, streamTitle }: HeroImageProps)
     };
   }, [thumbnailUrl]);
 
-  // If we have an external thumbnail, render it with a fade
-  if (imageUrl) {
-    return (
-      <img
-        src={imageUrl}
-        alt={streamTitle || 'Latest service from Grace on the Ashley'}
-        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
-      />
-    );
-  }
-
-  // Placeholder: simple colored panel (no static image file)
+  // Render both placeholder and (when ready) the external thumbnail so
+  // we can cross-fade between them.
   return (
-    <div className="absolute inset-0 w-full h-full bg-gradient-to-b from-brand-3 to-brand-1 flex items-center justify-center">
-      <div className="text-center text-white px-4">
-        <div className="text-lg font-semibold">Welcome</div>
+    <>
+      {/* Placeholder underneath */}
+      <div
+        className={`absolute inset-0 w-full h-full bg-gradient-to-b from-brand-3 to-brand-1 flex items-center justify-center transition-opacity duration-500 ${
+          isVisible ? 'opacity-0' : 'opacity-100'
+        }`}
+      >
+        <div className="text-center text-white px-4">
+          <div className="text-lg font-semibold">Welcome</div>
+        </div>
       </div>
-    </div>
+
+      {/* External thumbnail on top (only rendered when imageUrl is set) */}
+      {imageUrl && (
+        <img
+          src={imageUrl}
+          alt={streamTitle || 'Latest service from Grace on the Ashley'}
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${
+            isVisible ? 'opacity-100' : 'opacity-0'
+          }`}
+        />
+      )}
+    </>
   );
 }

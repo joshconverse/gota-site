@@ -6,7 +6,23 @@ import MobileNav from "./MobileNav";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const [shouldRender, setShouldRender] = useState(false);
 
+  const handleOpen = () => {
+    setShouldRender(true);
+    // Small delay to ensure DOM is ready before animating
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setOpen(true);
+      });
+    });
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    // Wait for animation to complete before unmounting
+    setTimeout(() => setShouldRender(false), 300);
+  };
 
   return (
     <header className="fixed inset-x-0 top-4 z-50 h-0 pointer-events-none">
@@ -41,7 +57,7 @@ export default function Header() {
               {/* hamburger */}
               <button
                 aria-label="Open menu"
-                onClick={() => setOpen(true)}
+                onClick={handleOpen}
                 className="nav-hamburger p-2 rounded-md text-slate-700"
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -52,8 +68,8 @@ export default function Header() {
           </div>
         </div>
       </div>
-      {open && (
-        <MobileNav isOpen={open} onClose={() => setOpen(false)} />
+      {shouldRender && (
+        <MobileNav isOpen={open} onClose={handleClose} />
       )}
     </header>
   );
