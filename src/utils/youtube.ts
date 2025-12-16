@@ -1,6 +1,3 @@
-import fs from 'fs';
-import path from 'path';
-
 export interface YouTubeVideo {
   id: string;
   title: string;
@@ -22,6 +19,9 @@ export interface YouTubePlaylist {
 
 const CACHE_TTL_MS = 6 * 60 * 60 * 1000; // 6 hours in milliseconds
 
+// Helper to check if we're on the server side
+const isServer = typeof window === 'undefined';
+
 export async function getLatestYouTubeStream(): Promise<YouTubeVideo | null> {
   const YOUTUBE_API_KEY = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
   const CHANNEL_HANDLE = '@GraceontheashleyOrg';
@@ -31,36 +31,40 @@ export async function getLatestYouTubeStream(): Promise<YouTubeVideo | null> {
     return null;
   }
 
-  // Check cache first - if fresh (< 6 hours old), return cached data
-  try {
-    const cachePath = path.join(process.cwd(), 'logs', 'youtube-stream-cache.json');
-    if (fs.existsSync(cachePath)) {
-      const txt = fs.readFileSync(cachePath, 'utf8');
-      const parsed = JSON.parse(txt);
-      if (parsed && parsed.ts && parsed.video) {
-        const cacheAge = Date.now() - new Date(parsed.ts).getTime();
-        if (cacheAge < CACHE_TTL_MS) {
-          if (process.env.NODE_ENV !== 'production') {
-            console.log('[YouTube] returning fresh cached stream', { 
-              cacheTs: parsed.ts, 
-              ageMinutes: Math.round(cacheAge / 60000),
-              ttlMinutes: Math.round(CACHE_TTL_MS / 60000)
-            });
-          }
-          return parsed.video as YouTubeVideo;
-        } else {
-          if (process.env.NODE_ENV !== 'production') {
-            console.log('[YouTube] cache expired, fetching fresh stream data', { 
-              cacheTs: parsed.ts, 
-              ageMinutes: Math.round(cacheAge / 60000),
-              ttlMinutes: Math.round(CACHE_TTL_MS / 60000)
-            });
+  // Check cache first - if fresh (< 6 hours old), return cached data (server-side only)
+  if (isServer) {
+    try {
+      const fs = await import('fs');
+      const path = await import('path');
+      const cachePath = path.join(process.cwd(), 'logs', 'youtube-stream-cache.json');
+      if (fs.existsSync(cachePath)) {
+        const txt = fs.readFileSync(cachePath, 'utf8');
+        const parsed = JSON.parse(txt);
+        if (parsed && parsed.ts && parsed.video) {
+          const cacheAge = Date.now() - new Date(parsed.ts).getTime();
+          if (cacheAge < CACHE_TTL_MS) {
+            if (process.env.NODE_ENV !== 'production') {
+              console.log('[YouTube] returning fresh cached stream', { 
+                cacheTs: parsed.ts, 
+                ageMinutes: Math.round(cacheAge / 60000),
+                ttlMinutes: Math.round(CACHE_TTL_MS / 60000)
+              });
+            }
+            return parsed.video as YouTubeVideo;
+          } else {
+            if (process.env.NODE_ENV !== 'production') {
+              console.log('[YouTube] cache expired, fetching fresh stream data', { 
+                cacheTs: parsed.ts, 
+                ageMinutes: Math.round(cacheAge / 60000),
+                ttlMinutes: Math.round(CACHE_TTL_MS / 60000)
+              });
+            }
           }
         }
       }
+    } catch (cacheErr) {
+      if (process.env.NODE_ENV !== 'production') console.warn('[YouTube] failed to read stream cache', cacheErr);
     }
-  } catch (cacheErr) {
-    if (process.env.NODE_ENV !== 'production') console.warn('[YouTube] failed to read stream cache', cacheErr);
   }
 
   try {
@@ -126,39 +130,47 @@ export async function getLatestYouTubeStream(): Promise<YouTubeVideo | null> {
       isLive
     };
 
-    // Cache the result
-    try {
-      const logsDir = path.join(process.cwd(), 'logs');
-      fs.mkdirSync(logsDir, { recursive: true });
-      const cachePath = path.join(logsDir, 'youtube-stream-cache.json');
-      fs.writeFileSync(cachePath, JSON.stringify({ ts: new Date().toISOString(), video }));
-    } catch (writeErr) {
-      if (process.env.NODE_ENV !== 'production') console.warn('[YouTube] failed to write stream cache', writeErr);
+    // Cache the result (server-side only)
+    if (isServer) {
+      try {
+        const fs = await import('fs');
+        const path = await import('path');
+        const logsDir = path.join(process.cwd(), 'logs');
+        fs.mkdirSync(logsDir, { recursive: true });
+        const cachePath = path.join(logsDir, 'youtube-stream-cache.json');
+        fs.writeFileSync(cachePath, JSON.stringify({ ts: new Date().toISOString(), video }));
+      } catch (writeErr) {
+        if (process.env.NODE_ENV !== 'production') console.warn('[YouTube] failed to write stream cache', writeErr);
+      }
     }
 
     return video;
   } catch (error) {
     console.error('Error fetching YouTube data:', error);
     
-    // Try to return cached data as fallback on error
-    try {
-      const cachePath = path.join(process.cwd(), 'logs', 'youtube-stream-cache.json');
-      if (fs.existsSync(cachePath)) {
-        const txt = fs.readFileSync(cachePath, 'utf8');
-        const parsed = JSON.parse(txt);
-        if (parsed && parsed.video) {
-          const cacheAge = parsed.ts ? Date.now() - new Date(parsed.ts).getTime() : Infinity;
-          if (process.env.NODE_ENV !== 'production') {
-            console.warn('[YouTube] returning cached stream (possibly stale) due to fetch failure', { 
-              cacheTs: parsed.ts,
-              ageMinutes: parsed.ts ? Math.round(cacheAge / 60000) : 'unknown'
-            });
+    // Try to return cached data as fallback on error (server-side only)
+    if (isServer) {
+      try {
+        const fs = await import('fs');
+        const path = await import('path');
+        const cachePath = path.join(process.cwd(), 'logs', 'youtube-stream-cache.json');
+        if (fs.existsSync(cachePath)) {
+          const txt = fs.readFileSync(cachePath, 'utf8');
+          const parsed = JSON.parse(txt);
+          if (parsed && parsed.video) {
+            const cacheAge = parsed.ts ? Date.now() - new Date(parsed.ts).getTime() : Infinity;
+            if (process.env.NODE_ENV !== 'production') {
+              console.warn('[YouTube] returning cached stream (possibly stale) due to fetch failure', { 
+                cacheTs: parsed.ts,
+                ageMinutes: parsed.ts ? Math.round(cacheAge / 60000) : 'unknown'
+              });
+            }
+            return parsed.video as YouTubeVideo;
           }
-          return parsed.video as YouTubeVideo;
         }
+      } catch (cacheErr) {
+        if (process.env.NODE_ENV !== 'production') console.warn('[YouTube] failed to read stream cache on error', cacheErr);
       }
-    } catch (cacheErr) {
-      if (process.env.NODE_ENV !== 'production') console.warn('[YouTube] failed to read stream cache on error', cacheErr);
     }
     
     return null;
@@ -174,36 +186,40 @@ export async function getYouTubePlaylists(): Promise<YouTubePlaylist[]> {
     return [];
   }
 
-  // Check cache first - if fresh (< 6 hours old), return cached data
-  try {
-    const cachePath = path.join(process.cwd(), 'logs', 'youtube-playlists-cache.json');
-    if (fs.existsSync(cachePath)) {
-      const txt = fs.readFileSync(cachePath, 'utf8');
-      const parsed = JSON.parse(txt);
-      if (parsed && parsed.ts && Array.isArray(parsed.playlists)) {
-        const cacheAge = Date.now() - new Date(parsed.ts).getTime();
-        if (cacheAge < CACHE_TTL_MS) {
-          if (process.env.NODE_ENV !== 'production') {
-            console.log('[YouTube] returning fresh cached playlists', { 
-              cacheTs: parsed.ts, 
-              ageMinutes: Math.round(cacheAge / 60000),
-              ttlMinutes: Math.round(CACHE_TTL_MS / 60000)
-            });
-          }
-          return parsed.playlists as YouTubePlaylist[];
-        } else {
-          if (process.env.NODE_ENV !== 'production') {
-            console.log('[YouTube] cache expired, fetching fresh playlists data', { 
-              cacheTs: parsed.ts, 
-              ageMinutes: Math.round(cacheAge / 60000),
-              ttlMinutes: Math.round(CACHE_TTL_MS / 60000)
-            });
+  // Check cache first - if fresh (< 6 hours old), return cached data (server-side only)
+  if (isServer) {
+    try {
+      const fs = await import('fs');
+      const path = await import('path');
+      const cachePath = path.join(process.cwd(), 'logs', 'youtube-playlists-cache.json');
+      if (fs.existsSync(cachePath)) {
+        const txt = fs.readFileSync(cachePath, 'utf8');
+        const parsed = JSON.parse(txt);
+        if (parsed && parsed.ts && Array.isArray(parsed.playlists)) {
+          const cacheAge = Date.now() - new Date(parsed.ts).getTime();
+          if (cacheAge < CACHE_TTL_MS) {
+            if (process.env.NODE_ENV !== 'production') {
+              console.log('[YouTube] returning fresh cached playlists', { 
+                cacheTs: parsed.ts, 
+                ageMinutes: Math.round(cacheAge / 60000),
+                ttlMinutes: Math.round(CACHE_TTL_MS / 60000)
+              });
+            }
+            return parsed.playlists as YouTubePlaylist[];
+          } else {
+            if (process.env.NODE_ENV !== 'production') {
+              console.log('[YouTube] cache expired, fetching fresh playlists data', { 
+                cacheTs: parsed.ts, 
+                ageMinutes: Math.round(cacheAge / 60000),
+                ttlMinutes: Math.round(CACHE_TTL_MS / 60000)
+              });
+            }
           }
         }
       }
+    } catch (cacheErr) {
+      if (process.env.NODE_ENV !== 'production') console.warn('[YouTube] failed to read playlists cache', cacheErr);
     }
-  } catch (cacheErr) {
-    if (process.env.NODE_ENV !== 'production') console.warn('[YouTube] failed to read playlists cache', cacheErr);
   }
 
   try {
@@ -315,39 +331,47 @@ export async function getYouTubePlaylists(): Promise<YouTubePlaylist[]> {
         }) ?? [])
     );
 
-    // Cache the results
-    try {
-      const logsDir = path.join(process.cwd(), 'logs');
-      fs.mkdirSync(logsDir, { recursive: true });
-      const cachePath = path.join(logsDir, 'youtube-playlists-cache.json');
-      fs.writeFileSync(cachePath, JSON.stringify({ ts: new Date().toISOString(), playlists }));
-    } catch (writeErr) {
-      if (process.env.NODE_ENV !== 'production') console.warn('[YouTube] failed to write playlists cache', writeErr);
+    // Cache the results (server-side only)
+    if (isServer) {
+      try {
+        const fs = await import('fs');
+        const path = await import('path');
+        const logsDir = path.join(process.cwd(), 'logs');
+        fs.mkdirSync(logsDir, { recursive: true });
+        const cachePath = path.join(logsDir, 'youtube-playlists-cache.json');
+        fs.writeFileSync(cachePath, JSON.stringify({ ts: new Date().toISOString(), playlists }));
+      } catch (writeErr) {
+        if (process.env.NODE_ENV !== 'production') console.warn('[YouTube] failed to write playlists cache', writeErr);
+      }
     }
 
     return playlists;
   } catch (error) {
     console.error('Error fetching YouTube playlists:', error);
     
-    // Try to return cached data as fallback on error
-    try {
-      const cachePath = path.join(process.cwd(), 'logs', 'youtube-playlists-cache.json');
-      if (fs.existsSync(cachePath)) {
-        const txt = fs.readFileSync(cachePath, 'utf8');
-        const parsed = JSON.parse(txt);
-        if (parsed && Array.isArray(parsed.playlists)) {
-          const cacheAge = parsed.ts ? Date.now() - new Date(parsed.ts).getTime() : Infinity;
-          if (process.env.NODE_ENV !== 'production') {
-            console.warn('[YouTube] returning cached playlists (possibly stale) due to fetch failure', { 
-              cacheTs: parsed.ts,
-              ageMinutes: parsed.ts ? Math.round(cacheAge / 60000) : 'unknown'
-            });
+    // Try to return cached data as fallback on error (server-side only)
+    if (isServer) {
+      try {
+        const fs = await import('fs');
+        const path = await import('path');
+        const cachePath = path.join(process.cwd(), 'logs', 'youtube-playlists-cache.json');
+        if (fs.existsSync(cachePath)) {
+          const txt = fs.readFileSync(cachePath, 'utf8');
+          const parsed = JSON.parse(txt);
+          if (parsed && Array.isArray(parsed.playlists)) {
+            const cacheAge = parsed.ts ? Date.now() - new Date(parsed.ts).getTime() : Infinity;
+            if (process.env.NODE_ENV !== 'production') {
+              console.warn('[YouTube] returning cached playlists (possibly stale) due to fetch failure', { 
+                cacheTs: parsed.ts,
+                ageMinutes: parsed.ts ? Math.round(cacheAge / 60000) : 'unknown'
+              });
+            }
+            return parsed.playlists as YouTubePlaylist[];
           }
-          return parsed.playlists as YouTubePlaylist[];
         }
+      } catch (cacheErr) {
+        if (process.env.NODE_ENV !== 'production') console.warn('[YouTube] failed to read playlists cache on error', cacheErr);
       }
-    } catch (cacheErr) {
-      if (process.env.NODE_ENV !== 'production') console.warn('[YouTube] failed to read playlists cache on error', cacheErr);
     }
     
     return [];
