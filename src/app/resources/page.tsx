@@ -97,12 +97,6 @@ export default function ResourcesPage() {
                   >
                     Browse Resources
                   </Link>
-                  <Link
-                    href="/give"
-                    className="inline-block bg-brand-2 text-slate-900 px-8 py-4 rounded-md font-semibold shadow hover:opacity-95 transition text-lg"
-                  >
-                    Give Online
-                  </Link>
                 </div>
               </div>
             </div>

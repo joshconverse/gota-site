@@ -77,18 +77,12 @@ export default function MinistriesPage() {
                   Discover the various ministries and groups at Grace on the Ashley where you can grow in faith and serve others.
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                  <Link
+                  <a
                     href="#children"
                     className="inline-block bg-white text-black px-8 py-4 rounded-md font-semibold shadow hover:opacity-95 transition text-lg border border-gray-200"
                   >
-                    Our Ministries
-                  </Link>
-                  <Link
-                    href="/connect"
-                    className="inline-block bg-white text-black px-8 py-4 rounded-md font-semibold shadow hover:opacity-95 transition text-lg border border-gray-200"
-                  >
-                    Get Involved
-                  </Link>
+                    View Ministries
+                  </a>
                 </div>
               </div>
             </div>
@@ -96,41 +90,36 @@ export default function MinistriesPage() {
         </div>
       </section>
 
-      {/* Ministries Sections */}
-      {ministries.map((ministry, index) => (
-        <section
-          key={ministry.id}
-          id={ministry.id}
-          className={`min-h-screen flex items-center justify-center ${ministry.bgColor}`}
-        >
-          <div className="container mx-auto max-w-[1200px] px-6 md:px-12 lg:px-20">
-            <div className="text-center max-w-4xl mx-auto">
-              <h2 className="text-3xl md:text-5xl font-light text-black mb-8">
-                {ministry.title}
-              </h2>
-              <p className="text-lg md:text-xl text-gray-700 leading-relaxed mb-8">
-                {ministry.description}
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link
-                  href="/connect"
-                  className="inline-block bg-brand-2 text-slate-900 px-6 py-3 rounded-md font-semibold shadow hover:opacity-95 transition"
-                >
-                  Get Involved
-                </Link>
-                {index < ministries.length - 1 && (
-                  <Link
-                    href={`#${ministries[index + 1].id}`}
-                    className="inline-block bg-white text-black px-6 py-3 rounded-md font-semibold shadow hover:opacity-95 transition border border-gray-300"
-                  >
-                    Next Ministry
-                  </Link>
-                )}
-              </div>
-            </div>
+      {/* Ministries Grid Section */}
+      <section id="children" className="min-h-screen flex items-center justify-center bg-brand-4 py-20">
+        <div className="container mx-auto max-w-[1200px] px-6 md:px-12 lg:px-20">
+          <h2 className="text-3xl md:text-4xl font-light text-black mb-12 pt-16 text-center">
+            Our Ministries
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {ministries.map((ministry) => (
+              <Link
+                key={ministry.id}
+                href={`/ministries/${ministry.id}`}
+                className="group bg-white rounded-lg shadow-lg p-8 hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer"
+              >
+                <h3 className="text-2xl font-light text-black mb-4 group-hover:text-brand-1 transition-colors">
+                  {ministry.title}
+                </h3>
+                <p className="text-gray-700 leading-relaxed">
+                  {ministry.description}
+                </p>
+                <div className="mt-6 flex items-center text-brand-1 font-semibold group-hover:translate-x-2 transition-transform">
+                  Learn More
+                  <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  </svg>
+                </div>
+              </Link>
+            ))}
           </div>
-        </section>
-      ))}
+        </div>
+      </section>
     </main>
   );
 }

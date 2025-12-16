@@ -32,11 +32,11 @@ export default function Header() {
               <li><Link href="/resources">Resources</Link></li>
               <li><Link href="/connect">Connect</Link></li>
               <li><Link href="/events">Events</Link></li>
+              <li><Link href="/give">Give</Link></li>
             </ul>
           </nav>
 
           <div className="flex items-center gap-4">
-            <Link href="/give" className="hidden sm:inline-block bg-brand-2 text-slate-900 px-4 py-2 rounded-md shadow hover:opacity-95">Give</Link>
 
             {/* hamburger */}
             <button

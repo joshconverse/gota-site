@@ -37,7 +37,7 @@ export default function VisitPage() {
       sections: [
         {
           heading: "",
-          text: "We've reserved convenient parking spaces just for you! Look for our guest parking signs when you arrive, and you'll be greeted by our friendly parking team. They'll be happy to direct you to our Welcome Center or escort you directly to the Worship Service."
+          text: "Guest parking is located just a short distance from the Welcome Center. Look for our guest parking signs when you arrive, and follow them to find convenient spaces reserved just for you."
         }
       ]
     }

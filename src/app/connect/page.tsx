@@ -17,9 +17,9 @@ export default function ConnectPage() {
       bgColor: "bg-brand-1"
     },
     {
-      id: "city-groups",
-      title: "City Groups",
-      description: "Community is central to the ministry of Grace on the Ashley. We offer a wide variety of opportunities to gather in community in addition to Sunday morning worship. From City Groups, which are our missional communities, to more traditional gatherings, we value relationships and fellowship.",
+      id: "community-groups",
+      title: "Community Groups",
+      description: "Community is central to the ministry of Grace on the Ashley. We offer a wide variety of opportunities to gather in community in addition to Sunday morning worship. From Community Groups, which are our missional communities, to more traditional gatherings, we value relationships and fellowship.",
       bgColor: "bg-brand-4"
     }
   ];
@@ -168,12 +168,12 @@ export default function ConnectPage() {
                 </div>
               )}
 
-              {group.id === 'city-groups' && (
+              {group.id === 'community-groups' && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
                   <div className="text-left border border-white p-6 rounded-lg">
-                    <h3 className="text-2xl font-light text-black mb-3">What are City Groups?</h3>
+                    <h3 className="text-2xl font-light text-black mb-3">What are Community Groups?</h3>
                     <p className="text-gray-700 leading-relaxed mb-3 text-left">
-                      City Groups are our missional communities where we gather for fellowship, prayer, Bible study, and service. These small groups help us build deeper relationships and live out our faith together.
+                      Community Groups are our missional communities where we gather for fellowship, prayer, Bible study, and service. These small groups help us build deeper relationships and live out our faith together.
                     </p>
                     <p className="text-gray-700 leading-relaxed text-left">
                       Groups meet throughout Charleston in homes and other locations for authentic community and spiritual growth.
@@ -183,7 +183,7 @@ export default function ConnectPage() {
                   <div className="text-left border border-white p-6 rounded-lg">
                     <h3 className="text-2xl font-light text-black mb-3">How to Join</h3>
                     <p className="text-gray-700 leading-relaxed mb-3 text-left">
-                      Connect with us to find a City Group that fits your schedule and location. We have groups meeting at various times throughout the week.
+                      Connect with us to find a Community Group that fits your schedule and location. We have groups meeting at various times throughout the week.
                     </p>
                     <button className="bg-brand-2 text-slate-900 px-6 py-3 rounded-md font-semibold hover:opacity-90 transition text-left">
                       Find a Group
