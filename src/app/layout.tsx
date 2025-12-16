@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Script from 'next/script';
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
@@ -35,19 +36,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <script src="https://js.churchcenter.com/modal/v1"></script>
-        {/* Google Analytics */}
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-YH4F5MJV83"></script>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'G-YH4F5MJV83');
-            `,
-          }}
-        />
+        {/* Load Church Center modal script after hydration so it doesn't block SSR */}
+        <Script src="https://js.churchcenter.com/modal/v1" strategy="afterInteractive" />
+        {/* Google Analytics - load library and init after hydration */}
+        <Script src="https://www.googletagmanager.com/gtag/js?id=G-YH4F5MJV83" strategy="afterInteractive" />
+        <Script id="gtag-init" strategy="afterInteractive">
+          {`window.dataLayer = window.dataLayer || []; function gtag(){dataLayer.push(arguments);} gtag('js', new Date()); gtag('config', 'G-YH4F5MJV83');`}
+        </Script>
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}

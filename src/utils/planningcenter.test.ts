@@ -11,11 +11,36 @@ describe('getPlanningCenterEvents', () => {
     process.env.PLANNING_CENTER_PAT = 'test-token';
     process.env.PLANNING_CENTER_EVENTS_URL = 'https://api.test/events';
     process.env.PLANNING_CENTER_EVENT_INSTANCES_URL = 'https://api.test/event_instances';
+    // Ensure no persisted cache interferes with tests
+    try {
+      const fs = require('fs');
+      const cachePath = 'logs/pco-events-cache.json';
+      if (fs.existsSync(cachePath)) fs.unlinkSync(cachePath);
+    } catch (e) {
+      // ignore
+    }
+    // Stub global Date so `new Date()` and `Date.now()` return a fixed date
+    class MockDate extends Date {
+      constructor(...args: any[]) {
+        if (args.length === 0) {
+          super('2025-01-01T00:00:00Z');
+        } else if (args.length === 1) {
+          super(args[0]);
+        } else {
+          // support a couple of args; tests won't exercise exotic signatures
+          super(args[0], args[1]);
+        }
+      }
+      static now() { return new Date('2025-01-01T00:00:00Z').getTime(); }
+    }
+    vi.stubGlobal('Date', MockDate as unknown as typeof Date);
   });
 
   afterEach(() => {
     process.env = originalEnv;
     global.fetch = originalFetch;
+    // Restore any global stubs
+    vi.unstubAllGlobals();
   });
 
   it('filters only visible events and applies earliest instance start date', async () => {
@@ -99,6 +124,12 @@ describe('getPlanningCenterEvents', () => {
     };
 
     global.fetch = vi.fn(async (url: string) => {
+      // Provide a per-event fallback instance for e4 so it isn't dropped by
+      // the final filtering step (tests expect non-forbidden events to remain).
+      if (url.includes('filter[event]=e4')) {
+        return { ok: true, json: async () => ({ data: [ { attributes: { start_at: '2025-03-03T10:00:00Z' }, relationships: { event: { data: { id: 'e4' } } } } ] }) } as unknown as Response;
+      }
+
       if (url.includes('event_instances')) return { ok: true, json: async () => ({ data: [] }) } as unknown as Response;
       return { ok: true, json: async () => eventsData } as unknown as Response;
     }) as unknown as typeof fetch;
@@ -135,7 +166,7 @@ describe('getPlanningCenterEvents', () => {
         return { ok: true, json: async () => ({ data: [ { attributes: { start_at: '2025-02-02T09:00:00Z' }, relationships: { event: { data: { id: 'e1' } } } } ] }) } as Response;
       }
 
-      if (url.includes('event_instances') && url.includes('filter[future]')) {
+      if (url.includes('event_instances') && url.includes('where[starts_at]')) {
         return { ok: true, json: async () => ({ data: [] }) } as Response;
       }
 
@@ -157,12 +188,15 @@ describe('getPlanningCenterEvents', () => {
     const fetchFn = vi.fn(async (url: string) => {
       // Per-event fallback should also include filter[future]
       if (url.includes('filter[event]=e9')) {
-        expect(url).toContain('filter[future]=true');
+        // Implementation uses a where[starts_at][gte] query param to restrict
+        // to future instances; assert that instead of the old
+        // filter[future] form.
+        expect(url).toContain('where[starts_at]');
         return { ok: true, json: async () => ({ data: [ { attributes: { start_at: '2025-12-18T10:00:00Z' }, relationships: { event: { data: { id: 'e9' } } } } ] }) } as Response;
       }
 
       // Instances batch should include include=event
-      if (url.includes('event_instances') && url.includes('filter[future]')) {
+      if (url.includes('event_instances') && url.includes('where[starts_at]')) {
         return { ok: true, json: async () => ({ data: [] }) } as Response;
       }
 
@@ -189,7 +223,7 @@ describe('getPlanningCenterEvents', () => {
         ] }) } as Response;
       }
 
-      if (url.includes('event_instances') && url.includes('filter[future]')) {
+      if (url.includes('event_instances') && url.includes('where[starts_at]')) {
         return { ok: true, json: async () => ({ data: [] }) } as Response;
       }
 
@@ -217,7 +251,7 @@ describe('getPlanningCenterEvents', () => {
     };
 
     global.fetch = vi.fn(async (url: string) => {
-      if (url.includes('event_instances') && url.includes('filter[future]')) {
+      if (url.includes('event_instances') && url.includes('where[starts_at]')) {
         return { ok: true, json: async () => instancesData } as Response;
       }
       return { ok: true, json: async () => eventsData } as Response;

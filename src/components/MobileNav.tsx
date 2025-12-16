@@ -44,11 +44,11 @@ export default function MobileNav({ isOpen, onClose }: MobileNavProps) {
     <div aria-hidden={!isOpen} className={`fixed inset-0 z-[80] ${isOpen ? "" : "pointer-events-none"}`}>
       <div
         onClick={onClose}
-        className={`absolute inset-0 bg-black/40 transition-opacity ${isOpen ? "opacity-100" : "opacity-0"}`}
+        className={`absolute inset-0 bg-black/40 transition-opacity duration-300 ${isOpen ? "opacity-100" : "opacity-0"}`}
       />
 
       <aside
-        className={`absolute right-0 top-0 flex h-full w-80 flex-col bg-white shadow-xl transition-transform sm:w-96 ${isOpen ? "translate-x-0" : "translate-x-full"
+        className={`absolute right-0 top-0 flex h-full w-80 flex-col bg-white shadow-xl transition-transform duration-300 ease-in-out sm:w-96 ${isOpen ? "translate-x-0" : "translate-x-full"
           }`}
       >
         <div className="flex items-center justify-between border-b p-6">
