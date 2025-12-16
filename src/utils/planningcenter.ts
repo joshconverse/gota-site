@@ -110,6 +110,39 @@ export async function getPlanningCenterEvents({ perPage = 12 } = {}): Promise<PC
     console.debug('[PlanningCenter] fetching', url, 'auth=', auth.split(' ')[0]);
   }
 
+  // Check cache first - if fresh (< 6 hours old), return cached data
+  const CACHE_TTL_MS = 6 * 60 * 60 * 1000; // 6 hours in milliseconds
+  try {
+    const cachePath = path.join(process.cwd(), 'logs', 'pco-events-cache.json');
+    if (fs.existsSync(cachePath)) {
+      const txt = fs.readFileSync(cachePath, 'utf8');
+      const parsed = JSON.parse(txt);
+      if (parsed && parsed.ts && Array.isArray(parsed.events)) {
+        const cacheAge = Date.now() - new Date(parsed.ts).getTime();
+        if (cacheAge < CACHE_TTL_MS) {
+          if (process.env.NODE_ENV !== 'production') {
+            console.log('[PlanningCenter] returning fresh cached events', { 
+              cacheTs: parsed.ts, 
+              ageMinutes: Math.round(cacheAge / 60000),
+              ttlMinutes: Math.round(CACHE_TTL_MS / 60000)
+            });
+          }
+          return parsed.events as PCEvent[];
+        } else {
+          if (process.env.NODE_ENV !== 'production') {
+            console.log('[PlanningCenter] cache expired, fetching fresh data', { 
+              cacheTs: parsed.ts, 
+              ageMinutes: Math.round(cacheAge / 60000),
+              ttlMinutes: Math.round(CACHE_TTL_MS / 60000)
+            });
+          }
+        }
+      }
+    }
+  } catch (cacheErr) {
+    if (process.env.NODE_ENV !== 'production') console.warn('[PlanningCenter] failed to read cache', cacheErr);
+  }
+
   try {
     // Use a small retry wrapper to make the helper resilient to
     // transient network errors from the remote API.
@@ -558,7 +591,8 @@ export async function getPlanningCenterEvents({ perPage = 12 } = {}): Promise<PC
     return futureEvents;
   } catch (err) {
     // If the fetch failed for reasons other than missing credentials
-    // (network issues or 5xx), try to return a cached copy if present.
+    // (network issues or 5xx), try to return a cached copy even if expired
+    // as a fallback to keep the site functional.
     console.error('Planning Center fetch failed', err);
 
     try {
@@ -567,8 +601,12 @@ export async function getPlanningCenterEvents({ perPage = 12 } = {}): Promise<PC
         const txt = fs.readFileSync(cachePath, 'utf8');
         const parsed = JSON.parse(txt);
         if (parsed && Array.isArray(parsed.events)) {
+          const cacheAge = parsed.ts ? Date.now() - new Date(parsed.ts).getTime() : Infinity;
           if (process.env.NODE_ENV !== 'production') {
-            console.warn('[PlanningCenter] returning cached events due to fetch failure', { cacheTs: parsed.ts });
+            console.warn('[PlanningCenter] returning cached events (possibly stale) due to fetch failure', { 
+              cacheTs: parsed.ts,
+              ageMinutes: parsed.ts ? Math.round(cacheAge / 60000) : 'unknown'
+            });
           }
           return parsed.events as PCEvent[];
         }
