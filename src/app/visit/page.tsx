@@ -148,18 +148,18 @@ export default function VisitPage() {
               </div>
 
               {/* Accordion Section */}
-              <div className="space-y-4">
+              <div className="space-y-6">
                 {accordionItems.map((item, index) => (
-                  <div key={index} className="border border-gray-300 rounded-lg overflow-hidden">
+                  <div key={index} className="border-b border-gray-200 pb-4">
                     <button
                       onClick={() => setOpenAccordion(openAccordion === index ? -1 : index)}
-                      className="w-full px-6 py-4 text-left flex justify-between items-center bg-white hover:bg-gray-50 transition-colors"
+                      className="w-full py-3 text-left flex justify-between items-center transition-colors"
                     >
                       <h3 className="text-xl font-light text-black">
                         {item.title}
                       </h3>
                       <svg
-                        className={`w-5 h-5 text-gray-600 transition-transform ${
+                        className={`w-5 h-5 text-gray-600 transition-transform duration-300 ${
                           openAccordion === index ? 'rotate-180' : ''
                         }`}
                         fill="none"
@@ -172,24 +172,28 @@ export default function VisitPage() {
                         <path d="M19 9l-7 7-7-7"></path>
                       </svg>
                     </button>
-                    {openAccordion === index && (
-                      <div className="px-6 pb-6 pt-2 bg-white">
+                    <div 
+                      className={`overflow-hidden transition-all duration-300 ease-in-out ${
+                        openAccordion === index ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'
+                      }`}
+                    >
+                      <div className="pt-4">
                         <div className="space-y-4">
                           {item.sections.map((section, sectionIndex) => (
-                            <div key={sectionIndex}>
+                            <div key={sectionIndex} className="text-left">
                               {section.heading && (
-                                <h4 className="text-lg font-semibold text-black mb-2">
+                                <h4 className="text-lg font-semibold text-black mb-2 text-left">
                                   {section.heading}
                                 </h4>
                               )}
-                              <p className="text-gray-600 leading-relaxed">
+                              <p className="text-gray-600 leading-relaxed text-left">
                                 {section.text}
                               </p>
                             </div>
                           ))}
                         </div>
                       </div>
-                    )}
+                    </div>
                   </div>
                 ))}
               </div>
