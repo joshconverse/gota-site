@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
@@ -18,6 +18,15 @@ export const metadata: Metadata = {
   title: "Grace on the Ashley",
   description: "Official website for Grace on the Ashley church - making, maturing, and multiplying disciples of Jesus.",
 };
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  viewportFit: 'cover',
+  themeColor: '#0ea5a4',
+}
 
 export default function RootLayout({
   children,
@@ -44,8 +53,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-  <Header />
-  {children}
+        <Header />
+        {children}
         <Footer />
       </body>
     </html>
