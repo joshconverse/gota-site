@@ -1,23 +1,48 @@
 "use client";
 import Link from 'next/link';
+import { useState } from 'react';
 
 export default function VisitPage() {
-  // FAQ answers are always visible
+  const [openAccordion, setOpenAccordion] = useState<number>(0);
 
-  const faqItems = [
+  const accordionItems = [
     {
-      question: "Faithful Preaching and Teaching",
-      answer: "We believe in the clarity of Scripture and its application to the life of God's people. As such, we are committed to line-by-line expositional preaching through books of the Bible during our Sunday morning gathering."
+      title: "Preaching",
+      sections: [
+        {
+          heading: "Faithful Preaching and Teaching",
+          text: "We believe in the clarity of Scripture and its application to the life of God's people. As such, we are committed to line-by-line expositional preaching through books of the Bible during our Sunday morning gathering."
+        },
+        {
+          heading: "Gospel-Centered Worship",
+          text: "The glory of God is paramount in our worship experience. We want to be a church that points people towards God by way of hymns and contemporary songs of rich theology, enjoyed by all generations."
+        },
+        {
+          heading: "Community",
+          text: "The Christian faith is made for relationship. We are called to live out our faith with others. At Grace on the Ashley, you will be welcomed into the family with warm Charleston hospitality."
+        }
+      ]
     },
     {
-      question: "Gospel-Centered Worship",
-      answer: "The glory of God is paramount in our worship experience. We want to be a church that points people towards God by way of hymns and contemporary songs of rich theology, enjoyed by all generations."
+      title: "Guest Parking",
+      sections: [
+        {
+          heading: "",
+          text: "We've reserved convenient parking spaces just for you! Look for our guest parking signs when you arrive, and you'll be greeted by our friendly parking team. They'll be happy to direct you to our Welcome Center or escort you directly to the Worship Service."
+        }
+      ]
     },
     {
-      question: "Community",
-      answer: "The Christian faith is made for relationship. We are called to live out our faith with others. At Grace on the Ashley, you will be welcomed into the family with warm Charleston hospitality."
+      title: "Welcome Center",
+      sections: [
+        {
+          heading: "",
+          text: "Our Welcome Center is your first stop for a warm greeting and helpful guidance! Our dedicated Welcome Team is ready to assist you with Kids' Ministry check-in, direct you to classes, or guide you to the Worship Service. We're here to make your visit comfortable and welcoming!"
+        }
+      ]
     }
   ];
+
   return (
     <main className="min-h-screen bg-white">
       {/* Hero Section */}
@@ -122,20 +147,49 @@ export default function VisitPage() {
                 </div>
               </div>
 
-              {/* FAQ Section */}
-              <div className="space-y-6 h-[700px] overflow-hidden">
-                {faqItems.map((item, index) => (
-                  <div key={index} className="overflow-hidden">
-                    <div className="w-full text-left">
-                      <h3 className="text-xl font-light text-black mb-3">
-                        {item.question}
+              {/* Accordion Section */}
+              <div className="space-y-4">
+                {accordionItems.map((item, index) => (
+                  <div key={index} className="border border-gray-300 rounded-lg overflow-hidden">
+                    <button
+                      onClick={() => setOpenAccordion(openAccordion === index ? -1 : index)}
+                      className="w-full px-6 py-4 text-left flex justify-between items-center bg-white hover:bg-gray-50 transition-colors"
+                    >
+                      <h3 className="text-xl font-light text-black">
+                        {item.title}
                       </h3>
-                      <div>
-                        <p className="text-gray-600 leading-relaxed text-left mb-6">
-                          {item.answer}
-                        </p>
+                      <svg
+                        className={`w-5 h-5 text-gray-600 transition-transform ${
+                          openAccordion === index ? 'rotate-180' : ''
+                        }`}
+                        fill="none"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="2"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                      >
+                        <path d="M19 9l-7 7-7-7"></path>
+                      </svg>
+                    </button>
+                    {openAccordion === index && (
+                      <div className="px-6 pb-6 pt-2 bg-white">
+                        <div className="space-y-4">
+                          {item.sections.map((section, sectionIndex) => (
+                            <div key={sectionIndex}>
+                              {section.heading && (
+                                <h4 className="text-lg font-semibold text-black mb-2">
+                                  {section.heading}
+                                </h4>
+                              )}
+                              <p className="text-gray-600 leading-relaxed">
+                                {section.text}
+                              </p>
+                            </div>
+                          ))}
+                        </div>
                       </div>
-                    </div>
+                    )}
                   </div>
                 ))}
               </div>
