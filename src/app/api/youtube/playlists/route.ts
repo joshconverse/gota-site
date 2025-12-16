@@ -1,11 +1,47 @@
 import { NextResponse } from 'next/server';
+import fs from 'fs';
+import path from 'path';
+
+const CACHE_TTL_MS = 6 * 60 * 60 * 1000; // 6 hours in milliseconds
 
 export async function GET() {
-  const YOUTUBE_API_KEY = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
+  // Use server-side key first, fallback to public key
+  const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY || process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
   const CHANNEL_HANDLE = '@GraceontheashleyOrg';
 
   if (!YOUTUBE_API_KEY) {
     return NextResponse.json({ error: 'YouTube API key not configured' }, { status: 500 });
+  }
+
+  // Check file-based cache first
+  try {
+    const cachePath = path.join(process.cwd(), 'logs', 'youtube-playlists-cache.json');
+    if (fs.existsSync(cachePath)) {
+      const cacheContent = fs.readFileSync(cachePath, 'utf8');
+      const parsed = JSON.parse(cacheContent);
+      if (parsed && parsed.ts && Array.isArray(parsed.playlists)) {
+        const cacheAge = Date.now() - new Date(parsed.ts).getTime();
+        if (cacheAge < CACHE_TTL_MS) {
+          console.log('[YouTube API] Returning cached playlists', {
+            cacheTs: parsed.ts,
+            ageMinutes: Math.round(cacheAge / 60000),
+            playlistCount: parsed.playlists.length
+          });
+          return NextResponse.json({ playlists: parsed.playlists }, {
+            headers: {
+              'Cache-Control': 'public, s-maxage=21600, stale-while-revalidate=3600',
+            }
+          });
+        } else {
+          console.log('[YouTube API] Cache expired, fetching fresh data', {
+            cacheTs: parsed.ts,
+            ageMinutes: Math.round(cacheAge / 60000)
+          });
+        }
+      }
+    }
+  } catch (cacheErr) {
+    console.warn('[YouTube API] Failed to read cache:', cacheErr);
   }
 
   try {
@@ -65,16 +101,66 @@ export async function GET() {
       publishedAt: item.snippet.publishedAt,
     })) || [];
 
+    // Save to cache
+    try {
+      const logsDir = path.join(process.cwd(), 'logs');
+      fs.mkdirSync(logsDir, { recursive: true });
+      const cachePath = path.join(logsDir, 'youtube-playlists-cache.json');
+      fs.writeFileSync(cachePath, JSON.stringify({ 
+        ts: new Date().toISOString(), 
+        playlists 
+      }));
+      console.log('[YouTube API] Cached playlists successfully', {
+        playlistCount: playlists.length,
+        timestamp: new Date().toISOString()
+      });
+    } catch (writeErr) {
+      console.warn('[YouTube API] Failed to write cache:', writeErr);
+    }
+
     return NextResponse.json({ playlists }, { 
       headers: {
         'Cache-Control': 'public, s-maxage=21600, stale-while-revalidate=3600', // 6 hours cache
       }
     });
   } catch (error) {
-    console.error('Error in YouTube playlists API:', error);
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    console.error('[YouTube API] Error fetching playlists:', errorMessage);
+    
+    // Try to return cached data as fallback on error
+    try {
+      const cachePath = path.join(process.cwd(), 'logs', 'youtube-playlists-cache.json');
+      if (fs.existsSync(cachePath)) {
+        const cacheContent = fs.readFileSync(cachePath, 'utf8');
+        const parsed = JSON.parse(cacheContent);
+        if (parsed && Array.isArray(parsed.playlists)) {
+          const cacheAge = parsed.ts ? Date.now() - new Date(parsed.ts).getTime() : Infinity;
+          console.warn('[YouTube API] Returning stale cache due to API error', {
+            error: errorMessage,
+            cacheTs: parsed.ts,
+            ageMinutes: parsed.ts ? Math.round(cacheAge / 60000) : 'unknown',
+            playlistCount: parsed.playlists.length
+          });
+          return NextResponse.json({ 
+            playlists: parsed.playlists,
+            cached: true,
+            cacheAge: parsed.ts ? Math.round(cacheAge / 60000) : null
+          });
+        }
+      }
+    } catch (fallbackErr) {
+      console.warn('[YouTube API] Failed to read fallback cache:', fallbackErr);
+    }
+    
+    // If no cache available, return empty array instead of error
+    console.warn('[YouTube API] No cache available, returning empty playlists');
     return NextResponse.json(
-      { error: 'Failed to fetch playlists', details: String(error) },
-      { status: 500 }
+      { 
+        playlists: [],
+        error: 'YouTube API quota exceeded. Playlists will be available when quota resets.',
+        cached: false
+      },
+      { status: 200 } // Return 200 instead of 500 so the page doesn't break
     );
   }
 }

@@ -21,20 +21,20 @@ export default function Header() {
             <div className="text-sm text-slate-500"></div>
           </div>
 
-          {/* right side: nav + actions grouped so nav sits close to the Give button */}
-          <div className="flex items-center gap-8">
-            <nav className="nav-desktop">
-              <ul className="flex justify-end gap-6 text-sm text-slate-700">
-                <li><Link href="/">Home</Link></li>
-                <li><Link href="/visit">Visit</Link></li>
-                <li><Link href="/about">About</Link></li>
-                <li><Link href="/ministries">Ministries</Link></li>
-                <li><Link href="/resources">Resources</Link></li>
-                <li><Link href="/connect">Connect</Link></li>
-                <li><Link href="/events">Events</Link></li>
-                <li><Link href="/give">Give</Link></li>
-              </ul>
-            </nav>
+  {/* right side: nav + actions grouped so nav sits close to the Give button */}
+  <div className="flex items-center gap-8">
+          <nav className="nav-desktop">
+            <ul className="flex justify-end gap-6 text-sm text-slate-700">
+              <li><Link href="/">Home</Link></li>
+              <li><Link href="/visit">Visit</Link></li>
+              <li><Link href="/about">About</Link></li>
+              <li><Link href="/ministries">Ministries</Link></li>
+              <li><Link href="/resources">Resources</Link></li>
+              <li><Link href="/connect">Connect</Link></li>
+              <li><Link href="/events">Events</Link></li>
+              <li><a href="https://gotachurch.churchcenteronline.com/giving?open-in-church-center-modal=true" target="_blank" rel="noopener noreferrer">Give</a></li>
+            </ul>
+          </nav>
 
             <div className="flex items-center gap-4">
 

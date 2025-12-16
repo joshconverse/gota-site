@@ -139,7 +139,7 @@ export default function MobileNav({ isOpen, onClose }: MobileNavProps) {
         </nav>
 
         <div className="border-t p-6">
-          <a href="/give" className="block rounded-md bg-brand-2 px-4 py-2 text-center text-slate-900">
+          <a href="https://gotachurch.churchcenteronline.com/giving?open-in-church-center-modal=true" target="_blank" rel="noopener noreferrer" className="block rounded-md bg-brand-2 px-4 py-2 text-center text-slate-900">
             Give
           </a>
         </div>

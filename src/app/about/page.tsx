@@ -316,17 +316,6 @@ export default function AboutPage() {
 
             </div>
 
-            {/* Daniell Smith */}
-            <div className="text-center">
-              <div className="mb-6">
-                <div className="w-48 h-48 rounded-full mx-auto bg-white/20 flex items-center justify-center shadow-lg">
-                  <span className="text-white text-lg">Photo Coming Soon</span>
-                </div>
-              </div>
-              <h3 className="text-2xl font-light text-white mb-2">Daniell Smith</h3>
-              <p className="text-lg text-white/90 mb-4">Staff</p>
-            </div>
-
             {/* Audrey Yadon */}
             <div className="text-center">
               <div className="mb-6">
