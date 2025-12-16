@@ -102,7 +102,7 @@ export default function AboutPage() {
       </section>
 
       {/* Mission Section */}
-      <section id="beliefs" className="min-h-screen flex items-center py-24 scroll-mt-24" style={{ backgroundColor: '#F0F0F0' }}>
+      <section id="beliefs" className="min-h-screen flex items-center py-24 pt-32 scroll-mt-0" style={{ backgroundColor: '#F0F0F0' }}>
         <div className="container mx-auto max-w-screen-2xl px-6 md:px-12 lg:px-20">
           <div className="text-center mx-auto">
             <h2 className="text-3xl md:text-4xl font-light text-black mb-8">
