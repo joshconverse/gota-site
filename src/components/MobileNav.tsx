@@ -41,7 +41,7 @@ export default function MobileNav({ isOpen, onClose }: MobileNavProps) {
   if (!mounted) return null;
 
   const content = (
-    <div aria-hidden={!isOpen} className={`sticky inset-0 z-[80] ${isOpen ? "" : "pointer-events-none"}`}>
+    <div aria-hidden={!isOpen} className={`fixed inset-0 z-[80] ${isOpen ? "" : "pointer-events-none"}`}>
       <div
         onClick={onClose}
         className={`absolute inset-0 bg-black/40 transition-opacity ${isOpen ? "opacity-100" : "opacity-0"}`}
