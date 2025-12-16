@@ -126,12 +126,12 @@ export default function VisitPage() {
               <div className="space-y-6 h-[700px] overflow-hidden">
                 {faqItems.map((item, index) => (
                   <div key={index} className="overflow-hidden">
-                    <div className="w-full px-0 py-6 text-left">
-                      <h3 className="text-xl font-light text-black pr-4">
+                    <div className="w-full text-left">
+                      <h3 className="text-xl font-light text-black mb-3">
                         {item.question}
                       </h3>
-                      <div className="px-0 pb-6">
-                        <p className="text-gray-600 leading-relaxed text-left">
+                      <div>
+                        <p className="text-gray-600 leading-relaxed text-left mb-6">
                           {item.answer}
                         </p>
                       </div>
