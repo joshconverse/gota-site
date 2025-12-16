@@ -7,6 +7,23 @@ export default function VisitPage() {
 
   const accordionItems = [
     {
+      title: "Service",
+      sections: [
+        {
+          heading: "Faithful Preaching and Teaching",
+          text: "We believe in the clarity of Scripture and its application to the life of God's people. As such, we are committed to line-by-line expositional preaching through books of the Bible during our Sunday morning gathering."
+        },
+        {
+          heading: "Gospel-Centered Worship",
+          text: "The glory of God is paramount in our worship experience. We want to be a church that points people towards God by way of hymns and contemporary songs of rich theology, enjoyed by all generations."
+        },
+        {
+          heading: "Community",
+          text: "The Christian faith is made for relationship. We are called to live out our faith with others. At Grace on the Ashley, you will be welcomed into the family with warm Charleston hospitality."
+        }
+      ]
+    },
+    {
       title: "Welcome Center",
       sections: [
         {
@@ -21,23 +38,6 @@ export default function VisitPage() {
         {
           heading: "",
           text: "We've reserved convenient parking spaces just for you! Look for our guest parking signs when you arrive, and you'll be greeted by our friendly parking team. They'll be happy to direct you to our Welcome Center or escort you directly to the Worship Service."
-        }
-      ]
-    },
-    {
-      title: "Service",
-      sections: [
-        {
-          heading: "Faithful Preaching and Teaching",
-          text: "We believe in the clarity of Scripture and its application to the life of God's people. As such, we are committed to line-by-line expositional preaching through books of the Bible during our Sunday morning gathering."
-        },
-        {
-          heading: "Gospel-Centered Worship",
-          text: "The glory of God is paramount in our worship experience. We want to be a church that points people towards God by way of hymns and contemporary songs of rich theology, enjoyed by all generations."
-        },
-        {
-          heading: "Community",
-          text: "The Christian faith is made for relationship. We are called to live out our faith with others. At Grace on the Ashley, you will be welcomed into the family with warm Charleston hospitality."
         }
       ]
     }
