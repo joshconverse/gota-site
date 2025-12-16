@@ -87,26 +87,8 @@ export default function VisitPage() {
 
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mt-12">
-              {/* FAQ Section */}
-              <div className="space-y-6 h-[700px] overflow-hidden lg:border-r lg:border-gray-300 lg:pr-8">
-                {faqItems.map((item, index) => (
-                  <div key={index} className="overflow-hidden">
-                    <div className="w-full px-0 py-6 text-left">
-                      <h3 className="text-xl font-light text-black pr-4">
-                        {item.question}
-                      </h3>
-                      <div className="px-0 pb-6">
-                        <p className="text-gray-600 leading-relaxed text-left">
-                          {item.answer}
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-
               {/* Mission Section */}
-              <div className="hidden lg:block">
+              <div className="hidden lg:block lg:border-r lg:border-gray-300 lg:pr-8">
                 <div className="space-y-8">
                   <div className="text-left">
                     <h3 className="text-2xl md:text-3xl font-light text-black mb-6">
@@ -138,6 +120,24 @@ export default function VisitPage() {
                     </div>
                   </div>
                 </div>
+              </div>
+
+              {/* FAQ Section */}
+              <div className="space-y-6 h-[700px] overflow-hidden">
+                {faqItems.map((item, index) => (
+                  <div key={index} className="overflow-hidden">
+                    <div className="w-full px-0 py-6 text-left">
+                      <h3 className="text-xl font-light text-black pr-4">
+                        {item.question}
+                      </h3>
+                      <div className="px-0 pb-6">
+                        <p className="text-gray-600 leading-relaxed text-left">
+                          {item.answer}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           </div>
