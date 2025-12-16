@@ -1,0 +1,14 @@
+{
+    "playlists":  [
+                      {
+                          "id":  "PLexample1",
+                          "description":  "Weekly Sunday sermon messages",
+                          "url":  "https://www.youtube.com/playlist?list=PLexample1",
+                          "videoCount":  50,
+                          "publishedAt":  "2024-01-01T00:00:00Z",
+                          "title":  "Sunday Sermons",
+                          "thumbnailUrl":  "https://i.ytimg.com/vi/default/hqdefault.jpg"
+                      }
+                  ],
+    "ts":  "2025-12-16T15:29:47.516Z"
+}

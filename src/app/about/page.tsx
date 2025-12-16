@@ -316,7 +316,6 @@ export default function AboutPage() {
 
             </div>
 
-
             {/* Audrey Yadon */}
             <div className="text-center">
               <div className="mb-6">
