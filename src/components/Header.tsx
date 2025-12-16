@@ -32,7 +32,7 @@ export default function Header() {
               <li><Link href="/resources">Resources</Link></li>
               <li><Link href="/connect">Connect</Link></li>
               <li><Link href="/events">Events</Link></li>
-              <li><Link href="/give">Give</Link></li>
+              <li><a href="https://gotachurch.churchcenteronline.com/giving?open-in-church-center-modal=true" target="_blank" rel="noopener noreferrer">Give</a></li>
             </ul>
           </nav>
 
