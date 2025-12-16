@@ -38,7 +38,7 @@ export default async function IndexPage() {
             {/* Service Times */}
             <div className="text-center">
               <h2 className="text-2xl md:text-3xl font-light text-brand-4 mb-6">Service Times</h2>
-              <div className="bg-brand-4/10 rounded-lg p-6 border border-brand-4/20 min-h-[200px] flex flex-col justify-center">
+              <div className="bg-brand-4/10 rounded-lg p-6 border border-white min-h-[200px] flex flex-col justify-center">
                 <div className="flex flex-col justify-center items-center gap-4">
                   <div className="text-brand-4 text-center">
                     <div className="flex justify-center mb-2">
@@ -61,7 +61,7 @@ export default async function IndexPage() {
             {/* Location */}
             <div className="text-center">
               <h2 className="text-2xl md:text-3xl font-light text-brand-4 mb-6">Location</h2>
-              <div className="bg-brand-4/10 rounded-lg p-6 border border-brand-4/20 min-h-[200px] flex flex-col justify-center">
+              <div className="bg-brand-4/10 rounded-lg p-6 border border-white min-h-[200px] flex flex-col justify-center">
                 <div className="flex justify-center mb-4">
                   <svg className="w-8 h-8 text-brand-4" fill="currentColor" viewBox="0 0 20 20">
                     <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
