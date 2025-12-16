@@ -1,7 +1,7 @@
 "use client";
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
-import { getYouTubePlaylists, YouTubePlaylist } from '@/utils/youtube';
+import { YouTubePlaylist } from '@/utils/youtube';
 import SermonLibrary from '@/components/SermonLibrary';
 
 export default function ResourcesPage() {
@@ -17,12 +17,22 @@ export default function ResourcesPage() {
 
   useEffect(() => {
     const fetchPlaylists = async () => {
+      console.log('[Resources] Starting to fetch playlists...');
       setLoadingPlaylists(true);
       try {
-        const fetchedPlaylists = await getYouTubePlaylists();
-        setPlaylists(fetchedPlaylists);
+        const response = await fetch('/api/youtube/playlists');
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          console.error('Failed to fetch playlists:', response.status, errorData);
+          setPlaylists([]);
+          return;
+        }
+        const data = await response.json();
+        console.log('[Resources] Fetched playlists:', data.playlists);
+        setPlaylists(data.playlists || []);
       } catch (error) {
         console.error('Failed to fetch playlists:', error);
+        setPlaylists([]);
       } finally {
         setLoadingPlaylists(false);
       }
