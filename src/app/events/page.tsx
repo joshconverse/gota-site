@@ -125,7 +125,7 @@ export default function EventsPage() {
   return (
     <main className="min-h-screen bg-white">
       {/* Hero Section */}
-      <section className="relative min-h-[60vh] md:min-h-[70vh] flex items-center" style={{ backgroundColor: '#B6CEB4' }}>
+      <section className="relative h-screen flex items-center" style={{ backgroundColor: '#B6CEB4' }}>
         {/* Background Image with Tint */}
         <div className="absolute inset-0">
           <img
@@ -136,7 +136,7 @@ export default function EventsPage() {
           <div className="absolute inset-0 bg-gradient-to-r from-green-900/30 to-transparent"></div>
         </div>
 
-        <div className="relative z-10 container mx-auto max-w-[1440px] px-6 md:px-12 lg:px-20">
+        <div className="relative z-10 w-full px-6 md:px-12 lg:px-20">
           <div className="max-w-6xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               {/* Left column: Heading */}

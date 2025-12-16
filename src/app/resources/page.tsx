@@ -54,7 +54,7 @@ export default function ResourcesPage() {
   return (
     <main className="min-h-screen bg-brand-4">
       {/* Hero Section */}
-      <section className="relative bg-brand-1 -mt-1 min-h-[60vh] flex items-center justify-center overflow-hidden">
+      <section className="relative bg-brand-1 -mt-1 h-screen flex items-center justify-center overflow-hidden">
         {/* Background Image with Tint */}
         <div className="absolute inset-0">
           <img
@@ -65,7 +65,7 @@ export default function ResourcesPage() {
           <div className="absolute inset-0 bg-gradient-to-r from-green-900/30 to-transparent"></div>
         </div>
 
-        <div className="relative z-10 container mx-auto max-w-[1440px] px-6 md:px-12 lg:px-20">
+        <div className="relative z-10 w-full px-6 md:px-12 lg:px-20">
           <div className="max-w-6xl mx-auto">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
               {/* Left column: Heading */}
