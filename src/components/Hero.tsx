@@ -1,6 +1,8 @@
+"use client";
 import Image from "next/image";
 import type { SanityDocument } from "next-sanity";
 import HeroImage from "./HeroImage";
+import { useState, useEffect } from "react";
 
 export default function Hero({ doc, thumbnailUrl, streamTitle, streamUrl }: { 
   doc: SanityDocument | null; 
@@ -8,10 +10,20 @@ export default function Hero({ doc, thumbnailUrl, streamTitle, streamUrl }: {
   streamTitle?: string | null;
   streamUrl?: string | null;
 }) {
-  // Full-bleed background uses Enrique image, mirrored; foreground panel remains
+  const [showYouTubeData, setShowYouTubeData] = useState(false);
+
+  useEffect(() => {
+    // Wait a moment before showing YouTube data for smooth transition
+    const timer = setTimeout(() => setShowYouTubeData(true), 100);
+    return () => clearTimeout(timer);
+  }, []);
+
+  // Display values with transition
+  const displayTitle = showYouTubeData ? (streamTitle || "2 Timothy 3:16-17 Part 2") : "Welcome";
+  const displayLabel = showYouTubeData ? "Latest Sermon" : "Welcome to";
 
   return (
-  <section className="relative min-h-screen md:min-h-[100svh] flex items-center">
+  <section className="relative min-h-screen md:min-h-[100svh] flex items-center after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-32 after:bg-brand-1 after:block sm:after:hidden">
       {/* Full-bleed background image (mirrored) */}
       <Image
         src="/pexels-enrique-12172754.jpg"
@@ -30,10 +42,10 @@ export default function Hero({ doc, thumbnailUrl, streamTitle, streamUrl }: {
           
           {/* Mobile: Only "Latest Sermon" label above video */}
           <div className="order-1 lg:hidden text-center mb-4">
-            <p className="text-xs uppercase tracking-wide text-slate-600 mb-0 leading-none">Latest Sermon</p>
+            <p className={`text-xs uppercase tracking-wide text-slate-600 mb-0 leading-none transition-opacity duration-500 ${showYouTubeData ? 'opacity-100' : 'opacity-0'}`}>{displayLabel}</p>
           </div>
 
-          {/* Right column: overlaid image panel with YouTube thumbnail or imagecap.png */}
+          {/* Right column: overlaid image panel with YouTube thumbnail or placeholder */}
           <div
             className="relative w-full order-2 lg:order-2 rounded-2xl border border-white/80 shadow-lg overflow-hidden"
             style={{ aspectRatio: "16 / 9" }}
@@ -60,12 +72,12 @@ export default function Hero({ doc, thumbnailUrl, streamTitle, streamUrl }: {
           <div className="mt-4 lg:mt-16 order-3 lg:order-1 text-center lg:text-right">
             {/* Desktop: Full sermon info */}
             <div className="hidden lg:block">
-              <p className="text-xs sm:text-sm uppercase tracking-wide text-slate-600 mb-0 leading-none">Latest Sermon</p>
-              <h1 className="-mt-1 text-2xl sm:text-3xl font-semibold leading-tight text-slate-900">{streamTitle || "2 Timothy 3:16-17 Part 2"}</h1>
+              <p className={`text-xs sm:text-sm uppercase tracking-wide text-slate-600 mb-0 leading-none transition-opacity duration-500 ${showYouTubeData ? 'opacity-100' : 'opacity-0'}`}>{displayLabel}</p>
+              <h1 className={`-mt-1 text-2xl sm:text-3xl font-semibold leading-tight text-slate-900 transition-opacity duration-500 ${showYouTubeData ? 'opacity-100' : 'opacity-0'}`}>{displayTitle}</h1>
             </div>
             {/* Mobile: Only title (no "Latest Sermon" label since it's above) */}
             <div className="lg:hidden">
-              <h1 className="!text-sm md:text-3xl font-semibold leading-tight text-slate-900 mb-4">{streamTitle || "2 Timothy 3:16-17 Part 2"}</h1>
+              <h1 className={`!text-sm md:text-3xl font-semibold leading-tight text-slate-900 mb-4 transition-opacity duration-500 ${showYouTubeData ? 'opacity-100' : 'opacity-0'}`}>{displayTitle}</h1>
             </div>
             {/* Button for both mobile and desktop */}
             <div className="mt-4 mb-24 lg:mb-0 text-center lg:text-right">
@@ -84,7 +96,7 @@ export default function Hero({ doc, thumbnailUrl, streamTitle, streamUrl }: {
       </div>
       {/* Tease next section: show heading at the very bottom of the hero */}
 
-      <div className="absolute inset-x-0 bottom-0 z-20 flex justify-center bg-brand-1 py-2 rounded-t-[32px]">
+      <div className="absolute inset-x-0 bottom-0 z-20 flex justify-center bg-brand-1 py-4 sm:py-2 rounded-t-[32px]">
         <div className="container relative mx-auto max-w-[1440px] px-6 md:px-12 lg:px-20 text-brand-4">
           {/* Social icons positioned 30px above the green bar - hidden on mobile */}
           <div className="hidden md:flex absolute -top-[45px] left-6 md:left-12 lg:left-20 z-10 items-center gap-3 text-black">
@@ -123,7 +135,7 @@ export default function Hero({ doc, thumbnailUrl, streamTitle, streamUrl }: {
               </svg>
             </a>
           </div>
-          <h1 className="text-[8px] md:text-xl lg:text-2xl font-semibold text-center">Gather with us</h1>
+          <h1 className="font-semibold text-center" style={{ fontSize: 'clamp(3.5rem, 7vw, 3rem)' }}>Gather with us</h1>
         </div>
       </div>
     </section>
