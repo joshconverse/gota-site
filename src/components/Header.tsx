@@ -9,7 +9,23 @@ import { Item, ItemMedia, ItemContent, ItemTitle, ItemActions } from "./ui/item"
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const [shouldRender, setShouldRender] = useState(false);
 
+  const handleOpen = () => {
+    setShouldRender(true);
+    // Small delay to ensure DOM is ready before animating
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        setOpen(true);
+      });
+    });
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+    // Wait for animation to complete before unmounting
+    setTimeout(() => setShouldRender(false), 300);
+  };
 
   return (
     <header className="fixed inset-x-0 top-4 z-50 h-0 pointer-events-none">

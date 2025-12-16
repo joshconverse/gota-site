@@ -11,6 +11,7 @@
 
 import fs from 'fs';
 import path from 'path';
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 export type PCEventTime = {
   id?: string;
