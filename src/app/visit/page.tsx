@@ -7,19 +7,11 @@ export default function VisitPage() {
 
   const accordionItems = [
     {
-      title: "Preaching",
+      title: "Welcome Center",
       sections: [
         {
-          heading: "Faithful Preaching and Teaching",
-          text: "We believe in the clarity of Scripture and its application to the life of God's people. As such, we are committed to line-by-line expositional preaching through books of the Bible during our Sunday morning gathering."
-        },
-        {
-          heading: "Gospel-Centered Worship",
-          text: "The glory of God is paramount in our worship experience. We want to be a church that points people towards God by way of hymns and contemporary songs of rich theology, enjoyed by all generations."
-        },
-        {
-          heading: "Community",
-          text: "The Christian faith is made for relationship. We are called to live out our faith with others. At Grace on the Ashley, you will be welcomed into the family with warm Charleston hospitality."
+          heading: "",
+          text: "Our Welcome Center is your first stop for a warm greeting and helpful guidance! Our dedicated Welcome Team is ready to assist you with Kids' Ministry check-in, direct you to classes, or guide you to the Worship Service. We're here to make your visit comfortable and welcoming!"
         }
       ]
     },
@@ -33,11 +25,19 @@ export default function VisitPage() {
       ]
     },
     {
-      title: "Welcome Center",
+      title: "Service",
       sections: [
         {
-          heading: "",
-          text: "Our Welcome Center is your first stop for a warm greeting and helpful guidance! Our dedicated Welcome Team is ready to assist you with Kids' Ministry check-in, direct you to classes, or guide you to the Worship Service. We're here to make your visit comfortable and welcoming!"
+          heading: "Faithful Preaching and Teaching",
+          text: "We believe in the clarity of Scripture and its application to the life of God's people. As such, we are committed to line-by-line expositional preaching through books of the Bible during our Sunday morning gathering."
+        },
+        {
+          heading: "Gospel-Centered Worship",
+          text: "The glory of God is paramount in our worship experience. We want to be a church that points people towards God by way of hymns and contemporary songs of rich theology, enjoyed by all generations."
+        },
+        {
+          heading: "Community",
+          text: "The Christian faith is made for relationship. We are called to live out our faith with others. At Grace on the Ashley, you will be welcomed into the family with warm Charleston hospitality."
         }
       ]
     }
