@@ -55,12 +55,6 @@ export default function VisitPage() {
                   </div>
                 </div>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                  <Link
-                    href="#welcome"
-                    className="flex-1 min-w-0 flex items-center justify-center whitespace-nowrap truncate bg-white text-black px-8 py-4 rounded-md font-semibold shadow hover:opacity-95 transition text-lg border border-gray-200 mb-8 md:mb-4 min-h-[56px]"
-                  >
-                    What to Expect
-                  </Link>
                   <a
                     href="https://www.google.com/maps/search/?api=1&query=2025+BEES+FERRY+ROAD+CHARLESTON+SC+29414"
                     target="_blank"
@@ -69,6 +63,12 @@ export default function VisitPage() {
                   >
                     Directions
                   </a>
+                  <Link
+                    href="#welcome"
+                    className="flex-1 min-w-0 flex items-center justify-center whitespace-nowrap truncate bg-white text-black px-8 py-4 rounded-md font-semibold shadow hover:opacity-95 transition text-lg border border-gray-200 mb-8 md:mb-4 min-h-[56px]"
+                  >
+                    What to Expect
+                  </Link>
                 </div>
               </div>
             </div>
