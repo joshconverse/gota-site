@@ -99,9 +99,6 @@ export default function AboutPage() {
             </div>
           </div>
         </div>
-
-        {/* Transition Bar */}
-        <div className="absolute bottom-0 left-0 right-0 h-24" style={{ backgroundColor: '#F0F0F0' }}></div>
       </section>
 
       {/* Mission Section */}
