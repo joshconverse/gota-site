@@ -9,7 +9,7 @@ export default function Header() {
 
 
   return (
-    <header className="sticky inset-x-0 top-4 z-50 pointer-events-none">
+    <header className="fixed inset-x-0 top-4 z-50 h-0 pointer-events-none">
       <div className="container mx-auto max-w-[1440px] px-4 md:px-8 lg:px-12">
         <div className="pointer-events-auto bg-white/90 backdrop-blur-sm rounded-2xl shadow-md p-3 md:p-4 flex items-center gap-4 md:h-[70px] md:py-0">
           <div className="flex-1">
@@ -21,20 +21,20 @@ export default function Header() {
             <div className="text-sm text-slate-500"></div>
           </div>
 
-  {/* right side: nav + actions grouped so nav sits close to the Give button */}
-  <div className="flex items-center gap-8">
-          <nav className="nav-desktop">
-            <ul className="flex justify-end gap-6 text-sm text-slate-700">
-              <li><Link href="/">Home</Link></li>
-              <li><Link href="/visit">Visit</Link></li>
-              <li><Link href="/about">About</Link></li>
-              <li><Link href="/ministries">Ministries</Link></li>
-              <li><Link href="/resources">Resources</Link></li>
-              <li><Link href="/connect">Connect</Link></li>
-              <li><Link href="/events">Events</Link></li>
-              <li><a href="https://gotachurch.churchcenteronline.com/giving?open-in-church-center-modal=true" target="_blank" rel="noopener noreferrer">Give</a></li>
-            </ul>
-          </nav>
+          {/* right side: nav + actions grouped so nav sits close to the Give button */}
+          <div className="flex items-center gap-8">
+            <nav className="nav-desktop">
+              <ul className="flex justify-end gap-6 text-sm text-slate-700">
+                <li><Link href="/">Home</Link></li>
+                <li><Link href="/visit">Visit</Link></li>
+                <li><Link href="/about">About</Link></li>
+                <li><Link href="/ministries">Ministries</Link></li>
+                <li><Link href="/resources">Resources</Link></li>
+                <li><Link href="/connect">Connect</Link></li>
+                <li><Link href="/events">Events</Link></li>
+                <li><a href="https://gotachurch.churchcenteronline.com/giving?open-in-church-center-modal=true" target="_blank" rel="noopener noreferrer">Give</a></li>
+              </ul>
+            </nav>
 
             <div className="flex items-center gap-4">
 
