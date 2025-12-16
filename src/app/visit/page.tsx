@@ -113,7 +113,7 @@ export default function VisitPage() {
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start mt-12">
               {/* Mission Section */}
-              <div className="hidden lg:block lg:border-r lg:border-gray-300 lg:pr-8">
+              <div className="hidden lg:block lg:border-r lg:border-gray-300 lg:pr-8 lg:min-h-[800px]">
                 <div className="space-y-8">
                   <div className="text-left">
                     <h3 className="text-2xl md:text-3xl font-light text-black mb-6">
