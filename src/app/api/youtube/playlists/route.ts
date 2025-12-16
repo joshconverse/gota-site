@@ -5,7 +5,8 @@ import path from 'path';
 const CACHE_TTL_MS = 6 * 60 * 60 * 1000; // 6 hours in milliseconds
 
 export async function GET() {
-  const YOUTUBE_API_KEY = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
+  // Use server-side key first, fallback to public key
+  const YOUTUBE_API_KEY = process.env.YOUTUBE_API_KEY || process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
   const CHANNEL_HANDLE = '@GraceontheashleyOrg';
 
   if (!YOUTUBE_API_KEY) {

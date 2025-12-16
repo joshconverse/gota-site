@@ -48,11 +48,11 @@ const nextConfig: NextConfig = {
             key: 'Content-Security-Policy',
             value: [
               "default-src 'self'",
-              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.google.com https://www.gstatic.com https://js.churchcenter.com",
+              "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.google.com https://www.gstatic.com https://js.churchcenter.com https://www.googletagmanager.com https://www.google-analytics.com",
               "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
               "img-src 'self' data: https: blob:",
               "font-src 'self' data: https://fonts.gstatic.com",
-              "connect-src 'self' https://www.googleapis.com https://cdn.sanity.io https://*.sanity.io https://images.planningcenterusercontent.com https://*.churchcenter.com https://*.churchcenteronline.com",
+              "connect-src 'self' https://www.googleapis.com https://cdn.sanity.io https://*.sanity.io https://images.planningcenterusercontent.com https://*.churchcenter.com https://*.churchcenteronline.com https://www.google-analytics.com https://analytics.google.com https://*.analytics.google.com https://*.googletagmanager.com",
               "frame-src 'self' https://www.youtube.com https://www.google.com https://*.churchcenter.com https://*.churchcenteronline.com",
               "media-src 'self' https:",
               "object-src 'none'",
