@@ -9,23 +9,22 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
           {/* Main Links */}
           <div className="space-y-2">
-            <Link href="/resources#resources" className="block text-slate-900 hover:text-brand-1 transition-colors">Watch</Link>
-            <Link href="/visit" className="block text-slate-900 hover:text-brand-1 transition-colors">Visit</Link>
+            <Link href="/watch" className="block text-slate-900 hover:text-brand-1 transition-colors">Watch</Link>
             <Link href="/about" className="block text-slate-900 hover:text-brand-1 transition-colors">About</Link>
-            <Link href="/resources" className="block text-slate-900 hover:text-brand-1 transition-colors">Resources</Link>
+            <Link href="/ministries" className="block text-slate-900 hover:text-brand-1 transition-colors">Ministries</Link>
+            <Link href="/next-steps" className="block text-slate-900 hover:text-brand-1 transition-colors">Next Steps</Link>
             <Link href="/volunteer" className="block text-slate-900 hover:text-brand-1 transition-colors">Volunteer</Link>
-            <Link href="/events" className="block text-slate-900 hover:text-brand-1 transition-colors">Events</Link>
           </div>
 
           {/* Ministries */}
           <div className="space-y-2">
             <Link href="/ministries#children" className="block text-slate-900 hover:text-brand-1 transition-colors">Children</Link>
             <Link href="/ministries#students" className="block text-slate-900 hover:text-brand-1 transition-colors">Students</Link>
-            <Link href="/ministries#care" className="block text-slate-900 hover:text-brand-1 transition-colors">Care</Link>
-            <Link href="/ministries#men" className="block text-slate-900 hover:text-brand-1 transition-colors">Men</Link>
-            <Link href="/ministries#women" className="block text-slate-900 hover:text-brand-1 transition-colors">Women</Link>
+            <Link href="/ministries#community-groups" className="block text-slate-900 hover:text-brand-1 transition-colors">Community Groups</Link>
             <Link href="/ministries#married" className="block text-slate-900 hover:text-brand-1 transition-colors">Married</Link>
-            <Link href="/ministries#missions" className="block text-slate-900 hover:text-brand-1 transition-colors">Missions</Link>
+            <Link href="/ministries#local-missions" className="block text-slate-900 hover:text-brand-1 transition-colors">Local Missions</Link>
+            <Link href="/ministries#worship" className="block text-slate-900 hover:text-brand-1 transition-colors">Worship</Link>
+            <Link href="/ministries#international-missions" className="block text-slate-900 hover:text-brand-1 transition-colors">International Missions</Link>
           </div>
         </div>
 

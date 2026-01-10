@@ -44,12 +44,10 @@ export default function Header() {
             <nav className="nav-desktop">
               <ul className="flex justify-end gap-6 text-sm text-slate-700">
                 <li><Link href="/">Home</Link></li>
-                <li><Link href="/visit">Visit</Link></li>
                 <li><Link href="/about">About</Link></li>
+                <li><Link href="/watch">Watch</Link></li>
                 <li><Link href="/ministries">Ministries</Link></li>
-                <li><Link href="/resources">Resources</Link></li>
-                <li><Link href="/connect">Connect</Link></li>
-                <li><Link href="/events">Events</Link></li>
+                <li><Link href="/next-steps">Next Steps</Link></li>
                 <li><a href="https://gotachurch.churchcenteronline.com/giving?open-in-church-center-modal=true" target="_blank" rel="noopener noreferrer">Give</a></li>
               </ul>
             </nav>
