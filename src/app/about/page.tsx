@@ -230,19 +230,6 @@ export default function AboutPage() {
               <p className="text-lg text-white/90 mb-4">Elder, Chairman</p>
             </div>
 
-            {/* Jim Pitts */}
-            <div className="text-center">
-              <div className="mb-6">
-                <img
-                  src="/bioImage_3.jpg"
-                  alt="Jim Pitts"
-                  className="w-48 h-48 rounded-full mx-auto object-cover shadow-lg"
-                />
-              </div>
-              <h3 className="text-2xl font-light text-white mb-2">Jim Pitts</h3>
-              <p className="text-lg text-white/90 mb-4">Elder</p>
-            </div>
-
             {/* Aaron Barney */}
             <div className="text-center">
               <div className="mb-6">

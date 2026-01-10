@@ -16,21 +16,9 @@ export default function MinistriesPage() {
       bgColor: "bg-brand-1"
     },
     {
-      id: "care",
-      title: "Care Ministry",
-      description: "Supporting our community through prayer, encouragement, and practical help during times of need. Our care team is here to walk alongside members through life's challenges and celebrations.",
-      bgColor: "bg-brand-4"
-    },
-    {
-      id: "men",
-      title: "Men's Ministry",
-      description: "Building godly men through fellowship, accountability, and service. We gather for Bible study, prayer, and activities that strengthen brotherhood and spiritual growth.",
-      bgColor: "bg-brand-1"
-    },
-    {
-      id: "women",
-      title: "Women's Ministry",
-      description: "Encouraging women to grow in their relationship with Christ and each other. Through Bible studies, prayer groups, and fellowship events, we create opportunities for spiritual and personal development.",
+      id: "community-groups",
+      title: "Community Groups",
+      description: "Small groups that meet regularly for fellowship, Bible study, prayer, and mutual support. Community Groups provide a place to grow deeper in faith and build meaningful relationships.",
       bgColor: "bg-brand-4"
     },
     {
@@ -40,8 +28,20 @@ export default function MinistriesPage() {
       bgColor: "bg-brand-1"
     },
     {
-      id: "missions",
-      title: "Missions Ministry",
+      id: "local-missions",
+      title: "Local Missions",
+      description: "Supporting our community through prayer, encouragement, and practical help during times of need. Our care team is here to walk alongside members through life's challenges and celebrations.",
+      bgColor: "bg-brand-4"
+    },
+    {
+      id: "worship",
+      title: "Worship Ministry",
+      description: "Leading our congregation in worship through music, song, and creative expression. Our worship team creates an atmosphere where people can encounter God and respond to His presence.",
+      bgColor: "bg-brand-1"
+    },
+    {
+      id: "international-missions",
+      title: "International Missions",
       description: "Partnering with missionaries and supporting global outreach efforts to spread the Gospel worldwide. We are committed to being a sending church that invests in kingdom work both locally and internationally.",
       bgColor: "bg-brand-4"
     }

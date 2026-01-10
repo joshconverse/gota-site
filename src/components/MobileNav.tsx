@@ -6,12 +6,10 @@ import { ChevronRightIcon } from "lucide-react";
 
 const menuItems = [
   { link: '/', text: 'Home' },
-  { link: '/visit', text: 'Visit' },
   { link: '/about', text: 'About' },
+  { link: '/watch', text: 'Watch' },
   { link: '/ministries', text: 'Ministries' },
-  { link: '/resources', text: 'Resources' },
-  { link: '/connect', text: 'Connect' },
-  { link: '/events', text: 'Events' },
+  { link: '/next-steps', text: 'Next Steps' },
 ]
 
 
