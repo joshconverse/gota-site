@@ -51,48 +51,43 @@ export default function NextStepsPage() {
         </div>
       </section>
 
-      {/* Salvation Section */}
+      {/* Gospel Section */}
       <section id="salvation" className="min-h-screen flex items-center justify-center bg-brand-4 py-20">
         <div className="container mx-auto max-w-[1200px] px-6 md:px-12 lg:px-20">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            {/* Left Column: Content */}
-            <div>
-              <h2 className="text-3xl md:text-5xl font-light text-black mb-8">
-                What is Salvation?
-              </h2>
-              <div className="space-y-6 text-lg text-gray-700 leading-relaxed">
-                <p>
-                  Salvation is a mystery. While acknowledging our finite and incomplete understanding of God's ways, in faith we believe that God calls us as sinners to repent and be saved by placing faith in the Lord Jesus Christ.
-                </p>
-                <p>
-                  Those who respond to God's call in repentance and faith are justified by grace through faith in Christ alone. Salvation is the gracious purpose of God according to which He justifies, sanctifies, and glorifies sinners through the finished work of Jesus Christ on the cross.
-                </p>
-                <p>
-                  Justification occurs by and through Christ and because of His work on the cross and is apprehended through faith. No one is justified partly by Christ and partly by works. Salvation is received by grace through faith, not by human merit or effort.
-                </p>
-                <p>
-                  The grace of redemption is that by which God effectually calls His chosen, converting them to Himself, and quickening them from spiritual death to spiritual life. This grace is operative by and through God alone.
-                </p>
-              </div>
-              <div className="mt-8">
-                <Link
-                  href="#membership"
-                  className="inline-block bg-brand-2 text-slate-900 px-8 py-4 rounded-md font-semibold shadow hover:opacity-95 transition"
-                >
-                  Next: Church Membership
-                </Link>
-              </div>
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-3xl md:text-5xl font-light text-black mb-8">
+              What is the Gospel?
+            </h2>
+            <div className="space-y-6 text-lg text-gray-700 leading-relaxed">
+              <p>
+                The word "gospel" means "good news."  As Christians, we believe it takes the whole Bible to tell the story of the gospel, but to put it simply, it's that Jesus is the Son of God who died on the cross to pay for the sins of the world.
+              </p>
+              <p>
+                Ever since the day Adam and Eve disobeyed God in the garden, humans have suffered under the curse that our sin deserved, but God waited until it was the perfect time to send His Son from heaven to earth.  Jesus was our only hope.
+              </p>
+              <p>
+                He lived the perfect life that we couldn't live and taught us how to love God and love other people.  At the end of his time on earth, he submitted himself to dying the death that we deserved.  The truth is, when Jesus died on a Roman cross, it wasn't an execution.  It was a purposeful sacrifice where Jesus bore the penalty of all our sins by dying in our place.
+              </p>
+              <p>
+                Three days later, Jesus rose from the dead, just as the Bible had predicted hundreds and thousands of years before.  This is the greatest news of all because not only did Jesus die in our place, he also made it possible to grant us eternal life by the power of his own resurrection!
+              </p>
+              <p>
+                There was no way we could do enough good works to earn salvation, but Jesus he saved us because he loves us.  This act of undeserved salvation is what we call grace – a gift we don't deserve, but God grants it to us anyways.
+              </p>
+              <p>
+                So if you're wondering how to be saved, the only way is to put your faith and trust in what Jesus did for us, including you.  When we have faith in Jesus, we make it our aim in life to honor him.  We trust that Jesus's work was enough to save us, and we respond by living in the way he commands us -- by turning away from our sins when we recognize we fail.
+              </p>
+              <p>
+                Being a Christian is the same thing as being a disciple of Jesus.  We follow him, trust in his forgiveness, and turn from sin.  In short, we make Jesus our Lord.  Consider putting your faith in him today.
+              </p>
             </div>
-
-            {/* Right Column: Image Placeholder */}
-            <div className="flex justify-center">
-              <div className="w-full max-w-md h-96 bg-gray-200 rounded-lg flex items-center justify-center shadow-lg">
-                <div className="text-center text-gray-500">
-                  <div className="text-6xl mb-4">🕊️</div>
-                  <p className="text-lg font-semibold">Salvation Image</p>
-                  <p className="text-sm">Placeholder for salvation-related image</p>
-                </div>
-              </div>
+            <div className="mt-8">
+              <Link
+                href="#membership"
+                className="inline-block bg-brand-2 text-slate-900 px-8 py-4 rounded-md font-semibold shadow hover:opacity-95 transition"
+              >
+                Next: Church Membership
+              </Link>
             </div>
           </div>
         </div>
@@ -101,34 +96,20 @@ export default function NextStepsPage() {
       {/* Baptism Section */}
       <section className="min-h-screen flex items-center justify-center bg-white py-20">
         <div className="container mx-auto max-w-[1200px] px-6 md:px-12 lg:px-20">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            {/* Left Column: Image Placeholder */}
-            <div className="flex justify-center order-2 lg:order-1">
-              <div className="w-full max-w-md h-96 bg-gray-200 rounded-lg flex items-center justify-center shadow-lg">
-                <div className="text-center text-gray-500">
-                  <div className="text-6xl mb-4">💧</div>
-                  <p className="text-lg font-semibold">Baptism Image</p>
-                  <p className="text-sm">Placeholder for baptism-related image</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Right Column: Content */}
-            <div className="order-1 lg:order-2">
-              <h2 className="text-3xl md:text-5xl font-light text-black mb-8">
-                Baptism: A Public Declaration
-              </h2>
-              <div className="space-y-6 text-lg text-gray-700 leading-relaxed">
-                <p>
-                  Christian baptism is the immersion of a believer in water in the name of the Father, the Son, and the Holy Spirit. It is an act of outward obedience symbolizing the believer's faith in a crucified, buried, and risen Savior.
-                </p>
-                <p>
-                  Baptism represents death to sin, burial of the old life, and resurrection to walk in newness of life in Christ Jesus. It is a testimony to a believer's faith in an ultimate bodily resurrection to eternal life with Christ in His Kingdom.
-                </p>
-                <p>
-                  We practice believer's baptism by immersion, following the New Testament pattern. Baptism is a significant expression of salvation, worship, and submission to God for the believer.
-                </p>
-              </div>
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-3xl md:text-5xl font-light text-black mb-8">
+              Baptism: A Public Declaration
+            </h2>
+            <div className="space-y-6 text-lg text-gray-700 leading-relaxed">
+              <p>
+                Christian baptism is the immersion of a believer in water in the name of the Father, the Son, and the Holy Spirit. It is an act of outward obedience symbolizing the believer's faith in a crucified, buried, and risen Savior.
+              </p>
+              <p>
+                Baptism represents death to sin, burial of the old life, and resurrection to walk in newness of life in Christ Jesus. It is a testimony to a believer's faith in an ultimate bodily resurrection to eternal life with Christ in His Kingdom.
+              </p>
+              <p>
+                We practice believer's baptism by immersion, following the New Testament pattern. Baptism is a significant expression of salvation, worship, and submission to God for the believer.
+              </p>
             </div>
           </div>
         </div>
@@ -137,45 +118,31 @@ export default function NextStepsPage() {
       {/* Membership Section */}
       <section id="membership" className="min-h-screen flex items-center justify-center bg-brand-4 py-20">
         <div className="container mx-auto max-w-[1200px] px-6 md:px-12 lg:px-20">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            {/* Left Column: Content */}
-            <div>
-              <h2 className="text-3xl md:text-5xl font-light text-black mb-8">
-                Church Membership
-              </h2>
-              <div className="space-y-6 text-lg text-gray-700 leading-relaxed">
-                <p>
-                  Church membership is a commitment to walk together in faith. As a member, you join with other believers in covenant relationship, sharing in the responsibilities and joys of church life.
-                </p>
-                <p>
-                  Membership involves regular attendance, financial support through giving, service to others, and accountability in spiritual growth. It's not about earning salvation, but about living out the faith we've received.
-                </p>
-                <p>
-                  We believe in congregational governance, where members have a voice in church decisions. Our approach is Baptist in heritage - emphasizing believer's baptism, congregational polity, and the autonomy of the local church.
-                </p>
-                <p>
-                  While we hold to Reformed theology in many areas, we remain non-denominational in practice, focusing on biblical faithfulness rather than institutional loyalty.
-                </p>
-              </div>
-              <div className="mt-8">
-                <Link
-                  href="/ministries"
-                  className="inline-block bg-brand-2 text-slate-900 px-8 py-4 rounded-md font-semibold shadow hover:opacity-95 transition"
-                >
-                  Explore Our Ministries
-                </Link>
-              </div>
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-3xl md:text-5xl font-light text-black mb-8">
+              Church Membership
+            </h2>
+            <div className="space-y-6 text-lg text-gray-700 leading-relaxed">
+              <p>
+                Church membership is a commitment to walk together in faith. As a member, you join with other believers in covenant relationship, sharing in the responsibilities and joys of church life.
+              </p>
+              <p>
+                Membership involves regular attendance, financial support through giving, service to others, and accountability in spiritual growth. It's not about earning salvation, but about living out the faith we've received.
+              </p>
+              <p>
+                We believe in congregational governance, where members have a voice in church decisions. Our approach is Baptist in heritage - emphasizing believer's baptism, congregational polity, and the autonomy of the local church.
+              </p>
+              <p>
+                While we hold to Reformed theology in many areas, we remain non-denominational in practice, focusing on biblical faithfulness rather than institutional loyalty.
+              </p>
             </div>
-
-            {/* Right Column: Image Placeholder */}
-            <div className="flex justify-center">
-              <div className="w-full max-w-md h-96 bg-gray-200 rounded-lg flex items-center justify-center shadow-lg">
-                <div className="text-center text-gray-500">
-                  <div className="text-6xl mb-4">⛪</div>
-                  <p className="text-lg font-semibold">Church Membership Image</p>
-                  <p className="text-sm">Placeholder for membership-related image</p>
-                </div>
-              </div>
+            <div className="mt-8">
+              <Link
+                href="/ministries"
+                className="inline-block bg-brand-2 text-slate-900 px-8 py-4 rounded-md font-semibold shadow hover:opacity-95 transition"
+              >
+                Explore Our Ministries
+              </Link>
             </div>
           </div>
         </div>
