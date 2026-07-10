@@ -6,7 +6,7 @@ export default function MinistriesPage() {
     {
       id: "children",
       title: "Children's Ministry",
-      description: "Nurturing young hearts with God's love through age-appropriate teaching and activities designed to help children grow in their faith and understanding of Scripture.",
+      description: "We provide a safe, loving, Christ-centered environment for babies through 5th grade and help them learn about Jesus.",
       bgColor: "bg-brand-4"
     },
     {
