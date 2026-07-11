@@ -1,4 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import fs from 'fs';
 import getPlanningCenterEvents from './planningcenter';
 
 describe('getPlanningCenterEvents', () => {
@@ -13,22 +14,21 @@ describe('getPlanningCenterEvents', () => {
     process.env.PLANNING_CENTER_EVENT_INSTANCES_URL = 'https://api.test/event_instances';
     // Ensure no persisted cache interferes with tests
     try {
-      const fs = require('fs');
       const cachePath = 'logs/pco-events-cache.json';
       if (fs.existsSync(cachePath)) fs.unlinkSync(cachePath);
-    } catch (e) {
+    } catch {
       // ignore
     }
     // Stub global Date so `new Date()` and `Date.now()` return a fixed date
     class MockDate extends Date {
-      constructor(...args: any[]) {
+      constructor(...args: ConstructorParameters<typeof Date>) {
         if (args.length === 0) {
           super('2025-01-01T00:00:00Z');
         } else if (args.length === 1) {
           super(args[0]);
         } else {
           // support a couple of args; tests won't exercise exotic signatures
-          super(args[0], args[1]);
+          super(args[0] as number, args[1] as number);
         }
       }
       static now() { return new Date('2025-01-01T00:00:00Z').getTime(); }
