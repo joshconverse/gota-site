@@ -53,120 +53,6 @@ export default function ChildrensMinistryPage() {
         </div>
       </section>
 
-      {/* Ages Served & Departments */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto max-w-[1200px] px-6 md:px-12 lg:px-20">
-          <h2 className="text-3xl md:text-5xl font-light text-black mb-12 text-center">
-            Ages Served &amp; Departments
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-brand-4 rounded-lg shadow-lg p-8">
-              <h3 className="text-2xl font-light text-black mb-2">Preschool</h3>
-              <p className="text-sm font-semibold text-brand-1 mb-4">Babies through Kindergarten</p>
-              <p className="text-gray-700 leading-relaxed">
-                Our preschool department introduces our youngest children to God&apos;s love and the life and ministry of Jesus. Each session includes a short lesson, songs, a missionary story, snack time, and play with friends.
-              </p>
-            </div>
-            <div className="bg-brand-4 rounded-lg shadow-lg p-8">
-              <h3 className="text-2xl font-light text-black mb-2">Elementary</h3>
-              <p className="text-sm font-semibold text-brand-1 mb-4">1st through 4th Grade</p>
-              <p className="text-gray-700 leading-relaxed">
-                Children&apos;s Church is a time of worship and Bible study designed for 1st through 4th graders. Biblical truths are presented through dynamic, age-appropriate activities that help each child recognize and develop the gifts God has given them.
-              </p>
-            </div>
-            <div className="bg-brand-4 rounded-lg shadow-lg p-8">
-              <h3 className="text-2xl font-light text-black mb-2">5th Grade</h3>
-              <p className="text-sm font-semibold text-brand-1 mb-4">Worshiping with the congregation</p>
-              <p className="text-gray-700 leading-relaxed">
-                5th graders are encouraged to worship with their parents in the sanctuary at 10:45am. To help them engage, they can pick up a 5th Grade Worship Notes sheet from the Welcome Center desk.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* When We Meet */}
-      <section className="py-20 bg-brand-4">
-        <div className="container mx-auto max-w-[1200px] px-6 md:px-12 lg:px-20">
-          <h2 className="text-3xl md:text-5xl font-light text-black mb-12 text-center">
-            When We Meet
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            <div className="bg-white rounded-lg shadow-lg p-8">
-              <h3 className="text-2xl font-light text-black mb-4">Sundays</h3>
-              <ul className="space-y-4 text-gray-700 leading-relaxed">
-                <li>
-                  <span className="font-semibold text-black">9:30 am</span> &mdash; Sunday Classes<br />
-                  Babies through 5K
-                </li>
-                <li>
-                  <span className="font-semibold text-black">10:45 am</span> &mdash; During the Worship Service<br />
-                  Babies through 5K | Children&apos;s Church (1st&ndash;4th Grade)
-                </li>
-              </ul>
-              <p className="text-sm text-gray-600 mt-4">
-                On the 5th Sunday of each month, 1st&ndash;4th graders worship with their families in the sanctuary.
-              </p>
-            </div>
-            <div className="bg-white rounded-lg shadow-lg p-8">
-              <h3 className="text-2xl font-light text-black mb-4">Wednesdays</h3>
-              <ul className="space-y-4 text-gray-700 leading-relaxed">
-                <li>
-                  <span className="font-semibold text-black">5:30 pm</span> &mdash; Dinner
-                </li>
-                <li>
-                  <span className="font-semibold text-black">6:30 pm</span> &mdash; Grace Kids Programming
-                </li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Grace Kids Wednesday Night Discipleship */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto max-w-[1200px] px-6 md:px-12 lg:px-20">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl md:text-5xl font-light text-black mb-8">
-              Grace Kids &mdash; Wednesday Night Discipleship
-            </h2>
-            <p className="text-lg text-gray-700 leading-relaxed mb-6">
-              Grace Kids is our Wednesday night discipleship program. Each week includes:
-            </p>
-            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-lg text-gray-700">
-              <li className="flex items-start"><span className="text-brand-1 mr-2">&bull;</span>Bible verse memorization</li>
-              <li className="flex items-start"><span className="text-brand-1 mr-2">&bull;</span>Biblical truth through engaging activities</li>
-              <li className="flex items-start"><span className="text-brand-1 mr-2">&bull;</span>Missionary stories from around the world</li>
-              <li className="flex items-start"><span className="text-brand-1 mr-2">&bull;</span>Worship music</li>
-              <li className="flex items-start"><span className="text-brand-1 mr-2">&bull;</span>Interactive games</li>
-            </ul>
-          </div>
-        </div>
-      </section>
-
-      {/* Curriculum */}
-      <section className="py-20 bg-brand-4">
-        <div className="container mx-auto max-w-[1200px] px-6 md:px-12 lg:px-20">
-          <h2 className="text-3xl md:text-5xl font-light text-black mb-12 text-center">
-            Curriculum
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
-            <div className="bg-white rounded-lg shadow-lg p-8">
-              <h3 className="text-2xl font-light text-black mb-2">Sundays &mdash; Gospel Project</h3>
-              <p className="text-gray-700 leading-relaxed">
-                A chronological, Christ-centered curriculum that walks children through the entire Bible during their time in our ministry.
-              </p>
-            </div>
-            <div className="bg-white rounded-lg shadow-lg p-8">
-              <h3 className="text-2xl font-light text-black mb-2">Wednesdays &mdash; Answers in Genesis</h3>
-              <p className="text-gray-700 leading-relaxed">
-                A biblically grounded curriculum that helps children understand Scripture in light of science and the world around them.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* First Time? Check-In */}
       <section className="py-20 bg-white">
         <div className="container mx-auto max-w-[1200px] px-6 md:px-12 lg:px-20">
@@ -204,6 +90,120 @@ export default function ChildrensMinistryPage() {
                 </div>
               </li>
             </ol>
+          </div>
+        </div>
+      </section>
+
+      {/* Ages Served & Departments */}
+      <section className="py-20 bg-brand-4">
+        <div className="container mx-auto max-w-[1200px] px-6 md:px-12 lg:px-20">
+          <h2 className="text-3xl md:text-5xl font-light text-black mb-12 text-center">
+            Ages Served &amp; Departments
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="bg-white rounded-lg shadow-lg p-8">
+              <h3 className="text-2xl font-light text-black mb-2">Preschool</h3>
+              <p className="text-sm font-semibold text-brand-1 mb-4">Babies through Kindergarten</p>
+              <p className="text-gray-700 leading-relaxed">
+                Our preschool department introduces our youngest children to God&apos;s love and the life and ministry of Jesus. Each session includes a short lesson, songs, a missionary story, snack time, and play with friends.
+              </p>
+            </div>
+            <div className="bg-white rounded-lg shadow-lg p-8">
+              <h3 className="text-2xl font-light text-black mb-2">Elementary</h3>
+              <p className="text-sm font-semibold text-brand-1 mb-4">1st through 4th Grade</p>
+              <p className="text-gray-700 leading-relaxed">
+                Children&apos;s Church is a time of worship and Bible study designed for 1st through 4th graders. Biblical truths are presented through dynamic, age-appropriate activities that help each child recognize and develop the gifts God has given them.
+              </p>
+            </div>
+            <div className="bg-white rounded-lg shadow-lg p-8">
+              <h3 className="text-2xl font-light text-black mb-2">5th Grade</h3>
+              <p className="text-sm font-semibold text-brand-1 mb-4">Worshiping with the congregation</p>
+              <p className="text-gray-700 leading-relaxed">
+                5th graders are encouraged to worship with their parents in the sanctuary at 10:45am. To help them engage, they can pick up a 5th Grade Worship Notes sheet from the Welcome Center desk.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* When We Meet */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto max-w-[1200px] px-6 md:px-12 lg:px-20">
+          <h2 className="text-3xl md:text-5xl font-light text-black mb-12 text-center">
+            When We Meet
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <div className="bg-brand-4 rounded-lg shadow-lg p-8">
+              <h3 className="text-2xl font-light text-black mb-4">Sundays</h3>
+              <ul className="space-y-4 text-gray-700 leading-relaxed">
+                <li>
+                  <span className="font-semibold text-black">9:30 am</span> &mdash; Sunday Classes<br />
+                  Babies through 5K
+                </li>
+                <li>
+                  <span className="font-semibold text-black">10:45 am</span> &mdash; During the Worship Service<br />
+                  Babies through 5K | Children&apos;s Church (1st&ndash;4th Grade)
+                </li>
+              </ul>
+              <p className="text-sm text-gray-600 mt-4">
+                On the 5th Sunday of each month, 1st&ndash;4th graders worship with their families in the sanctuary.
+              </p>
+            </div>
+            <div className="bg-brand-4 rounded-lg shadow-lg p-8">
+              <h3 className="text-2xl font-light text-black mb-4">Wednesdays</h3>
+              <ul className="space-y-4 text-gray-700 leading-relaxed">
+                <li>
+                  <span className="font-semibold text-black">5:30 pm</span> &mdash; Dinner
+                </li>
+                <li>
+                  <span className="font-semibold text-black">6:30 pm</span> &mdash; Grace Kids Programming
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Grace Kids Wednesday Night Discipleship */}
+      <section className="py-20 bg-brand-4">
+        <div className="container mx-auto max-w-[1200px] px-6 md:px-12 lg:px-20">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-3xl md:text-5xl font-light text-black mb-8">
+              Grace Kids &mdash; Wednesday Night Discipleship
+            </h2>
+            <p className="text-lg text-gray-700 leading-relaxed mb-6">
+              Grace Kids is our Wednesday night discipleship program. Each week includes:
+            </p>
+            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-lg text-gray-700">
+              <li className="flex items-start"><span className="text-brand-1 mr-2">&bull;</span>Bible verse memorization</li>
+              <li className="flex items-start"><span className="text-brand-1 mr-2">&bull;</span>Biblical truth through engaging activities</li>
+              <li className="flex items-start"><span className="text-brand-1 mr-2">&bull;</span>Missionary stories from around the world</li>
+              <li className="flex items-start"><span className="text-brand-1 mr-2">&bull;</span>Worship music</li>
+              <li className="flex items-start"><span className="text-brand-1 mr-2">&bull;</span>Interactive games</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      {/* Curriculum */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto max-w-[1200px] px-6 md:px-12 lg:px-20">
+          <h2 className="text-3xl md:text-5xl font-light text-black mb-12 text-center">
+            Curriculum
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <div className="bg-brand-4 rounded-lg shadow-lg p-8">
+              <h3 className="text-2xl font-light text-black mb-2">Sundays &mdash; Gospel Project</h3>
+              <p className="text-gray-700 leading-relaxed">
+                A chronological, Christ-centered curriculum that walks children through the entire Bible during their time in our ministry.
+              </p>
+            </div>
+            <div className="bg-brand-4 rounded-lg shadow-lg p-8">
+              <h3 className="text-2xl font-light text-black mb-2">Wednesdays &mdash; Answers in Genesis</h3>
+              <p className="text-gray-700 leading-relaxed">
+                A biblically grounded curriculum that helps children understand Scripture in light of science and the world around them.
+              </p>
+            </div>
           </div>
         </div>
       </section>
