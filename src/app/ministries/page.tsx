@@ -12,7 +12,7 @@ export default function MinistriesPage() {
     {
       id: "students",
       title: "Student Ministry",
-      description: "Equipping the next generation with biblical truth and life skills for their journey. We provide a safe space for teenagers to explore their faith, build friendships, and discover God's purpose for their lives.",
+      description: "Inviting students to a life of faith in Jesus Christ",
       bgColor: "bg-brand-1"
     },
     {
