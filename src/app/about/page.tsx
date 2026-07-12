@@ -11,6 +11,14 @@ export default function AboutPage() {
     );
   };
 
+  const basicBeliefs = [
+    "The Bible is God's written revelation to man and is infallible, authoritative, and all-sufficient.",
+    "The Word of God is objective and absolutely inerrant in the original documents.",
+    "There is but one living and true God, perfect in all His attributes, one in essence, eternally existing in three Persons—Father, Son, and Holy Spirit.",
+    "All men are sinners by nature, by choice, and by divine declaration, thus incurring upon themselves the penalty of spiritual and physical death—becoming subjects to the wrath of God.",
+    "Only through faith and repentance in the person and work of Jesus Christ can one be reconciled to God."
+  ];
+
   const beliefsItems = [
     {
       title: "The Trinity",
@@ -109,18 +117,38 @@ export default function AboutPage() {
               Beliefs
             </h2>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-              {/* Beliefs FAQ Section */}
-              <div className="space-y-6 h-[1800px] overflow-hidden lg:border-r lg:border-gray-300 lg:pr-8">
+            {/* Our Basic Beliefs Section */}
+            <div className="max-w-3xl mx-auto mb-20">
+              <h3 className="text-2xl md:text-3xl font-light text-black mb-10">
+                Our Basic Beliefs Are:
+              </h3>
+              <ul className="space-y-4 text-left">
+                {basicBeliefs.map((belief, index) => (
+                  <li key={index} className="flex items-start gap-4 bg-white rounded-lg shadow-md p-6">
+                    <span className="flex-shrink-0 w-8 h-8 rounded-full bg-brand-1 text-white flex items-center justify-center font-semibold text-sm">
+                      {index + 1}
+                    </span>
+                    <p className="text-gray-700 leading-relaxed">{belief}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Beliefs FAQ Section */}
+            <div className="max-w-3xl mx-auto">
+              <h3 className="text-2xl md:text-3xl font-light text-black mb-8">
+                Explore Our Beliefs In-Depth
+              </h3>
+              <div className="space-y-6 text-left">
                 {beliefsItems.map((item, index) => (
                   <div key={index} className="overflow-hidden">
                     <button
                       onClick={() => toggleItem(index)}
                       className="w-full px-0 py-6 text-left flex justify-between items-center transition-colors group"
                     >
-                      <h3 className="text-xl font-light text-black pr-4 transition-colors text-left">
+                      <h4 className="text-xl font-light text-black pr-4 transition-colors text-left">
                         {item.title}
-                      </h3>
+                      </h4>
                       <div className="flex-shrink-0 w-8 h-8 rounded-full bg-brand-4 flex items-center justify-center">
                         <svg
                           className={`w-6 h-6 text-brand-1 transition-transform duration-200 ${openItems.includes(index) ? 'rotate-180' : ''}`}
@@ -146,20 +174,6 @@ export default function AboutPage() {
                     </div>
                   </div>
                 ))}
-              </div>
-
-              {/* Basic Beliefs Section */}
-              <div>
-                <div>
-                  <h3 className="text-2xl font-normal text-black mb-6 text-left">Our Basic Beliefs Are:</h3>
-                  <ul className="space-y-4 text-gray-700 text-left">
-                    <li>• The Bible is God&apos;s written revelation to man and is infallible, authoritative, and all-sufficient.</li>
-                    <li>• The Word of God is objective and absolutely inerrant in the original documents.</li>
-                    <li>• There is but one living and true God, perfect in all His attributes, one in essence, eternally existing in three Persons—Father, Son, and Holy Spirit.</li>
-                    <li>• All men are sinners by nature, by choice, and by divine declaration, thus incurring upon themselves the penalty of spiritual and physical death—becoming subjects to the wrath of God.</li>
-                    <li>• Only through faith and repentance in the person and work of Jesus Christ can one be reconciled to God.</li>
-                  </ul>
-                </div>
               </div>
             </div>
           </div>
