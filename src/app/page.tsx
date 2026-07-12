@@ -5,7 +5,6 @@ import Image from "next/image";
 import Hero from "@/components/Hero";
 import PostCard from "@/components/PostCard";
 import EventCard from "@/components/EventCard";
-import AnnouncementCard from "@/components/AnnouncementCard";
 import FlipCard from "@/components/FlipCard";
 import { getLatestYouTubeStream } from "@/utils/youtube";
 import MissionBackground from "@/components/MissionBackground";
@@ -14,7 +13,6 @@ const options = { next: { revalidate: process.env.NODE_ENV === 'development' ? 0
 
 export default async function IndexPage() {
   const homepage = await client.fetch<SanityDocument | null>(queries.HOMEPAGE_QUERY, {}, options);
-  const announcements = await client.fetch<SanityDocument[]>(queries.ANNOUNCEMENTS_QUERY, {}, options);
   const latestStream = await getLatestYouTubeStream();
 
   const posts = (homepage?.recentPosts as SanityDocument[] | undefined) ?? [];
@@ -120,15 +118,6 @@ export default async function IndexPage() {
         </div>
       </section>
 
-
-  <section className="bg-brand-4 min-h-screen flex items-center justify-center">
-    <div className="container mx-auto max-w-3xl px-8 md:px-12 lg:px-20">
-        <h1 className="text-2xl font-light text-black mb-4">Get plugged in</h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {announcements.length ? announcements.map((a) => <AnnouncementCard key={a._id} announcement={a} />) : <p>No announcements.</p>}
-        </div>
-      </div>
-      </section>
     </main>
   );
 }

@@ -218,19 +218,6 @@ export default function AboutPage() {
               <p className="text-lg text-white/90 mb-4">Elder and Associate Pastor</p>
             </div>
 
-            {/* John Butz */}
-            <div className="text-center">
-              <div className="mb-6">
-                <img
-                  src="/bioImage_4.jpg"
-                  alt="John Butz"
-                  className="w-48 h-48 rounded-full mx-auto object-cover shadow-lg"
-                />
-              </div>
-              <h3 className="text-2xl font-light text-white mb-2">John Butz</h3>
-              <p className="text-lg text-white/90 mb-4">Elder</p>
-            </div>
-
             {/* Roger Parker */}
             <div className="text-center">
               <div className="mb-6">
@@ -303,20 +290,6 @@ export default function AboutPage() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 max-w-6xl mx-auto">
-            {/* Donna Faulk */}
-            <div className="text-center">
-              <div className="mb-6">
-                <img
-                  src="/bioImage_7.jpg"
-                  alt="Donna Faulk"
-                  className="w-48 h-48 rounded-full mx-auto object-cover shadow-lg"
-                />
-              </div>
-              <h3 className="text-2xl font-light text-white mb-2">Donna Faulk</h3>
-              <p className="text-lg text-white/90 mb-4">Director of Children&apos;s Ministry and Financial Secretary</p>
-
-            </div>
-
             {/* Audrey Yadon */}
             <div className="text-center">
               <div className="mb-6">
