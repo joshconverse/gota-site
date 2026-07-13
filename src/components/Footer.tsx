@@ -13,7 +13,6 @@ export default function Footer() {
             <Link href="/about" className="block text-slate-900 hover:text-brand-1 transition-colors">About</Link>
             <Link href="/ministries" className="block text-slate-900 hover:text-brand-1 transition-colors">Ministries</Link>
             <Link href="/next-steps" className="block text-slate-900 hover:text-brand-1 transition-colors">Next Steps</Link>
-            <Link href="/volunteer" className="block text-slate-900 hover:text-brand-1 transition-colors">Volunteer</Link>
           </div>
 
           {/* Ministries */}
