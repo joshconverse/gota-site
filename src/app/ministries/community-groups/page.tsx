@@ -1,4 +1,6 @@
 import Link from 'next/link';
+import RandomHeroImage from '@/components/RandomHeroImage';
+import { GENERAL_HERO_IMAGES } from '@/lib/heroImages';
 
 export default function CommunityGroupsPage() {
   return (
@@ -6,8 +8,8 @@ export default function CommunityGroupsPage() {
       {/* Hero Section */}
       <section className="relative h-screen flex items-center" style={{ backgroundColor: '#B6CEB4' }}>
         <div className="absolute inset-0">
-          <img
-            src="/WorshipEdited.jpg"
+          <RandomHeroImage
+            pool={GENERAL_HERO_IMAGES}
             alt="Community Groups background"
             className="w-full h-full object-cover opacity-20"
           />

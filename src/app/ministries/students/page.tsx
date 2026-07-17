@@ -1,4 +1,6 @@
 import Link from 'next/link';
+import RandomHeroImage from '@/components/RandomHeroImage';
+import { KID_TEEN_HERO_IMAGES } from '@/lib/heroImages';
 
 export default function StudentMinistryPage() {
   return (
@@ -6,8 +8,8 @@ export default function StudentMinistryPage() {
       {/* Hero Section */}
       <section className="relative h-screen flex items-center" style={{ backgroundColor: '#B6CEB4' }}>
         <div className="absolute inset-0">
-          <img
-            src="/MATURE2.jpg"
+          <RandomHeroImage
+            pool={KID_TEEN_HERO_IMAGES}
             alt="Student Ministry background"
             className="w-full h-full object-cover opacity-20"
           />
