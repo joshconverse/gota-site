@@ -24,7 +24,7 @@ export default async function IndexPage() {
       <Hero doc={homepage} thumbnailUrl={latestStream?.thumbnailUrl} streamTitle={latestStream?.title} streamUrl={latestStream?.videoUrl} />
 
       {/* Gather with us section */}
-      <section className="relative bg-brand-1 -mt-1 min-h-[60vh] flex items-center justify-center overflow-hidden">
+      <section id="visit" className="relative bg-brand-1 -mt-1 min-h-[60vh] flex items-center justify-center overflow-hidden scroll-mt-24">
       
         {/* Overlay for better text readability */}
         <div className="absolute inset-0 bg-[#96A78D]/40" />
@@ -109,7 +109,7 @@ export default async function IndexPage() {
           
           <div className="text-center mb-8 md:mb-4">
             <a
-              href="/visit"
+              href="/#visit"
               className="inline-block bg-brand-2 text-slate-900 px-6 py-3 rounded-md font-semibold shadow hover:opacity-95 transition"
             >
               Visit Us
