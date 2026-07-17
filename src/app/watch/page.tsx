@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { YouTubePlaylist } from '@/utils/youtube';
 import SermonLibrary from '@/components/SermonLibrary';
+import RandomHeroImage from '@/components/RandomHeroImage';
+import { GENERAL_HERO_IMAGES } from '@/lib/heroImages';
 
 export default function WatchPage() {
   const [playlists, setPlaylists] = useState<YouTubePlaylist[]>([]);
@@ -38,8 +40,8 @@ export default function WatchPage() {
       <section className="relative bg-brand-1 -mt-1 h-screen flex items-center justify-center overflow-hidden">
         {/* Background Image with Tint */}
         <div className="absolute inset-0">
-          <img
-            src="/WorshipEdited.jpg"
+          <RandomHeroImage
+            pool={GENERAL_HERO_IMAGES}
             alt="Sermons background"
             className="w-full h-full object-cover opacity-20"
           />
