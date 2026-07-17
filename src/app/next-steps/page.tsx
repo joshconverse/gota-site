@@ -1,5 +1,7 @@
 "use client";
 import Link from 'next/link';
+import RandomHeroImage from '@/components/RandomHeroImage';
+import { GENERAL_HERO_IMAGES } from '@/lib/heroImages';
 
 export default function NextStepsPage() {
   return (
@@ -8,8 +10,8 @@ export default function NextStepsPage() {
       <section className="relative min-h-screen md:min-h-[70vh] flex items-center" style={{ backgroundColor: '#B6CEB4' }}>
         {/* Background Image with Tint */}
         <div className="absolute inset-0">
-          <img
-            src="/MATURE2.jpg"
+          <RandomHeroImage
+            pool={GENERAL_HERO_IMAGES}
             alt="Next steps background"
             className="w-full h-full object-cover opacity-20"
           />

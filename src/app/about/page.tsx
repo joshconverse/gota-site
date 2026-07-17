@@ -1,6 +1,8 @@
 "use client";
 import Link from 'next/link';
 import { useState } from 'react';
+import RandomHeroImage from '@/components/RandomHeroImage';
+import { GENERAL_HERO_IMAGES } from '@/lib/heroImages';
 
 export default function AboutPage() {
   const [openItems, setOpenItems] = useState<number[]>([0]);
@@ -60,8 +62,8 @@ export default function AboutPage() {
       <section className="relative h-screen flex items-center" style={{ backgroundColor: '#B6CEB4' }}>
         {/* Background Image with Tint */}
         <div className="absolute inset-0">
-          <img
-            src="/MATURE2.jpg"
+          <RandomHeroImage
+            pool={GENERAL_HERO_IMAGES}
             alt="Community background"
             className="w-full h-full object-cover opacity-20"
           />

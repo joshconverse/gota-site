@@ -1,5 +1,7 @@
 "use client";
 import Link from 'next/link';
+import RandomHeroImage from '@/components/RandomHeroImage';
+import { GENERAL_HERO_IMAGES } from '@/lib/heroImages';
 
 export default function MinistriesPage() {
   const ministries = [
@@ -53,8 +55,8 @@ export default function MinistriesPage() {
       <section className="relative h-screen flex items-center" style={{ backgroundColor: '#B6CEB4' }}>
         {/* Background Image with Tint */}
         <div className="absolute inset-0">
-          <img
-            src="/MATURE2.jpg"
+          <RandomHeroImage
+            pool={GENERAL_HERO_IMAGES}
             alt="Community ministries background"
             className="w-full h-full object-cover opacity-20"
           />
