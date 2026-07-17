@@ -2,6 +2,7 @@ import { type SanityDocument } from "next-sanity";
 import { client } from "@/sanity/client";
 import queries from "@/sanity/queries";
 import Image from "next/image";
+import Link from "next/link";
 import Hero from "@/components/Hero";
 import PostCard from "@/components/PostCard";
 import EventCard from "@/components/EventCard";
@@ -24,7 +25,7 @@ export default async function IndexPage() {
       <Hero doc={homepage} thumbnailUrl={latestStream?.thumbnailUrl} streamTitle={latestStream?.title} streamUrl={latestStream?.videoUrl} />
 
       {/* Gather with us section */}
-      <section className="relative bg-brand-1 -mt-1 min-h-[60vh] flex items-center justify-center overflow-hidden">
+      <section id="visit" className="relative bg-brand-1 -mt-1 min-h-[60vh] flex items-center justify-center overflow-hidden scroll-mt-24">
       
         {/* Overlay for better text readability */}
         <div className="absolute inset-0 bg-[#96A78D]/40" />
@@ -108,12 +109,12 @@ export default async function IndexPage() {
           </div>
           
           <div className="text-center mb-8 md:mb-4">
-            <a
-              href="/visit"
+            <Link
+              href="/#visit"
               className="inline-block bg-brand-2 text-slate-900 px-6 py-3 rounded-md font-semibold shadow hover:opacity-95 transition"
             >
               Visit Us
-            </a>
+            </Link>
           </div>
         </div>
       </section>

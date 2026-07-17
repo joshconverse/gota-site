@@ -99,7 +99,7 @@ export default function AboutPage() {
                     Our Leadership
                   </Link>
                   <Link
-                    href="/visit"
+                    href="/#visit"
                     className="inline-block bg-white text-black px-8 py-4 rounded-md font-semibold shadow hover:opacity-95 transition text-lg border border-gray-200"
                   >
                     Visit Us
