@@ -42,7 +42,7 @@ export default function MobileNav({ onClose }: MobileNavProps) {
         {/* Social Links at bottom of nav area, left justified */}
         <div className="flex items-center gap-4 pt-2">
           <a
-            href="https://www.youtube.com/"
+            href="https://www.youtube.com/@GraceontheashleyOrg/streams"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="YouTube"
@@ -51,7 +51,7 @@ export default function MobileNav({ onClose }: MobileNavProps) {
             <IconBrandYoutube width="22" height="22" aria-hidden="true" />
           </a>
           <a
-            href="https://www.facebook.com/"
+            href="https://www.facebook.com/graceontheashley.org/"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Facebook"
@@ -60,7 +60,7 @@ export default function MobileNav({ onClose }: MobileNavProps) {
             <IconBrandFacebook width="22" height="22" aria-hidden="true" />
           </a>
           <a
-            href="https://www.instagram.com/"
+            href="https://www.instagram.com/graceontheashley/"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Instagram"

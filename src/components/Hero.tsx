@@ -101,7 +101,7 @@ export default function Hero({ doc, thumbnailUrl, streamTitle, streamUrl }: {
           {/* Social icons positioned 30px above the green bar - hidden on mobile */}
           <div className="hidden md:flex absolute -top-[45px] left-6 md:left-12 lg:left-20 z-10 items-center gap-3 text-black">
             <a
-              href="https://www.youtube.com/"
+              href="https://www.youtube.com/@GraceontheashleyOrg/streams"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="YouTube"
@@ -112,7 +112,7 @@ export default function Hero({ doc, thumbnailUrl, streamTitle, streamUrl }: {
               </svg>
             </a>
             <a
-              href="https://www.facebook.com/"
+              href="https://www.facebook.com/graceontheashley.org/"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Facebook"
@@ -124,7 +124,7 @@ export default function Hero({ doc, thumbnailUrl, streamTitle, streamUrl }: {
             </a>
 
             <a
-              href="https://www.instagram.com/"
+              href="https://www.instagram.com/graceontheashley/"
               target="_blank"
               rel="noopener noreferrer"
               aria-label="Instagram"
