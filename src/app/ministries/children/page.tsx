@@ -10,7 +10,7 @@ export default function ChildrensMinistryPage() {
         <div className="absolute inset-0">
           <RandomHeroImage
             pool={KID_TEEN_HERO_IMAGES}
-            alt="Children's Ministry background"
+            alt="Grace Kids background"
             className="w-full h-full object-cover opacity-20"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-green-900/30 to-transparent"></div>
@@ -20,7 +20,7 @@ export default function ChildrensMinistryPage() {
           <div className="max-w-6xl mx-auto">
             <div className="text-center">
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-light text-white mb-6">
-                Children&apos;s Ministry
+                Grace Kids
               </h1>
               <p className="text-xl md:text-2xl text-white mb-8 max-w-3xl mx-auto">
                 We provide a safe, loving, Christ-centered environment for babies through 5th grade and help them learn about Jesus.
