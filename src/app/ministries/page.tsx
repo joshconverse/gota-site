@@ -25,7 +25,7 @@ export default function MinistriesPage() {
     },
     {
       id: "married",
-      title: "Married Couples Ministry",
+      title: "Re | Engage",
       description: "Strengthening marriages through biblical teaching and community support. We provide resources, counseling, and events to help couples grow closer to each other and to God.",
       bgColor: "bg-brand-1"
     },
