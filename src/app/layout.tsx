@@ -15,9 +15,84 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+const SITE_URL = "https://gota-site.vercel.app";
+const SITE_NAME = "Grace on the Ashley";
+const SITE_DESCRIPTION =
+  "Grace on the Ashley is a Baptist church in Charleston, SC that exists to make, mature and mobilize disciples of Jesus. Join us Sundays for Sunday School at 9:30 AM and our Main Service at 10:45 AM.";
+const OG_IMAGE = "/MATURE2.jpg";
+
 export const metadata: Metadata = {
-  title: "Grace on the Ashley",
-  description: "Official website for Grace on the Ashley church - making, maturing, and multiplying disciples of Jesus.",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: SITE_NAME,
+    template: `%s | ${SITE_NAME}`,
+  },
+  description: SITE_DESCRIPTION,
+  applicationName: SITE_NAME,
+  authors: [{ name: SITE_NAME }],
+  publisher: SITE_NAME,
+  keywords: [
+    "Grace on the Ashley",
+    "Baptist church",
+    "Charleston SC church",
+    "West Ashley church",
+    "church near me",
+    "Sunday service",
+    "disciples of Jesus",
+  ],
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    siteName: SITE_NAME,
+    url: SITE_URL,
+    locale: "en_US",
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+    images: [
+      {
+        url: OG_IMAGE,
+        width: 1920,
+        height: 1080,
+        alt: "Grace on the Ashley",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_NAME,
+    description: SITE_DESCRIPTION,
+    images: [OG_IMAGE],
+  },
+};
+
+const churchJsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Church",
+  name: SITE_NAME,
+  description:
+    "A Baptist church in Charleston, SC that exists to make, mature and mobilize disciples of Jesus.",
+  url: SITE_URL,
+  logo: `${SITE_URL}/GOTAblack.png`,
+  image: `${SITE_URL}${OG_IMAGE}`,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "2025 Bees Ferry Road",
+    addressLocality: "Charleston",
+    addressRegion: "SC",
+    postalCode: "29414",
+    addressCountry: "US",
+  },
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: "Sunday",
+      opens: "09:30",
+      closes: "12:00",
+      description: "Sunday School 9:30 AM, Main Service 10:45 AM",
+    },
+  ],
 };
 
 export const viewport: Viewport = {
@@ -36,6 +111,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/* Structured data: Church / PlaceOfWorship for search engines */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(churchJsonLd) }}
+        />
         {/* Load Church Center modal script after hydration so it doesn't block SSR */}
         <Script src="https://js.churchcenter.com/modal/v1" strategy="afterInteractive" />
         {/* Google Analytics - load library and init after hydration */}
