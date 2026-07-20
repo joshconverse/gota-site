@@ -45,9 +45,13 @@ export async function GET() {
   }
 
   try {
-    // First, get the channel ID from the handle
+    // First, get the channel ID from the handle.
+    // Cache upstream responses in Next's Data Cache (works on Vercel's read-only
+    // filesystem, unlike the fs-based cache above) so we don't hit the expensive
+    // YouTube `search` endpoint (100 quota units) on every request.
     const searchResponse = await fetch(
-      `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(CHANNEL_HANDLE)}&type=channel&key=${YOUTUBE_API_KEY}&maxResults=1`
+      `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(CHANNEL_HANDLE)}&type=channel&key=${YOUTUBE_API_KEY}&maxResults=1`,
+      { next: { revalidate: CACHE_TTL_MS / 1000 } }
     );
 
     if (!searchResponse.ok) {
@@ -68,7 +72,8 @@ export async function GET() {
 
     // Get playlists from the channel
     const playlistsResponse = await fetch(
-      `https://www.googleapis.com/youtube/v3/playlists?part=snippet,contentDetails&channelId=${channelId}&key=${YOUTUBE_API_KEY}&maxResults=50`
+      `https://www.googleapis.com/youtube/v3/playlists?part=snippet,contentDetails&channelId=${channelId}&key=${YOUTUBE_API_KEY}&maxResults=50`,
+      { next: { revalidate: CACHE_TTL_MS / 1000 } }
     );
 
     if (!playlistsResponse.ok) {
@@ -100,6 +105,14 @@ export async function GET() {
       url: `https://www.youtube.com/playlist?list=${item.id}`,
       publishedAt: item.snippet.publishedAt,
     })) || [];
+
+    // YouTube returns playlists in the channel's manual order, not by date, so
+    // sort newest-first to guarantee the latest series leads the grid (the
+    // watch page only shows the first 6).
+    playlists.sort(
+      (a: { publishedAt: string }, b: { publishedAt: string }) =>
+        new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+    );
 
     // Save to cache
     try {

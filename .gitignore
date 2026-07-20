@@ -24,6 +24,10 @@
 .DS_Store
 *.pem
 
+# runtime cache artifacts (regenerated at runtime; must never be committed —
+# a stale snapshot ships to prod and gets served as the fallback)
+/logs/youtube-*.json
+
 # debug
 npm-debug.log*
 yarn-debug.log*

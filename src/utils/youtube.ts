@@ -68,9 +68,13 @@ export async function getLatestYouTubeStream(): Promise<YouTubeVideo | null> {
   }
 
   try {
-    // First, get the channel ID from the handle
+    // First, get the channel ID from the handle.
+    // Cache upstream responses in Next's Data Cache (works on Vercel's read-only
+    // filesystem, unlike the fs-based cache above) to avoid burning YouTube
+    // quota on every render, which would force the stale error-fallback path.
     const searchResponse = await fetch(
-      `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(CHANNEL_HANDLE)}&type=channel&key=${YOUTUBE_API_KEY}&maxResults=1`
+      `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(CHANNEL_HANDLE)}&type=channel&key=${YOUTUBE_API_KEY}&maxResults=1`,
+      { next: { revalidate: CACHE_TTL_MS / 1000 } }
     );
 
     if (!searchResponse.ok) {
@@ -90,7 +94,8 @@ export async function getLatestYouTubeStream(): Promise<YouTubeVideo | null> {
 
     // Now get the latest videos from the channel
     const videosResponse = await fetch(
-      `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&order=date&type=video&key=${YOUTUBE_API_KEY}&maxResults=10`
+      `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&order=date&type=video&key=${YOUTUBE_API_KEY}&maxResults=10`,
+      { next: { revalidate: CACHE_TTL_MS / 1000 } }
     );
 
     if (!videosResponse.ok) {
@@ -115,7 +120,8 @@ export async function getLatestYouTubeStream(): Promise<YouTubeVideo | null> {
 
     // Get detailed video info to check if it's live
     const videoDetailsResponse = await fetch(
-      `https://www.googleapis.com/youtube/v3/videos?part=liveStreamingDetails&id=${videoId}&key=${YOUTUBE_API_KEY}`
+      `https://www.googleapis.com/youtube/v3/videos?part=liveStreamingDetails&id=${videoId}&key=${YOUTUBE_API_KEY}`,
+      { next: { revalidate: CACHE_TTL_MS / 1000 } }
     );
 
     const videoDetails = videoDetailsResponse.ok ? await videoDetailsResponse.json() : null;
@@ -223,9 +229,11 @@ export async function getYouTubePlaylists(): Promise<YouTubePlaylist[]> {
   }
 
   try {
-    // First, get the channel ID from the handle
+    // First, get the channel ID from the handle. Cache upstream responses in
+    // Next's Data Cache (works on Vercel's read-only filesystem).
     const searchResponse = await fetch(
-      `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(CHANNEL_HANDLE)}&type=channel&key=${YOUTUBE_API_KEY}&maxResults=1`
+      `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(CHANNEL_HANDLE)}&type=channel&key=${YOUTUBE_API_KEY}&maxResults=1`,
+      { next: { revalidate: CACHE_TTL_MS / 1000 } }
     );
 
     if (!searchResponse.ok) {
@@ -245,7 +253,8 @@ export async function getYouTubePlaylists(): Promise<YouTubePlaylist[]> {
 
     // Get playlists from the channel
     const playlistsResponse = await fetch(
-      `https://www.googleapis.com/youtube/v3/playlists?part=snippet,contentDetails&channelId=${channelId}&key=${YOUTUBE_API_KEY}&maxResults=50`
+      `https://www.googleapis.com/youtube/v3/playlists?part=snippet,contentDetails&channelId=${channelId}&key=${YOUTUBE_API_KEY}&maxResults=50`,
+      { next: { revalidate: CACHE_TTL_MS / 1000 } }
     );
 
     if (!playlistsResponse.ok) {
@@ -329,6 +338,12 @@ export async function getYouTubePlaylists(): Promise<YouTubePlaylist[]> {
             publishedAt: playlist.snippet?.publishedAt ?? ''
           };
         }) ?? [])
+    );
+
+    // YouTube returns playlists in the channel's manual order, not by date, so
+    // sort newest-first to guarantee the latest series leads.
+    playlists.sort(
+      (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
     );
 
     // Cache the results (server-side only)
