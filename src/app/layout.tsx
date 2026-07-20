@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { SITE_URL, SITE_NAME, OG_IMAGE, OG_IMAGES } from "@/lib/seo";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,11 +16,8 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const SITE_URL = "https://graceontheashley.org";
-const SITE_NAME = "Grace on the Ashley";
 const SITE_DESCRIPTION =
   "Grace on the Ashley is a Baptist church in Charleston, SC that exists to make, mature and mobilize disciples of Jesus. Join us Sundays for Sunday School at 9:30 AM and our Main Service at 10:45 AM.";
-const OG_IMAGE = "/og-image.png";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -50,14 +48,7 @@ export const metadata: Metadata = {
     locale: "en_US",
     title: SITE_NAME,
     description: SITE_DESCRIPTION,
-    images: [
-      {
-        url: OG_IMAGE,
-        width: 1200,
-        height: 630,
-        alt: "Grace on the Ashley",
-      },
-    ],
+    images: OG_IMAGES,
   },
   twitter: {
     card: "summary_large_image",

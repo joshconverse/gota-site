@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import RandomHeroImage from '@/components/RandomHeroImage';
 import { GENERAL_HERO_IMAGES } from '@/lib/heroImages';
+import { OG_IMAGES } from '@/lib/seo';
 
 import type { Metadata } from 'next';
 
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
     title: 'Worship Ministry | Grace on the Ashley',
     description: 'Leading our congregation in worship through music, song, and creative expression.',
     url: '/ministries/worship',
+    images: OG_IMAGES,
   },
 };
 

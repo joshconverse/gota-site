@@ -1,3 +1,4 @@
+import { OG_IMAGES } from "@/lib/seo";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -10,6 +11,7 @@ export const metadata: Metadata = {
     description:
       "Sermons and worship from Grace on the Ashley in Charleston, SC.",
     url: "/watch",
+    images: OG_IMAGES,
   },
 };
 

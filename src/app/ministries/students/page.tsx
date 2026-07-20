@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import RandomHeroImage from '@/components/RandomHeroImage';
 import { KID_TEEN_HERO_IMAGES } from '@/lib/heroImages';
+import { OG_IMAGES } from '@/lib/seo';
 
 import type { Metadata } from 'next';
 
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
     title: 'Student Ministry | Grace on the Ashley',
     description: 'Inviting students in grades 6-12 to a life of faith in Jesus Christ.',
     url: '/ministries/students',
+    images: OG_IMAGES,
   },
 };
 

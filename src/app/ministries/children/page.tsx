@@ -2,6 +2,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import RandomHeroImage from '@/components/RandomHeroImage';
 import { KID_TEEN_HERO_IMAGES } from '@/lib/heroImages';
+import { OG_IMAGES } from '@/lib/seo';
 
 import type { Metadata } from 'next';
 
@@ -13,6 +14,7 @@ export const metadata: Metadata = {
     title: 'Grace Kids | Grace on the Ashley',
     description: 'A safe, loving, Christ-centered ministry for babies through 5th grade at Grace on the Ashley.',
     url: '/ministries/children',
+    images: OG_IMAGES,
   },
 };
 
