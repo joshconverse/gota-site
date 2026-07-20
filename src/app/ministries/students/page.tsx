@@ -2,6 +2,19 @@ import Link from 'next/link';
 import RandomHeroImage from '@/components/RandomHeroImage';
 import { KID_TEEN_HERO_IMAGES } from '@/lib/heroImages';
 
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Student Ministry',
+  description: 'Grace on the Ashley Student Ministry invites students in grades 6-12 to a life of faith in Jesus Christ through Sunday and Wednesday gatherings in Charleston, SC.',
+  alternates: { canonical: '/ministries/students' },
+  openGraph: {
+    title: 'Student Ministry | Grace on the Ashley',
+    description: 'Inviting students in grades 6-12 to a life of faith in Jesus Christ.',
+    url: '/ministries/students',
+  },
+};
+
 export default function StudentMinistryPage() {
   return (
     <main className="min-h-screen bg-white">

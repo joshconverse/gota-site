@@ -9,6 +9,19 @@ import EventCard from "@/components/EventCard";
 import FlipCard from "@/components/FlipCard";
 import { getLatestYouTubeStream } from "@/utils/youtube";
 import MissionBackground from "@/components/MissionBackground";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  description:
+    "Grace on the Ashley is a Baptist church in Charleston, SC. Join us Sundays for Sunday School at 9:30 AM and our Main Service at 10:45 AM as we make, mature and mobilize disciples of Jesus.",
+  alternates: { canonical: "/" },
+  openGraph: {
+    title: "Grace on the Ashley",
+    description:
+      "A Baptist church in Charleston, SC. Join us Sundays for Sunday School at 9:30 AM and Main Service at 10:45 AM.",
+    url: "/",
+  },
+};
 
 const options = { next: { revalidate: process.env.NODE_ENV === 'development' ? 0 : 30 } };
 

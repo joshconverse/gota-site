@@ -2,6 +2,19 @@ import Link from 'next/link';
 import RandomHeroImage from '@/components/RandomHeroImage';
 import { GENERAL_HERO_IMAGES } from '@/lib/heroImages';
 
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Re | Engage',
+  description: 'Re | Engage at Grace on the Ashley strengthens marriages through biblical teaching and community support, helping couples grow closer to each other and to God.',
+  alternates: { canonical: '/ministries/married' },
+  openGraph: {
+    title: 'Re | Engage | Grace on the Ashley',
+    description: 'Strengthening marriages through biblical teaching and community support at Grace on the Ashley.',
+    url: '/ministries/married',
+  },
+};
+
 export default function ReEngageMinistryPage() {
   return (
     <main className="min-h-screen bg-white">
