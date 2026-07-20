@@ -286,6 +286,7 @@ export async function getYouTubePlaylists(): Promise<YouTubePlaylist[]> {
 
     interface YouTubeApiPlaylistItem {
       snippet?: {
+        publishedAt?: string;
         thumbnails?: {
           maxres?: { url: string };
           high?: { url: string };
@@ -293,39 +294,58 @@ export async function getYouTubePlaylists(): Promise<YouTubePlaylist[]> {
           default?: { url: string };
         };
       };
+      contentDetails?: { videoPublishedAt?: string };
     }
 
     const items = playlistsData.items as YouTubeApiPlaylist[] | undefined;
 
     const playlists = await Promise.all(
       (items
-        ?.filter((playlist) => !(playlist.snippet?.title ?? '').toLowerCase().includes('funeral'))
+        // Exclude funeral services and empty playlists (videoCount === 0, e.g.
+        // "Palm Sunday 2026", which would render a generic no_thumbnail image).
+        ?.filter((playlist) =>
+          !(playlist.snippet?.title ?? '').toLowerCase().includes('funeral') &&
+          (playlist.contentDetails?.itemCount ?? 0) > 0
+        )
         .map(async (playlist) => {
           let thumbnailUrl = playlist.snippet?.thumbnails?.maxres?.url ||
             playlist.snippet?.thumbnails?.high?.url ||
             playlist.snippet?.thumbnails?.medium?.url ||
             playlist.snippet?.thumbnails?.default?.url;
 
-          // If no playlist thumbnail, try to get thumbnail from first video in playlist
-          if (!thumbnailUrl) {
-            try {
-              const playlistItemsResponse = await fetch(
-                `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${playlist.id}&key=${YOUTUBE_API_KEY}&maxResults=1`
-              );
+          // Ordering signal: recency of the playlist's most-recent video.
+          // Default to the playlist's creation date if items can't be read.
+          let latestVideoAt = playlist.snippet?.publishedAt ?? '';
 
-              if (playlistItemsResponse.ok) {
-                const playlistItemsData = (await playlistItemsResponse.json()) as { items?: YouTubeApiPlaylistItem[] };
-                const firstVideo = playlistItemsData.items?.[0];
-                if (firstVideo) {
-                  thumbnailUrl = firstVideo.snippet?.thumbnails?.maxres?.url ||
-                    firstVideo.snippet?.thumbnails?.high?.url ||
-                    firstVideo.snippet?.thumbnails?.medium?.url ||
-                    firstVideo.snippet?.thumbnails?.default?.url;
-                }
+          // One playlistItems call per playlist serves double duty: latest-video
+          // date (ordering) + thumbnail fallback when the playlist has none.
+          try {
+            const playlistItemsResponse = await fetch(
+              `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet,contentDetails&playlistId=${playlist.id}&key=${YOUTUBE_API_KEY}&maxResults=50`
+            );
+
+            if (playlistItemsResponse.ok) {
+              const playlistItemsData = (await playlistItemsResponse.json()) as { items?: YouTubeApiPlaylistItem[] };
+              const pItems = playlistItemsData.items ?? [];
+
+              const times = pItems
+                .map((v) => v.contentDetails?.videoPublishedAt || v.snippet?.publishedAt)
+                .filter((d): d is string => !!d)
+                .map((d) => new Date(d).getTime())
+                .filter((t) => !Number.isNaN(t));
+              if (times.length > 0) {
+                latestVideoAt = new Date(Math.max(...times)).toISOString();
               }
-            } catch (error) {
-              console.warn(`Failed to get thumbnail for playlist ${playlist.id}:`, error);
+
+              if (!thumbnailUrl) {
+                thumbnailUrl = pItems[0]?.snippet?.thumbnails?.maxres?.url ||
+                  pItems[0]?.snippet?.thumbnails?.high?.url ||
+                  pItems[0]?.snippet?.thumbnails?.medium?.url ||
+                  pItems[0]?.snippet?.thumbnails?.default?.url;
+              }
             }
+          } catch (error) {
+            console.warn(`Failed to read items for playlist ${playlist.id}:`, error);
           }
 
           return {
@@ -335,15 +355,16 @@ export async function getYouTubePlaylists(): Promise<YouTubePlaylist[]> {
             thumbnailUrl: thumbnailUrl || '/WorshipEdited.jpg', // Fallback to default image
             videoCount: playlist.contentDetails?.itemCount || 0,
             url: `https://www.youtube.com/playlist?list=${playlist.id}`,
-            publishedAt: playlist.snippet?.publishedAt ?? ''
+            publishedAt: playlist.snippet?.publishedAt ?? '',
+            latestVideoAt
           };
         }) ?? [])
     );
 
-    // YouTube returns playlists in the channel's manual order, not by date, so
-    // sort newest-first to guarantee the latest series leads.
+    // Order by recency of each playlist's most-recent video so the actively
+    // running teaching series leads, rather than by playlist creation date.
     playlists.sort(
-      (a, b) => new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime()
+      (a, b) => new Date(b.latestVideoAt).getTime() - new Date(a.latestVideoAt).getTime()
     );
 
     // Cache the results (server-side only)
