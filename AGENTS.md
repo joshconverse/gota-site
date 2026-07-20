@@ -86,6 +86,14 @@ If you need to test these locally, ask Josh for values or pull them from Vercel 
 - `logs/` directory holds output from the PCO probe script (`scripts/probe-pco-instances.mjs`) — not app runtime logs.
 - README.md has a stale `- [ ] ... @username` TODO list; treat it as historical, confirm current priorities with Josh rather than assuming it's authoritative.
 
+## SEO / IndexNow
+
+[IndexNow](https://www.indexnow.org/) lets us push URL-change notifications to participating search engines (**Bing, Yandex**, and others). **Google does not use IndexNow** — its crawling is handled separately (sitemap + Search Console), so IndexNow here is Bing/Yandex-only.
+
+- **Key file:** `public/a2bcb84f5fd4463851f3383198e0fe9e.txt` (a public 32-char hex key served at `https://graceontheashley.org/a2bcb84f5fd4463851f3383198e0fe9e.txt`). This file is public by design — it's how IndexNow verifies we own the domain. No secret involved.
+- **Submit script:** `scripts/submit-indexnow.mjs` (no deps). It fetches the live `sitemap.xml`, parses every `<loc>` URL, derives the host from those URLs (currently `graceontheashley.org` — IndexNow requires `host`/`keyLocation`/URLs to all match), and POSTs them to the IndexNow API. Run manually with `npm run indexnow` (add `-- --dry-run` to just print the payload without submitting).
+- **Auto-runs on deploy:** `.github/workflows/indexnow.yml` runs the script on every push to `main` (and via manual `workflow_dispatch`). It's **best-effort / non-blocking** (`continue-on-error: true`) and is **not** a required status check. The first run after the key file changes may 4xx if it races the Vercel deploy; subsequent pushes succeed once the key file is live.
+
 ## Safety / Approval
 
 - This is a live production site for a church — no destructive or speculative changes to `main` without explicit approval.
