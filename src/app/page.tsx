@@ -9,6 +9,7 @@ import EventCard from "@/components/EventCard";
 import FlipCard from "@/components/FlipCard";
 import { getLatestYouTubeStream } from "@/utils/youtube";
 import MissionBackground from "@/components/MissionBackground";
+import { OG_IMAGES } from "@/lib/seo";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -20,6 +21,7 @@ export const metadata: Metadata = {
     description:
       "A Baptist church in Charleston, SC. Join us Sundays for Sunday School at 9:30 AM and Main Service at 10:45 AM.",
     url: "/",
+    images: OG_IMAGES,
   },
 };
 

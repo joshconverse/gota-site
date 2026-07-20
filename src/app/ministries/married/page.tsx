@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import RandomHeroImage from '@/components/RandomHeroImage';
 import { GENERAL_HERO_IMAGES } from '@/lib/heroImages';
+import { OG_IMAGES } from '@/lib/seo';
 
 import type { Metadata } from 'next';
 
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
     title: 'Re | Engage | Grace on the Ashley',
     description: 'Strengthening marriages through biblical teaching and community support at Grace on the Ashley.',
     url: '/ministries/married',
+    images: OG_IMAGES,
   },
 };
 

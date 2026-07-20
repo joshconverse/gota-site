@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import RandomHeroImage from '@/components/RandomHeroImage';
 import { GENERAL_HERO_IMAGES } from '@/lib/heroImages';
+import { OG_IMAGES } from '@/lib/seo';
 
 import type { Metadata } from 'next';
 
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
     title: 'International Missions | Grace on the Ashley',
     description: 'Partnering with missionaries and supporting global outreach to spread the Gospel worldwide.',
     url: '/ministries/international-missions',
+    images: OG_IMAGES,
   },
 };
 
