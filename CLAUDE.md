@@ -22,6 +22,17 @@ Marketing/informational website for **Grace on the Ashley** (a Baptist church in
 - PRs merge cleanly by fast-forward as long as local `main` is current. If a squash merge can't fast-forward locally, `git reset --hard origin/main` after confirming the PR shows `MERGED`.
 - GitHub's API occasionally returns a transient `503` on merge — check `gh pr view <n> --json state,mergedAt` before retrying so you don't double-act.
 
+### Branch protection on `main` (strict merges — matters when batch-merging)
+
+`main` is protected: `required_status_checks.strict: true`, required check context **`build`** (the CI lint+build gate), `enforce_admins: true` (admins **cannot** override — `gh pr merge --admin` won't work), and `required_approving_review_count: 0` (no review approval needed). "Strict" means a PR branch must be **up to date with `main`** before its `build` check counts toward merge.
+
+So when you have several PRs to merge, they go in **serially, not as a batch** — budget ~1 min of CI per PR:
+
+1. Merging one PR advances `main`, which flips every other open PR to `BEHIND` (check `gh pr view <n> --json mergeStateStatus`).
+2. A `BEHIND` PR won't merge — run `gh pr update-branch <n>` first.
+3. `update-branch` creates a new head commit, which kicks off a **fresh** `build` run; the previously-passing check is now stale — **don't merge on it**. Give the new run a few seconds to register, then `gh pr checks <n> --watch` until it finishes, then `gh pr merge <n> --squash --delete-branch`.
+4. Repeat for the next PR.
+
 ## Verifying changes
 
 - `npm run lint` and `npm run build` before every PR. The repo has many **pre-existing** `no-img-element` and `no-unused-vars` warnings — 0 errors is the bar; don't chase those warnings unless you touched that line.
