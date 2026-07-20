@@ -7,7 +7,7 @@ export default function MinistriesPage() {
   const ministries = [
     {
       id: "children",
-      title: "Children's Ministry",
+      title: "Grace Kids",
       description: "We provide a safe, loving, Christ-centered environment for babies through 5th grade and help them learn about Jesus.",
       bgColor: "bg-brand-4"
     },
