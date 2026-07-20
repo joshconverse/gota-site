@@ -27,11 +27,12 @@ export default function RandomHeroImage({ pool, alt, className }: RandomHeroImag
 
   if (!src) return null;
 
-  // Bias the crop toward the TOP of the image. With `object-cover`, the browser
-  // center-crops by default, which lands on waistlines for portrait-oriented
-  // photos in this tall hero frame. `object-top` keeps faces/upper bodies in
-  // frame; it's harmless for landscape shots (they still fill from the top).
-  const heroClassName = ["object-top", className].filter(Boolean).join(" ");
+  // Every hero photo is now a landscape 3:2 crop already focused on its subject,
+  // so we let `object-cover` center-crop by default. The earlier `object-top`
+  // bias (#37) existed only to rescue portrait-oriented files whose subjects sat
+  // low in a tall frame; those files have since been re-cropped to landscape, so
+  // the bias is no longer needed and center-cropping keeps subjects framed
+  // symmetrically instead of always shaving the bottom.
 
   return (
     // eslint-disable-next-line @next/next/no-img-element
@@ -39,7 +40,7 @@ export default function RandomHeroImage({ pool, alt, className }: RandomHeroImag
       src={src}
       alt={alt}
       onLoad={() => setLoaded(true)}
-      className={heroClassName}
+      className={className}
       style={{ opacity: loaded ? HERO_OPACITY : 0, transition: "opacity 700ms ease-in-out" }}
     />
   );
