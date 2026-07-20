@@ -87,24 +87,64 @@ export async function GET() {
 
     const playlistsData = await playlistsResponse.json();
 
-    const playlists = playlistsData.items?.map((item: {
+    interface YouTubeThumbnails {
+      maxres?: { url: string };
+      high?: { url: string };
+      medium?: { url: string };
+      default?: { url: string };
+    }
+    interface YouTubeApiPlaylistItem {
       id: string;
-      snippet: {
-        title: string;
-        description: string;
-        thumbnails: { high?: { url: string }; default?: { url: string } };
-        publishedAt: string;
+      snippet?: {
+        title?: string;
+        description?: string;
+        thumbnails?: YouTubeThumbnails;
+        publishedAt?: string;
       };
-      contentDetails: { itemCount: number };
-    }) => ({
-      id: item.id,
-      title: item.snippet.title,
-      description: item.snippet.description,
-      thumbnailUrl: item.snippet.thumbnails.high?.url || item.snippet.thumbnails.default?.url,
-      videoCount: item.contentDetails.itemCount,
-      url: `https://www.youtube.com/playlist?list=${item.id}`,
-      publishedAt: item.snippet.publishedAt,
-    })) || [];
+      contentDetails?: { itemCount?: number };
+    }
+
+    const pickThumbnail = (t?: YouTubeThumbnails) =>
+      t?.maxres?.url || t?.high?.url || t?.medium?.url || t?.default?.url;
+
+    const items = playlistsData.items as YouTubeApiPlaylistItem[] | undefined;
+
+    const playlists = await Promise.all(
+      (items ?? []).map(async (item) => {
+        let thumbnailUrl = pickThumbnail(item.snippet?.thumbnails);
+
+        // A playlist's own snippet thumbnail can be empty — common for a newly
+        // created series (e.g. the current Proverbs series) whose playlist-level
+        // thumbnail hasn't propagated yet. Fall back to the first video's
+        // thumbnail so the series artwork still renders (mirrors getYouTubePlaylists).
+        if (!thumbnailUrl) {
+          try {
+            const playlistItemsResponse = await fetch(
+              `https://www.googleapis.com/youtube/v3/playlistItems?part=snippet&playlistId=${item.id}&key=${YOUTUBE_API_KEY}&maxResults=1`,
+              { next: { revalidate: CACHE_TTL_MS / 1000 } }
+            );
+            if (playlistItemsResponse.ok) {
+              const playlistItemsData = (await playlistItemsResponse.json()) as {
+                items?: { snippet?: { thumbnails?: YouTubeThumbnails } }[];
+              };
+              thumbnailUrl = pickThumbnail(playlistItemsData.items?.[0]?.snippet?.thumbnails);
+            }
+          } catch (thumbErr) {
+            console.warn(`[YouTube API] Failed to get thumbnail for playlist ${item.id}:`, thumbErr);
+          }
+        }
+
+        return {
+          id: item.id,
+          title: item.snippet?.title ?? '',
+          description: item.snippet?.description ?? '',
+          thumbnailUrl: thumbnailUrl || '/WorshipEdited.jpg', // static fallback so a card is never imageless
+          videoCount: item.contentDetails?.itemCount ?? 0,
+          url: `https://www.youtube.com/playlist?list=${item.id}`,
+          publishedAt: item.snippet?.publishedAt ?? '',
+        };
+      })
+    );
 
     // YouTube returns playlists in the channel's manual order, not by date, so
     // sort newest-first to guarantee the latest series leads the grid (the
