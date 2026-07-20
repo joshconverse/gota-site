@@ -18,6 +18,12 @@ export default function MinistriesPage() {
       bgColor: "bg-brand-1"
     },
     {
+      id: "faith-and-practice",
+      title: "Faith & Practice",
+      description: "A weekly Sunday school class where we grow together in the Christian faith and learn how to live it out.",
+      bgColor: "bg-brand-4"
+    },
+    {
       id: "community-groups",
       title: "Community Groups",
       description: "Small groups that meet regularly for fellowship, Bible study, prayer, and mutual support. Community Groups provide a place to grow deeper in faith and build meaningful relationships.",

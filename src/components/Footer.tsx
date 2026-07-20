@@ -19,6 +19,7 @@ export default function Footer() {
           <div className="space-y-2">
             <Link href="/ministries/children" className="block text-slate-900 hover:text-brand-1 transition-colors">Children</Link>
             <Link href="/ministries/students" className="block text-slate-900 hover:text-brand-1 transition-colors">Students</Link>
+            <Link href="/ministries/faith-and-practice" className="block text-slate-900 hover:text-brand-1 transition-colors">Faith &amp; Practice</Link>
             <Link href="/ministries/community-groups" className="block text-slate-900 hover:text-brand-1 transition-colors">Community Groups</Link>
             <Link href="/ministries/married" className="block text-slate-900 hover:text-brand-1 transition-colors">Married</Link>
             <Link href="/ministries/local-missions" className="block text-slate-900 hover:text-brand-1 transition-colors">Local Missions</Link>
