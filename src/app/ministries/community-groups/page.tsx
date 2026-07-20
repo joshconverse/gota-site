@@ -2,6 +2,19 @@ import Link from 'next/link';
 import RandomHeroImage from '@/components/RandomHeroImage';
 import { GENERAL_HERO_IMAGES } from '@/lib/heroImages';
 
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Community Groups',
+  description: 'Community Groups at Grace on the Ashley meet regularly for fellowship, Bible study, prayer, and mutual support, providing a place to grow deeper in faith and build meaningful relationships.',
+  alternates: { canonical: '/ministries/community-groups' },
+  openGraph: {
+    title: 'Community Groups | Grace on the Ashley',
+    description: 'Small groups for fellowship, Bible study, prayer, and building meaningful relationships.',
+    url: '/ministries/community-groups',
+  },
+};
+
 export default function CommunityGroupsPage() {
   return (
     <main className="min-h-screen bg-white">

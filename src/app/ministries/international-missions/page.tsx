@@ -2,6 +2,19 @@ import Link from 'next/link';
 import RandomHeroImage from '@/components/RandomHeroImage';
 import { GENERAL_HERO_IMAGES } from '@/lib/heroImages';
 
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'International Missions',
+  description: 'International Missions at Grace on the Ashley partners with missionaries and supports global outreach to spread the Gospel worldwide as a sending church.',
+  alternates: { canonical: '/ministries/international-missions' },
+  openGraph: {
+    title: 'International Missions | Grace on the Ashley',
+    description: 'Partnering with missionaries and supporting global outreach to spread the Gospel worldwide.',
+    url: '/ministries/international-missions',
+  },
+};
+
 export default function MissionsMinistryPage() {
   return (
     <main className="min-h-screen bg-white">

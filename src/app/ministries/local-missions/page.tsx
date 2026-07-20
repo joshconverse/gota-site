@@ -2,6 +2,19 @@ import Link from 'next/link';
 import RandomHeroImage from '@/components/RandomHeroImage';
 import { GENERAL_HERO_IMAGES } from '@/lib/heroImages';
 
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Local Missions',
+  description: 'Local Missions at Grace on the Ashley supports our community through prayer, encouragement, and practical help, walking alongside people through life\'s challenges and celebrations.',
+  alternates: { canonical: '/ministries/local-missions' },
+  openGraph: {
+    title: 'Local Missions | Grace on the Ashley',
+    description: 'Supporting our community through prayer, encouragement, and practical help.',
+    url: '/ministries/local-missions',
+  },
+};
+
 export default function CareMinistryPage() {
   return (
     <main className="min-h-screen bg-white">

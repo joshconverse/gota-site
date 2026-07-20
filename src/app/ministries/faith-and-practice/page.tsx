@@ -2,6 +2,19 @@ import Link from 'next/link';
 import RandomHeroImage from '@/components/RandomHeroImage';
 import { GENERAL_HERO_IMAGES } from '@/lib/heroImages';
 
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Faith & Practice',
+  description: 'Faith & Practice is a weekly Sunday school class at Grace on the Ashley where we grow together in the Christian faith and learn how to live it out.',
+  alternates: { canonical: '/ministries/faith-and-practice' },
+  openGraph: {
+    title: 'Faith & Practice | Grace on the Ashley',
+    description: 'A weekly Sunday school class where we grow together in the Christian faith and learn to live it out.',
+    url: '/ministries/faith-and-practice',
+  },
+};
+
 export default function FaithAndPracticePage() {
   return (
     <main className="min-h-screen bg-white">

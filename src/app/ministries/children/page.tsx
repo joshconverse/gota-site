@@ -3,6 +3,19 @@ import Link from 'next/link';
 import RandomHeroImage from '@/components/RandomHeroImage';
 import { KID_TEEN_HERO_IMAGES } from '@/lib/heroImages';
 
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Grace Kids',
+  description: 'Grace Kids provides a safe, loving, Christ-centered environment for babies through 5th grade at Grace on the Ashley in Charleston, SC, helping children learn about Jesus.',
+  alternates: { canonical: '/ministries/children' },
+  openGraph: {
+    title: 'Grace Kids | Grace on the Ashley',
+    description: 'A safe, loving, Christ-centered ministry for babies through 5th grade at Grace on the Ashley.',
+    url: '/ministries/children',
+  },
+};
+
 export default function ChildrensMinistryPage() {
   return (
     <main className="min-h-screen bg-white">

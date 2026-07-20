@@ -2,6 +2,19 @@ import Link from 'next/link';
 import RandomHeroImage from '@/components/RandomHeroImage';
 import { GENERAL_HERO_IMAGES } from '@/lib/heroImages';
 
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Worship Ministry',
+  description: 'The Worship Ministry at Grace on the Ashley leads our congregation in worship through music, song, and creative expression, creating space to encounter God.',
+  alternates: { canonical: '/ministries/worship' },
+  openGraph: {
+    title: 'Worship Ministry | Grace on the Ashley',
+    description: 'Leading our congregation in worship through music, song, and creative expression.',
+    url: '/ministries/worship',
+  },
+};
+
 export default function WorshipMinistryPage() {
   return (
     <main className="min-h-screen bg-white">
