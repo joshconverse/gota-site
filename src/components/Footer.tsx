@@ -20,7 +20,7 @@ export default function Footer() {
             <Link href="/ministries/children" className="block text-slate-900 hover:text-brand-1 transition-colors">Grace Kids</Link>
             <Link href="/ministries/students" className="block text-slate-900 hover:text-brand-1 transition-colors">Students</Link>
             <Link href="/ministries/community-groups" className="block text-slate-900 hover:text-brand-1 transition-colors">Community Groups</Link>
-            <Link href="/ministries/married" className="block text-slate-900 hover:text-brand-1 transition-colors">Married</Link>
+            <Link href="/ministries/married" className="block text-slate-900 hover:text-brand-1 transition-colors">Re | Engage</Link>
             <Link href="/ministries/local-missions" className="block text-slate-900 hover:text-brand-1 transition-colors">Local Missions</Link>
             <Link href="/ministries/worship" className="block text-slate-900 hover:text-brand-1 transition-colors">Worship</Link>
             <Link href="/ministries/international-missions" className="block text-slate-900 hover:text-brand-1 transition-colors">International Missions</Link>
