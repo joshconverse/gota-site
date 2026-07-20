@@ -92,6 +92,9 @@ export default function StudentMinistryPage() {
               </ul>
             </div>
           </div>
+          <p className="text-center text-gray-700 leading-relaxed mt-8">
+            We meet in the <span className="font-semibold text-black">Library</span>.
+          </p>
         </div>
       </section>
 
