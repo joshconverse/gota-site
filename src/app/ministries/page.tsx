@@ -7,7 +7,7 @@ export default function MinistriesPage() {
   const ministries = [
     {
       id: "children",
-      title: "Children's Ministry",
+      title: "Grace Kids",
       description: "We provide a safe, loving, Christ-centered environment for babies through 5th grade and help them learn about Jesus.",
       bgColor: "bg-brand-4"
     },
@@ -31,7 +31,7 @@ export default function MinistriesPage() {
     },
     {
       id: "married",
-      title: "Married Couples Ministry",
+      title: "Re | Engage",
       description: "Strengthening marriages through biblical teaching and community support. We provide resources, counseling, and events to help couples grow closer to each other and to God.",
       bgColor: "bg-brand-1"
     },
