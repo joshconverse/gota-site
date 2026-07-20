@@ -89,7 +89,7 @@ export default async function IndexPage() {
         {/* Content overlay */}
         <div className="relative z-10 container mx-auto max-w-[1200px] px-6 md:px-12 lg:px-20">
           <h1 className="text-sm sm:text-4xl md:text-5xl font-light text-brand-4 text-center mb-12">
-            We exist to make, mature<br />and multiply disciples of Jesus
+            We exist to make, mature<br />and mobilize disciples of Jesus
           </h1>
           
           {/* Three columns */}
