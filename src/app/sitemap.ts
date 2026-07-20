@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-const BASE_URL = "https://gota-site.vercel.app";
+const BASE_URL = "https://graceontheashley.org";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
