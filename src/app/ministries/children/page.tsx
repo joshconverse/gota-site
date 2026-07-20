@@ -1,3 +1,4 @@
+import Image from 'next/image';
 import Link from 'next/link';
 import RandomHeroImage from '@/components/RandomHeroImage';
 import { KID_TEEN_HERO_IMAGES } from '@/lib/heroImages';
@@ -19,9 +20,15 @@ export default function ChildrensMinistryPage() {
         <div className="relative z-10 w-full px-6 md:px-12 lg:px-20">
           <div className="max-w-6xl mx-auto">
             <div className="text-center">
-              <h1 className="text-4xl md:text-6xl lg:text-7xl font-light text-white mb-6">
-                Grace Kids
-              </h1>
+              <h1 className="sr-only">Grace Kids</h1>
+              <Image
+                src="/grace-kids-logo.png"
+                alt="Grace Kids"
+                width={900}
+                height={738}
+                priority
+                className="w-full max-w-sm md:max-w-md lg:max-w-lg h-auto mx-auto mb-6 drop-shadow-lg"
+              />
               <p className="text-xl md:text-2xl text-white mb-8 max-w-3xl mx-auto">
                 We provide a safe, loving, Christ-centered environment for babies through 5th grade and help them learn about Jesus.
               </p>
