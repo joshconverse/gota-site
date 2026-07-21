@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import RandomHeroImage from '@/components/RandomHeroImage';
 import { GENERAL_HERO_IMAGES } from '@/lib/heroImages';
+import { OG_IMAGES } from '@/lib/seo';
 
 import type { Metadata } from 'next';
 
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
     title: 'Community Groups | Grace on the Ashley',
     description: 'Small groups for fellowship, Bible study, prayer, and building meaningful relationships.',
     url: '/ministries/community-groups',
+    images: OG_IMAGES,
   },
 };
 

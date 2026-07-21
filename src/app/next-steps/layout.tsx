@@ -1,3 +1,4 @@
+import { OG_IMAGES } from "@/lib/seo";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -10,6 +11,7 @@ export const metadata: Metadata = {
     description:
       "Take your next step to get connected at Grace on the Ashley in Charleston, SC.",
     url: "/next-steps",
+    images: OG_IMAGES,
   },
 };
 
