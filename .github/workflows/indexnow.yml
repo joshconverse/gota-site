@@ -1,0 +1,26 @@
+name: IndexNow
+
+# Ping IndexNow (Bing/Yandex/etc.) to re-crawl the site after each deploy.
+# Best-effort only: this never blocks a push and is NOT a required status check.
+#
+# Note: the very first run after a *new* key file lands may 4xx if it races the
+# Vercel deploy of public/<key>.txt (IndexNow can't yet validate ownership).
+# Subsequent pushes succeed once the key file is live.
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  indexnow:
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Submit sitemap URLs to IndexNow
+        continue-on-error: true
+        run: node scripts/submit-indexnow.mjs
