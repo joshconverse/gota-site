@@ -91,6 +91,9 @@ export default function ReEngageMinistryPage() {
               </p>
             </div>
           </div>
+          <p className="text-center text-lg text-gray-700 leading-relaxed mt-10">
+            We meet in the <span className="font-semibold text-black">Small Auditorium</span>.
+          </p>
         </div>
       </section>
 
