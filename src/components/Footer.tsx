@@ -6,7 +6,7 @@ export default function Footer() {
     <footer className="bg-brand-3">
       <div className="container mx-auto max-w-[1440px] px-6 md:px-12 lg:px-20 py-12">
         {/* Links Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
           {/* Main Links */}
           <div className="space-y-2">
             <Link href="/watch" className="block text-slate-900 hover:text-brand-1 transition-colors">Watch</Link>
@@ -25,6 +25,23 @@ export default function Footer() {
             <Link href="/ministries/local-missions" className="block text-slate-900 hover:text-brand-1 transition-colors">Local Missions</Link>
             <Link href="/ministries/worship" className="block text-slate-900 hover:text-brand-1 transition-colors">Worship</Link>
             <Link href="/ministries/international-missions" className="block text-slate-900 hover:text-brand-1 transition-colors">International Missions</Link>
+          </div>
+
+          {/* Church Office */}
+          <div className="space-y-2">
+            <h3 className="font-semibold text-slate-900">Church Office</h3>
+            <address className="not-italic text-slate-900">
+              2025 Bees Ferry Road<br />
+              Charleston, SC 29414
+            </address>
+            <p className="text-slate-900">
+              <a href="tel:+18435566802" className="hover:text-brand-1 transition-colors">(843) 556-6802</a>
+            </p>
+            <p className="text-slate-900">
+              <a href="mailto:office@gotachurch.org" className="hover:text-brand-1 transition-colors">office@gotachurch.org</a>
+            </p>
+            <p className="text-slate-900">Monday &ndash; Thursday, 9:00 AM &ndash; 2:00 PM</p>
+            <p className="text-sm text-slate-600">The office is closed on Fridays.</p>
           </div>
         </div>
 
