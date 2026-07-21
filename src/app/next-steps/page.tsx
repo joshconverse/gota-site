@@ -1,7 +1,22 @@
-"use client";
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import RandomHeroImage from '@/components/RandomHeroImage';
 import { GENERAL_HERO_IMAGES } from '@/lib/heroImages';
+import { OG_IMAGES } from '@/lib/seo';
+
+export const metadata: Metadata = {
+  title: 'Next Steps',
+  description:
+    'Take your next step at Grace on the Ashley. Plan a visit, get connected, and discover how to grow in your faith with our church family in Charleston, SC.',
+  alternates: { canonical: '/next-steps' },
+  openGraph: {
+    title: 'Next Steps | Grace on the Ashley',
+    description:
+      'Plan a visit, get connected, and grow in your faith with the family at Grace on the Ashley in Charleston, SC.',
+    url: '/next-steps',
+    images: OG_IMAGES,
+  },
+};
 
 export default function NextStepsPage() {
   return (

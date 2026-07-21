@@ -1,7 +1,22 @@
-"use client";
+import type { Metadata } from 'next';
 import Link from 'next/link';
 import RandomHeroImage from '@/components/RandomHeroImage';
 import { GENERAL_HERO_IMAGES } from '@/lib/heroImages';
+import { OG_IMAGES } from '@/lib/seo';
+
+export const metadata: Metadata = {
+  title: 'Ministries',
+  description:
+    'Explore the ministries of Grace on the Ashley — Grace Kids, Students, Community Groups, Re | Engage marriage ministry, worship, and local & international missions in Charleston, SC.',
+  alternates: { canonical: '/ministries' },
+  openGraph: {
+    title: 'Ministries | Grace on the Ashley',
+    description:
+      'Grace Kids, Students, Community Groups, Re | Engage, worship, and missions — find your place to grow and serve at Grace on the Ashley.',
+    url: '/ministries',
+    images: OG_IMAGES,
+  },
+};
 
 export default function MinistriesPage() {
   const ministries = [
