@@ -67,6 +67,8 @@ const churchJsonLd = {
   url: SITE_URL,
   logo: `${SITE_URL}/GOTAblack.png`,
   image: `${SITE_URL}${OG_IMAGE}`,
+  telephone: "+1-843-556-6802",
+  email: "office@gotachurch.org",
   address: {
     "@type": "PostalAddress",
     streetAddress: "2025 Bees Ferry Road",
@@ -75,6 +77,13 @@ const churchJsonLd = {
     postalCode: "29414",
     addressCountry: "US",
   },
+  hasMap:
+    "https://www.google.com/maps/search/?api=1&query=Grace+on+the+Ashley+2025+Bees+Ferry+Road+Charleston+SC+29414",
+  sameAs: [
+    "https://www.facebook.com/graceontheashley.org/",
+    "https://www.instagram.com/graceontheashley/",
+    "https://www.youtube.com/@GraceontheashleyOrg",
+  ],
   openingHoursSpecification: [
     {
       "@type": "OpeningHoursSpecification",
