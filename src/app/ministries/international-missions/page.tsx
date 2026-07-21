@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   title: 'International Missions',
   description: 'International Missions at Grace on the Ashley partners with missionaries and supports global outreach to spread the Gospel worldwide as a sending church.',
   alternates: { canonical: '/ministries/international-missions' },
+  robots: { index: false, follow: true },
   openGraph: {
     title: 'International Missions | Grace on the Ashley',
     description: 'Partnering with missionaries and supporting global outreach to spread the Gospel worldwide.',

@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   title: 'Local Missions',
   description: 'Local Missions at Grace on the Ashley supports our community through prayer, encouragement, and practical help, walking alongside people through life\'s challenges and celebrations.',
   alternates: { canonical: '/ministries/local-missions' },
+  robots: { index: false, follow: true },
   openGraph: {
     title: 'Local Missions | Grace on the Ashley',
     description: 'Supporting our community through prayer, encouragement, and practical help.',

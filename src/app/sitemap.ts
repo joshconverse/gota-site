@@ -20,11 +20,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "children",
     "students",
     "faith-and-practice",
-    "community-groups",
     "married",
-    "local-missions",
-    "worship",
-    "international-missions",
   ];
 
   const ministries: typeof topLevel = ministrySlugs.map((slug) => ({

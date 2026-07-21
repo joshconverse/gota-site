@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   title: 'Community Groups',
   description: 'Community Groups at Grace on the Ashley meet regularly for fellowship, Bible study, prayer, and mutual support, providing a place to grow deeper in faith and build meaningful relationships.',
   alternates: { canonical: '/ministries/community-groups' },
+  robots: { index: false, follow: true },
   openGraph: {
     title: 'Community Groups | Grace on the Ashley',
     description: 'Small groups for fellowship, Bible study, prayer, and building meaningful relationships.',
