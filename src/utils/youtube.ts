@@ -26,6 +26,15 @@ const isServer = typeof window === 'undefined';
 // services or one-off recap videos that also get uploaded to the channel.
 const NON_SERMON_KEYWORDS = ['memorial', 'celebration of life', 'funeral', 'recap'];
 
+// A live stream event can be created (with a placeholder title like just the
+// series name) days before it actually airs. Until it starts, its
+// liveBroadcastContent is "upcoming" and it isn't a real "latest sermon" yet
+// — skip it so a not-yet-aired placeholder doesn't outrank last week's
+// completed sermon just because it was created more recently.
+function isUpcomingBroadcast(item: { snippet?: { liveBroadcastContent?: string } }) {
+  return item.snippet?.liveBroadcastContent === 'upcoming';
+}
+
 function isNonSermonVideo(title: string) {
   const lower = title.toLowerCase();
   return NON_SERMON_KEYWORDS.some((kw) => lower.includes(kw));
@@ -117,10 +126,11 @@ export async function getLatestYouTubeStream(): Promise<YouTubeVideo | null> {
 
     const videosData = await videosResponse.json();
 
-    // Find the latest live stream or video, skipping memorials/recaps so the
-    // hero always shows an actual sermon.
+    // Find the latest live stream or video, skipping memorials/recaps and
+    // not-yet-aired upcoming placeholders so the hero always shows an actual
+    // sermon that's already happened.
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const latestVideo = videosData.items?.find((item: any) => !isNonSermonVideo(item.snippet?.title ?? ''));
+    const latestVideo = videosData.items?.find((item: any) => !isNonSermonVideo(item.snippet?.title ?? '') && !isUpcomingBroadcast(item));
 
     if (!latestVideo) {
       return null;
