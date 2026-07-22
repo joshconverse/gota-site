@@ -253,6 +253,16 @@ export async function getPlanningCenterEvents({ perPage = 12 } = {}): Promise<PC
   // don't want to surface on the public site (e.g., elections, rehearsals, verticals).
   const forbiddenKeywords = ['election', 'elections', 'rehearsal', 'rehearsals', 'vertical'];
 
+  // Individual events excluded by exact title, regardless of keywords above.
+  // Add to this list when an event is visible in Church Center but shouldn't
+  // be surfaced on the public site.
+  const excludedTitles = ['superb owl party'];
+
+  function isExcludedTitle(d: any) {
+    const title = (d.attributes?.name ?? d.attributes?.title ?? '').toLowerCase().trim();
+    return excludedTitles.includes(title);
+  }
+
   function hasForbiddenKeyword(d: any) {
       try {
         const parts = [
@@ -280,7 +290,7 @@ export async function getPlanningCenterEvents({ perPage = 12 } = {}): Promise<PC
       }
     }
 
-  const rawEvents: any[] = (json.data as any[]).filter((d: any) => (d.attributes?.visible_in_church_center === true && !hasForbiddenKeyword(d)));
+  const rawEvents: any[] = (json.data as any[]).filter((d: any) => (d.attributes?.visible_in_church_center === true && !hasForbiddenKeyword(d) && !isExcludedTitle(d)));
 
     // Map with a try/catch per item so a single malformed event doesn't
     // blow up the whole response. Log relevant details in development.
