@@ -10,25 +10,25 @@ describe('parseSermonTitle', () => {
     expect(result.pastor).toBe('Pastor Kelly Graham');
   });
 
-  it('handles a numeric-date title with no pastor segment', () => {
+  it('appends "Selected Scriptures" to a topical title with no scripture reference', () => {
     const result = parseSermonTitle('07.05.26 - Romania Mission 2026 Recap');
     expect(result.date).not.toBeNull();
-    expect(result.topic).toBe('Romania Mission 2026 Recap');
+    expect(result.topic).toBe('Romania Mission 2026 Recap - Selected Scriptures');
     expect(result.pastor).toBeNull();
   });
 
   it('does not misfire on a "Preacher:" label with no scripture reference', () => {
     const result = parseSermonTitle('06.14.26 - Preacher: George Bednar');
     expect(result.date).not.toBeNull();
-    expect(result.topic).toBe('Preacher: George Bednar');
+    expect(result.topic).toBe('Preacher: George Bednar - Selected Scriptures');
     expect(result.pastor).toBeNull();
   });
 
-  it('splits the older long-date format with a pastor', () => {
+  it('splits the older long-date format and appends "Selected Scriptures" when no passage is given', () => {
     const result = parseSermonTitle('March 29, 2026 - PALM SUNDAY - Pastor Greg Smith');
     expect(result.date).not.toBeNull();
     expect(formatSermonDate(result.date!)).toBe('March 29, 2026');
-    expect(result.topic).toBe('PALM SUNDAY');
+    expect(result.topic).toBe('PALM SUNDAY - Selected Scriptures');
     expect(result.pastor).toBe('Pastor Greg Smith');
   });
 
@@ -40,10 +40,10 @@ describe('parseSermonTitle', () => {
     expect(elder.pastor).toBe('Elder Roger Parker');
   });
 
-  it('falls back to the raw title when no date prefix is present', () => {
+  it('falls back to the raw title when no date prefix is present, appending "Selected Scriptures"', () => {
     const result = parseSermonTitle('Christmas Eve 2025');
     expect(result.date).toBeNull();
-    expect(result.topic).toBe('Christmas Eve 2025');
+    expect(result.topic).toBe('Christmas Eve 2025 - Selected Scriptures');
     expect(result.pastor).toBeNull();
   });
 
@@ -74,5 +74,25 @@ describe('parseSermonTitle', () => {
   it('does not touch topics that merely start with a book name', () => {
     const result = parseSermonTitle('07.01.26 - Proverbs Introduction - Pastor Greg Smith');
     expect(result.topic).toBe('Proverbs Introduction');
+  });
+
+  it('shows a chapter-only reference as-is, without appending "Selected Scriptures"', () => {
+    const result = parseSermonTitle('05.24.26 - Daniel 6, part 1 - Pastor Greg Smith');
+    expect(result.topic).toBe('Daniel 6, part 1');
+  });
+
+  it('appends "Selected Scriptures" to a topical title paired with a book name and verse', () => {
+    const result = parseSermonTitle('11.10.24 - MOBILIZE - Hebrews 2:14-15 - Pastor Greg Smith');
+    expect(result.topic).toBe('MOBILIZE - Hebrews 2:14-15');
+  });
+
+  it('appends "Selected Scriptures" to a topical title with no book name at all', () => {
+    const result = parseSermonTitle('11.10.24 - MOBILIZE - Pastor Greg Smith');
+    expect(result.topic).toBe('MOBILIZE - Selected Scriptures');
+  });
+
+  it('does not false-positive match a short book name inside an unrelated word', () => {
+    const result = parseSermonTitle('01.01.26 - The Truth of the Gospel - Pastor Greg Smith');
+    expect(result.topic).toBe('The Truth of the Gospel - Selected Scriptures');
   });
 });

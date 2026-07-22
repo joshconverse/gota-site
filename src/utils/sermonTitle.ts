@@ -20,11 +20,14 @@ const LONG_DATE = /^([A-Z][a-z]+ \d{1,2}),?\s+(\d{4})\s*-\s*/;
 
 const SPEAKER_PREFIX = /^(pastor|preacher|guest preacher|elder)\b/i;
 
-// When a sermon topic is just a bare book name (e.g. a series title used
-// before that week's specific passage is known), show "Selected Scriptures"
-// instead of the book name alone. Topics that include a chapter/verse
-// reference — including alongside the book name — are left untouched.
-const BIBLE_BOOKS = new Set([
+// We normally preach verse-by-verse, so a scripture reference should always
+// be shown when the title provides one — whether that's a bare passage
+// ("Proverbs 17:27-18:8") or a topical title paired with one ("MOBILIZE -
+// Hebrews 2:14-15"). Only when a title gives no scripture reference at all
+// do we fall back to "Selected Scriptures": appended to a topical title, or
+// standing alone when the topic is just a bare book name (a placeholder
+// used before that week's specific passage is set).
+const BIBLE_BOOKS = [
   'genesis', 'exodus', 'leviticus', 'numbers', 'deuteronomy', 'joshua', 'judges', 'ruth',
   '1 samuel', '2 samuel', '1 kings', '2 kings', '1 chronicles', '2 chronicles', 'ezra', 'nehemiah', 'esther',
   'job', 'psalms', 'psalm', 'proverbs', 'ecclesiastes', 'song of solomon', 'song of songs',
@@ -33,10 +36,24 @@ const BIBLE_BOOKS = new Set([
   'matthew', 'mark', 'luke', 'john', 'acts', 'romans', '1 corinthians', '2 corinthians', 'galatians', 'ephesians',
   'philippians', 'colossians', '1 thessalonians', '2 thessalonians', '1 timothy', '2 timothy', 'titus', 'philemon',
   'hebrews', 'james', '1 peter', '2 peter', '1 john', '2 john', '3 john', 'jude', 'revelation',
-]);
+];
+const BIBLE_BOOK_SET = new Set(BIBLE_BOOKS);
+// Word-boundary match so short book names (e.g. "ruth", "mark", "acts")
+// don't false-positive inside unrelated words like "truth" or "Denmark".
+const BOOK_NAME_PATTERN = new RegExp(`\\b(${BIBLE_BOOKS.join('|')})\\b`, 'i');
+// A chapter:verse reference, e.g. "17:27" — a fallback signal for the rare
+// case a passage is cited without spelling out the book name.
+const VERSE_REFERENCE = /\d+:\d+/;
 
 function finalizeTopic(topic: string) {
-  return BIBLE_BOOKS.has(topic.trim().toLowerCase()) ? 'Selected Scriptures' : topic;
+  const trimmed = topic.trim();
+  if (!trimmed) return 'Selected Scriptures';
+
+  if (BIBLE_BOOK_SET.has(trimmed.toLowerCase())) return 'Selected Scriptures';
+
+  if (BOOK_NAME_PATTERN.test(trimmed) || VERSE_REFERENCE.test(trimmed)) return trimmed;
+
+  return `${trimmed} - Selected Scriptures`;
 }
 
 function numericDateToDate(match: RegExpMatchArray): Date | null {
