@@ -49,7 +49,7 @@ describe('getLatestYouTubeStream (mocked fetch)', () => {
   });
 
   it('skips a not-yet-aired "upcoming" placeholder and returns last week\'s completed sermon', async () => {
-    const channelSearch = { items: [{ snippet: { channelId: 'UC123' } }] };
+    const channelSearch = { items: [{ id: 'UC123' }] };
     const videoSearch = {
       items: [
         {
