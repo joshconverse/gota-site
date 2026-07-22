@@ -73,7 +73,7 @@ export default function Hero({ doc, thumbnailUrl, streamTitle, streamUrl }: {
             {/* Desktop: Full sermon info */}
             <div className="hidden lg:block">
               <p className={`text-xs sm:text-sm uppercase tracking-wide text-slate-600 mb-0 leading-none transition-opacity duration-500 ${showYouTubeData ? 'opacity-100' : 'opacity-0'}`}>{displayLabel}</p>
-              <h1 className={`-mt-1 text-2xl sm:text-3xl font-semibold leading-tight text-slate-900 transition-opacity duration-500 ${showYouTubeData ? 'opacity-100' : 'opacity-0'}`}>{displayTitle}</h1>
+              <h1 className={`-mt-1 !text-2xl sm:!text-3xl font-semibold leading-tight text-slate-900 transition-opacity duration-500 ${showYouTubeData ? 'opacity-100' : 'opacity-0'}`}>{displayTitle}</h1>
             </div>
             {/* Mobile: Only title (no "Latest Sermon" label since it's above) */}
             <div className="lg:hidden">
