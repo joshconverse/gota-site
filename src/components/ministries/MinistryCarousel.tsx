@@ -15,10 +15,11 @@ const BADGE_COLORS = ['bg-brand-1', 'bg-brand-2'];
 export default function MinistryCarousel({ ministries }: { ministries: Ministry[] }) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
-  const [translateX, setTranslateX] = useState(0);
-  const [maxTranslate, setMaxTranslate] = useState(0);
+  const progressBarRef = useRef<HTMLDivElement>(null);
+  const maxTranslateRef = useRef(0);
+  const rafIdRef = useRef<number | null>(null);
   const [wrapperHeight, setWrapperHeight] = useState<number | null>(null);
-  const [progress, setProgress] = useState(0);
+  const minProgressPercent = ministries.length ? 100 / ministries.length : 0;
 
   useLayoutEffect(() => {
     function measure() {
@@ -26,7 +27,7 @@ export default function MinistryCarousel({ ministries }: { ministries: Ministry[
       const trackWidth = trackRef.current.scrollWidth;
       const viewportWidth = window.innerWidth;
       const max = Math.max(trackWidth - viewportWidth, 0);
-      setMaxTranslate(max);
+      maxTranslateRef.current = max;
       setWrapperHeight(max + window.innerHeight);
     }
     measure();
@@ -35,19 +36,30 @@ export default function MinistryCarousel({ ministries }: { ministries: Ministry[
   }, [ministries.length]);
 
   useEffect(() => {
-    function onScroll() {
-      if (!wrapperRef.current || maxTranslate <= 0) return;
+    function applyScroll() {
+      rafIdRef.current = null;
+      const maxTranslate = maxTranslateRef.current;
+      if (!wrapperRef.current || !trackRef.current || maxTranslate <= 0) return;
       const rect = wrapperRef.current.getBoundingClientRect();
       const scrollableDistance = rect.height - window.innerHeight;
       if (scrollableDistance <= 0) return;
       const p = Math.min(Math.max(-rect.top / scrollableDistance, 0), 1);
-      setTranslateX(-p * maxTranslate);
-      setProgress(p);
+      trackRef.current.style.transform = `translate3d(${-p * maxTranslate}px,0,0)`;
+      if (progressBarRef.current) {
+        progressBarRef.current.style.width = `${Math.max(p * 100, minProgressPercent)}%`;
+      }
     }
-    onScroll();
+    function onScroll() {
+      if (rafIdRef.current !== null) return;
+      rafIdRef.current = requestAnimationFrame(applyScroll);
+    }
+    applyScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
-    return () => window.removeEventListener('scroll', onScroll);
-  }, [maxTranslate]);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (rafIdRef.current !== null) cancelAnimationFrame(rafIdRef.current);
+    };
+  }, [minProgressPercent, wrapperHeight]);
 
   return (
     <div ref={wrapperRef} style={wrapperHeight ? { height: wrapperHeight } : undefined} className="relative">
@@ -55,7 +67,6 @@ export default function MinistryCarousel({ ministries }: { ministries: Ministry[
         <div
           ref={trackRef}
           className="flex gap-8 px-6 md:px-12 lg:px-20 will-change-transform"
-          style={{ transform: `translateX(${translateX}px)` }}
         >
           {ministries.map((ministry, i) => (
             <Link
@@ -85,10 +96,7 @@ export default function MinistryCarousel({ ministries }: { ministries: Ministry[
         </div>
 
         <div className="self-center mt-10 w-48 h-1 rounded-full bg-black/10 overflow-hidden">
-          <div
-            className="h-full bg-brand-1 rounded-full"
-            style={{ width: `${Math.max(progress * 100, ministries.length ? 100 / ministries.length : 0)}%` }}
-          />
+          <div ref={progressBarRef} className="h-full bg-brand-1 rounded-full" style={{ width: `${minProgressPercent}%` }} />
         </div>
       </div>
     </div>
