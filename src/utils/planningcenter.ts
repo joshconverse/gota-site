@@ -253,6 +253,16 @@ export async function getPlanningCenterEvents({ perPage = 12 } = {}): Promise<PC
   // don't want to surface on the public site (e.g., elections, rehearsals, verticals).
   const forbiddenKeywords = ['election', 'elections', 'rehearsal', 'rehearsals', 'vertical'];
 
+  // Individual events excluded by exact title, regardless of keywords above.
+  // Add to this list when an event is visible in Church Center but shouldn't
+  // be surfaced on the public site.
+  const excludedTitles = ['superb owl party'];
+
+  function isExcludedTitle(d: any) {
+    const title = (d.attributes?.name ?? d.attributes?.title ?? '').toLowerCase().trim();
+    return excludedTitles.includes(title);
+  }
+
   function hasForbiddenKeyword(d: any) {
       try {
         const parts = [
@@ -280,7 +290,7 @@ export async function getPlanningCenterEvents({ perPage = 12 } = {}): Promise<PC
       }
     }
 
-  const rawEvents: any[] = (json.data as any[]).filter((d: any) => (d.attributes?.visible_in_church_center === true && !hasForbiddenKeyword(d)));
+  const rawEvents: any[] = (json.data as any[]).filter((d: any) => (d.attributes?.visible_in_church_center === true && !hasForbiddenKeyword(d) && !isExcludedTitle(d)));
 
     // Map with a try/catch per item so a single malformed event doesn't
     // blow up the whole response. Log relevant details in development.
@@ -534,15 +544,23 @@ export async function getPlanningCenterEvents({ perPage = 12 } = {}): Promise<PC
       // fill startsAt when missing
       events = events.map((e) => {
         const insts: Array<{ id?: string; start: string; end?: string | null; raw?: any; recurrence?: string | null; eventTimes?: PCEventTime[] }> = instancesByEvent.get(e.id) ?? [];
+        // The top-level event `links.html` points at a login-gated PCO admin
+        // URL. Each instance's `church_center_url` is the public-facing page
+        // — prefer that for anything shown to visitors.
+        const firstInstance = insts[0]?.raw;
+        const publicUrl = firstInstance?.attributes?.church_center_url ?? e.link;
+        const instanceLocation = firstInstance?.attributes?.location ?? e.location;
         return {
           ...e,
-          instances: insts.map((it) => ({ 
-            id: it.id, 
-            startAt: it.start, 
-            endAt: it.end ?? null, 
-            raw: it.raw, 
+          link: publicUrl,
+          location: instanceLocation,
+          instances: insts.map((it) => ({
+            id: it.id,
+            startAt: it.start,
+            endAt: it.end ?? null,
+            raw: it.raw,
             recurrence: it.recurrence ?? null,
-            eventTimes: it.eventTimes 
+            eventTimes: it.eventTimes
           })),
           nextInstanceStartsAt: earliestByEvent.get(e.id) ?? (insts[0]?.start ?? null),
           startsAt: e.startsAt ?? earliestByEvent.get(e.id) ?? (insts[0]?.start ?? null),
