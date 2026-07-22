@@ -7,7 +7,9 @@ import Hero from "@/components/Hero";
 import PostCard from "@/components/PostCard";
 import EventCard from "@/components/EventCard";
 import FlipCard from "@/components/FlipCard";
+import UpcomingEvents from "@/components/UpcomingEvents";
 import { getLatestYouTubeStream } from "@/utils/youtube";
+import getPlanningCenterEvents from "@/utils/planningcenter";
 import MissionBackground from "@/components/MissionBackground";
 import { OG_IMAGES } from "@/lib/seo";
 import type { Metadata } from "next";
@@ -30,6 +32,7 @@ const options = { next: { revalidate: process.env.NODE_ENV === 'development' ? 0
 export default async function IndexPage() {
   const homepage = await client.fetch<SanityDocument | null>(queries.HOMEPAGE_QUERY, {}, options);
   const latestStream = await getLatestYouTubeStream();
+  const pcoEvents = await getPlanningCenterEvents({ perPage: 12 }).catch(() => null) ?? [];
 
   const posts = (homepage?.recentPosts as SanityDocument[] | undefined) ?? [];
   const events = (homepage?.upcomingEvents as SanityDocument[] | undefined) ?? [];
@@ -133,6 +136,8 @@ export default async function IndexPage() {
           </div>
         </div>
       </section>
+
+      <UpcomingEvents events={pcoEvents} />
 
     </main>
   );

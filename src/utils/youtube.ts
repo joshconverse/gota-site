@@ -22,6 +22,24 @@ const CACHE_TTL_MS = 6 * 60 * 60 * 1000; // 6 hours in milliseconds
 // Helper to check if we're on the server side
 const isServer = typeof window === 'undefined';
 
+// The homepage hero is meant to showcase the latest sermon, not memorial
+// services or one-off recap videos that also get uploaded to the channel.
+const NON_SERMON_KEYWORDS = ['memorial', 'celebration of life', 'funeral', 'recap'];
+
+// A live stream event can be created (with a placeholder title like just the
+// series name) days before it actually airs. Until it starts, its
+// liveBroadcastContent is "upcoming" and it isn't a real "latest sermon" yet
+// — skip it so a not-yet-aired placeholder doesn't outrank last week's
+// completed sermon just because it was created more recently.
+function isUpcomingBroadcast(item: { snippet?: { liveBroadcastContent?: string } }) {
+  return item.snippet?.liveBroadcastContent === 'upcoming';
+}
+
+function isNonSermonVideo(title: string) {
+  const lower = title.toLowerCase();
+  return NON_SERMON_KEYWORDS.some((kw) => lower.includes(kw));
+}
+
 export async function getLatestYouTubeStream(): Promise<YouTubeVideo | null> {
   const YOUTUBE_API_KEY = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
   const CHANNEL_HANDLE = '@GraceontheashleyOrg';
@@ -68,12 +86,16 @@ export async function getLatestYouTubeStream(): Promise<YouTubeVideo | null> {
   }
 
   try {
-    // First, get the channel ID from the handle.
+    // First, get the channel ID from the handle. `channels?forHandle=` is a
+    // direct handle-to-channel lookup (1 quota unit); the previous approach
+    // used `search?q=<handle>&type=channel` (100 quota units) which was also
+    // unreliable — a text search for the handle string sometimes returned no
+    // results at all, intermittently breaking the whole hero.
     // Cache upstream responses in Next's Data Cache (works on Vercel's read-only
     // filesystem, unlike the fs-based cache above) to avoid burning YouTube
     // quota on every render, which would force the stale error-fallback path.
     const searchResponse = await fetch(
-      `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(CHANNEL_HANDLE)}&type=channel&key=${YOUTUBE_API_KEY}&maxResults=1`,
+      `https://www.googleapis.com/youtube/v3/channels?part=id&forHandle=${encodeURIComponent(CHANNEL_HANDLE)}&key=${YOUTUBE_API_KEY}`,
       { next: { revalidate: CACHE_TTL_MS / 1000 } }
     );
 
@@ -86,7 +108,7 @@ export async function getLatestYouTubeStream(): Promise<YouTubeVideo | null> {
     }
 
     const searchData = await searchResponse.json();
-    const channelId = searchData.items?.[0]?.snippet?.channelId;
+    const channelId = searchData.items?.[0]?.id;
 
     if (!channelId) {
       throw new Error('Channel not found');
@@ -108,8 +130,11 @@ export async function getLatestYouTubeStream(): Promise<YouTubeVideo | null> {
 
     const videosData = await videosResponse.json();
 
-    // Find the latest live stream or video
-    const latestVideo = videosData.items?.[0];
+    // Find the latest live stream or video, skipping memorials/recaps and
+    // not-yet-aired upcoming placeholders so the hero always shows an actual
+    // sermon that's already happened.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const latestVideo = videosData.items?.find((item: any) => !isNonSermonVideo(item.snippet?.title ?? '') && !isUpcomingBroadcast(item));
 
     if (!latestVideo) {
       return null;
@@ -229,10 +254,13 @@ export async function getYouTubePlaylists(): Promise<YouTubePlaylist[]> {
   }
 
   try {
-    // First, get the channel ID from the handle. Cache upstream responses in
-    // Next's Data Cache (works on Vercel's read-only filesystem).
+    // First, get the channel ID from the handle. `channels?forHandle=` is a
+    // direct handle-to-channel lookup (1 quota unit) — more reliable and far
+    // cheaper than a `search?q=<handle>&type=channel` text search (100 units).
+    // Cache upstream responses in Next's Data Cache (works on Vercel's
+    // read-only filesystem).
     const searchResponse = await fetch(
-      `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(CHANNEL_HANDLE)}&type=channel&key=${YOUTUBE_API_KEY}&maxResults=1`,
+      `https://www.googleapis.com/youtube/v3/channels?part=id&forHandle=${encodeURIComponent(CHANNEL_HANDLE)}&key=${YOUTUBE_API_KEY}`,
       { next: { revalidate: CACHE_TTL_MS / 1000 } }
     );
 
@@ -245,7 +273,7 @@ export async function getYouTubePlaylists(): Promise<YouTubePlaylist[]> {
     }
 
     const searchData = await searchResponse.json();
-    const channelId = searchData.items?.[0]?.snippet?.channelId;
+    const channelId = searchData.items?.[0]?.id;
 
     if (!channelId) {
       throw new Error('Channel not found');

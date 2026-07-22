@@ -3,9 +3,10 @@ import Image from "next/image";
 import type { SanityDocument } from "next-sanity";
 import HeroImage from "./HeroImage";
 import { useState, useEffect } from "react";
+import { parseSermonTitle, formatSermonDate } from "@/utils/sermonTitle";
 
-export default function Hero({ doc, thumbnailUrl, streamTitle, streamUrl }: { 
-  doc: SanityDocument | null; 
+export default function Hero({ doc, thumbnailUrl, streamTitle, streamUrl }: {
+  doc: SanityDocument | null;
   thumbnailUrl?: string | null;
   streamTitle?: string | null;
   streamUrl?: string | null;
@@ -19,8 +20,12 @@ export default function Hero({ doc, thumbnailUrl, streamTitle, streamUrl }: {
   }, []);
 
   // Display values with transition
-  const displayTitle = showYouTubeData ? (streamTitle || "2 Timothy 3:16-17 Part 2") : "Welcome";
+  const rawTitle = showYouTubeData ? (streamTitle || "2 Timothy 3:16-17 Part 2") : "Welcome";
   const displayLabel = showYouTubeData ? "Latest Sermon" : "Welcome to";
+  const parsedSermon = showYouTubeData ? parseSermonTitle(rawTitle) : null;
+  const displayDate = parsedSermon?.date ? formatSermonDate(parsedSermon.date) : null;
+  const displayTitle = parsedSermon?.topic ?? rawTitle;
+  const displayPastor = parsedSermon?.pastor ?? null;
 
   return (
   <section className="relative min-h-screen md:min-h-[100svh] flex items-center after:content-[''] after:absolute after:bottom-0 after:left-0 after:right-0 after:h-32 after:bg-brand-1 after:block sm:after:hidden">
@@ -71,13 +76,21 @@ export default function Hero({ doc, thumbnailUrl, streamTitle, streamUrl }: {
           {/* Left column: Desktop sermon text (hidden on mobile) + Mobile title and button below video */}
           <div className="mt-4 lg:mt-16 order-3 lg:order-1 text-center lg:text-right">
             {/* Desktop: Full sermon info */}
-            <div className="hidden lg:block">
-              <p className={`text-xs sm:text-sm uppercase tracking-wide text-slate-600 mb-0 leading-none transition-opacity duration-500 ${showYouTubeData ? 'opacity-100' : 'opacity-0'}`}>{displayLabel}</p>
-              <h1 className={`-mt-1 text-2xl sm:text-3xl font-semibold leading-tight text-slate-900 transition-opacity duration-500 ${showYouTubeData ? 'opacity-100' : 'opacity-0'}`}>{displayTitle}</h1>
+            <div className={`hidden lg:block transition-opacity duration-500 ${showYouTubeData ? 'opacity-100' : 'opacity-0'}`}>
+              <p className="text-xs sm:text-sm uppercase tracking-wide text-slate-600 mb-0 leading-none">
+                {displayLabel}
+                {displayDate ? <span className="text-brand-1"> · {displayDate}</span> : null}
+              </p>
+              <h1 className="-mt-1 !text-2xl sm:!text-3xl font-semibold leading-tight text-slate-900">{displayTitle}</h1>
+              {displayPastor ? <p className="mt-1 text-sm font-medium text-brand-1">{displayPastor}</p> : null}
             </div>
             {/* Mobile: Only title (no "Latest Sermon" label since it's above) */}
-            <div className="lg:hidden">
-              <h1 className={`!text-sm md:text-3xl font-semibold leading-tight text-slate-900 mb-4 transition-opacity duration-500 ${showYouTubeData ? 'opacity-100' : 'opacity-0'}`}>{displayTitle}</h1>
+            <div className={`lg:hidden transition-opacity duration-500 ${showYouTubeData ? 'opacity-100' : 'opacity-0'}`}>
+              <h1 className="!text-sm md:text-3xl font-semibold leading-tight text-slate-900">{displayTitle}</h1>
+              {(displayDate || displayPastor) ? (
+                <p className="mt-1 text-xs text-brand-1">{[displayDate, displayPastor].filter(Boolean).join(' · ')}</p>
+              ) : null}
+              <div className="mb-4" />
             </div>
             {/* Button for both mobile and desktop */}
             <div className="mt-4 mb-24 lg:mb-0 text-center lg:text-right">
