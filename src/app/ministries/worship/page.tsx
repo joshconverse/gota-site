@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   title: 'Worship Ministry',
   description: 'The Worship Ministry at Grace on the Ashley leads our congregation in worship through music, song, and creative expression, creating space to encounter God.',
   alternates: { canonical: '/ministries/worship' },
+  robots: { index: false, follow: true },
   openGraph: {
     title: 'Worship Ministry | Grace on the Ashley',
     description: 'Leading our congregation in worship through music, song, and creative expression.',
