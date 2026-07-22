@@ -22,6 +22,15 @@ const CACHE_TTL_MS = 6 * 60 * 60 * 1000; // 6 hours in milliseconds
 // Helper to check if we're on the server side
 const isServer = typeof window === 'undefined';
 
+// The homepage hero is meant to showcase the latest sermon, not memorial
+// services or one-off recap videos that also get uploaded to the channel.
+const NON_SERMON_KEYWORDS = ['memorial', 'celebration of life', 'funeral', 'recap'];
+
+function isNonSermonVideo(title: string) {
+  const lower = title.toLowerCase();
+  return NON_SERMON_KEYWORDS.some((kw) => lower.includes(kw));
+}
+
 export async function getLatestYouTubeStream(): Promise<YouTubeVideo | null> {
   const YOUTUBE_API_KEY = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
   const CHANNEL_HANDLE = '@GraceontheashleyOrg';
@@ -108,8 +117,10 @@ export async function getLatestYouTubeStream(): Promise<YouTubeVideo | null> {
 
     const videosData = await videosResponse.json();
 
-    // Find the latest live stream or video
-    const latestVideo = videosData.items?.[0];
+    // Find the latest live stream or video, skipping memorials/recaps so the
+    // hero always shows an actual sermon.
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const latestVideo = videosData.items?.find((item: any) => !isNonSermonVideo(item.snippet?.title ?? ''));
 
     if (!latestVideo) {
       return null;
