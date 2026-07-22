@@ -86,12 +86,16 @@ export async function getLatestYouTubeStream(): Promise<YouTubeVideo | null> {
   }
 
   try {
-    // First, get the channel ID from the handle.
+    // First, get the channel ID from the handle. `channels?forHandle=` is a
+    // direct handle-to-channel lookup (1 quota unit); the previous approach
+    // used `search?q=<handle>&type=channel` (100 quota units) which was also
+    // unreliable — a text search for the handle string sometimes returned no
+    // results at all, intermittently breaking the whole hero.
     // Cache upstream responses in Next's Data Cache (works on Vercel's read-only
     // filesystem, unlike the fs-based cache above) to avoid burning YouTube
     // quota on every render, which would force the stale error-fallback path.
     const searchResponse = await fetch(
-      `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(CHANNEL_HANDLE)}&type=channel&key=${YOUTUBE_API_KEY}&maxResults=1`,
+      `https://www.googleapis.com/youtube/v3/channels?part=id&forHandle=${encodeURIComponent(CHANNEL_HANDLE)}&key=${YOUTUBE_API_KEY}`,
       { next: { revalidate: CACHE_TTL_MS / 1000 } }
     );
 
@@ -104,7 +108,7 @@ export async function getLatestYouTubeStream(): Promise<YouTubeVideo | null> {
     }
 
     const searchData = await searchResponse.json();
-    const channelId = searchData.items?.[0]?.snippet?.channelId;
+    const channelId = searchData.items?.[0]?.id;
 
     if (!channelId) {
       throw new Error('Channel not found');
@@ -250,10 +254,13 @@ export async function getYouTubePlaylists(): Promise<YouTubePlaylist[]> {
   }
 
   try {
-    // First, get the channel ID from the handle. Cache upstream responses in
-    // Next's Data Cache (works on Vercel's read-only filesystem).
+    // First, get the channel ID from the handle. `channels?forHandle=` is a
+    // direct handle-to-channel lookup (1 quota unit) — more reliable and far
+    // cheaper than a `search?q=<handle>&type=channel` text search (100 units).
+    // Cache upstream responses in Next's Data Cache (works on Vercel's
+    // read-only filesystem).
     const searchResponse = await fetch(
-      `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(CHANNEL_HANDLE)}&type=channel&key=${YOUTUBE_API_KEY}&maxResults=1`,
+      `https://www.googleapis.com/youtube/v3/channels?part=id&forHandle=${encodeURIComponent(CHANNEL_HANDLE)}&key=${YOUTUBE_API_KEY}`,
       { next: { revalidate: CACHE_TTL_MS / 1000 } }
     );
 
@@ -266,7 +273,7 @@ export async function getYouTubePlaylists(): Promise<YouTubePlaylist[]> {
     }
 
     const searchData = await searchResponse.json();
-    const channelId = searchData.items?.[0]?.snippet?.channelId;
+    const channelId = searchData.items?.[0]?.id;
 
     if (!channelId) {
       throw new Error('Channel not found');
