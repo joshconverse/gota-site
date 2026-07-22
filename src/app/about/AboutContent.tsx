@@ -194,19 +194,6 @@ export default function AboutContent() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 max-w-6xl mx-auto mb-24">
-            {/* Greg Smith */}
-            <div className="text-center">
-              <div className="mb-6">
-                <img
-                  src="/bioImage_1.jpg"
-                  alt="Greg Smith"
-                  className="w-48 h-48 rounded-full mx-auto object-cover shadow-lg"
-                />
-              </div>
-              <h3 className="text-2xl font-light text-white mb-2">Greg Smith</h3>
-              <p className="text-lg text-white/90 mb-4">Elder and Lead Pastor</p>
-            </div>
-
             {/* Kelly Graham */}
             <div className="text-center">
               <div className="mb-6">
@@ -255,20 +242,7 @@ export default function AboutContent() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 max-w-6xl mx-auto mb-24">
-            {/* Greg Smith */}
-            <div className="text-center">
-              <div className="mb-6">
-                <img
-                  src="/bioImage_1.jpg"
-                  alt="Greg Smith"
-                  className="w-48 h-48 rounded-full mx-auto object-cover shadow-lg"
-                />
-              </div>
-              <h3 className="text-2xl font-light text-white mb-2">Greg Smith</h3>
-              <p className="text-lg text-white/90 mb-4">Lead Pastor</p>
-            </div>
-
+          <div className="grid grid-cols-1 max-w-sm mx-auto mb-24">
             {/* Kelly Graham */}
             <div className="text-center">
               <div className="mb-6">

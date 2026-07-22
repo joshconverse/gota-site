@@ -76,8 +76,8 @@ Nav (`Header.tsx`): Home, About, Watch, Ministries, Next Steps, **Give** (extern
 
 ## People / content facts
 
-- **Elders:** Greg Smith (Lead Pastor), Kelly Graham (Associate Pastor), Roger Parker (Chairman), Aaron Barney. *(John Butz was removed.)*
-- **Pastors:** Greg Smith, Kelly Graham.
+- **Elders:** Kelly Graham (Associate Pastor), Roger Parker (Chairman), Aaron Barney. *(Greg Smith and John Butz were removed.)*
+- **Pastors:** Kelly Graham (Associate Pastor).
 - **Staff:** Audrey Yadon, Justin Waycaster (Treasurer). *(Donna Faulk was removed.)*
 - **Children's Ministry (Grace Kids):** babies–5th grade; `children@gotachurch.org`. Section order: About → Check-In steps → Ages Served & Departments → When We Meet → Wednesday Night Discipleship → Curriculum → Safety & Security → Contact.
 - **Student Ministry:** grades 6–12; leaders **Ben & Audrey Yadon**; `students@gotachurch.org`; tagline "Inviting students to a life of faith in Jesus Christ." Sundays 9:30 am; 1st & 3rd Wednesdays 5:30 pm dinner / 6:30 pm discipleship & games.
