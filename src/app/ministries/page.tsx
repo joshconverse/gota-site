@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
-import Link from 'next/link';
 import RandomHeroImage from '@/components/RandomHeroImage';
+import MinistryCarousel from '@/components/ministries/MinistryCarousel';
+import type { MinistryIconId } from '@/components/ministries/MinistryIcons';
 import { GENERAL_HERO_IMAGES } from '@/lib/heroImages';
 import { OG_IMAGES } from '@/lib/seo';
 
@@ -19,54 +20,46 @@ export const metadata: Metadata = {
 };
 
 export default function MinistriesPage() {
-  const ministries = [
+  const ministries: { id: MinistryIconId; title: string; description: string }[] = [
     {
       id: "children",
       title: "Grace Kids",
       description: "We provide a safe, loving, Christ-centered environment for babies through 5th grade and help them learn about Jesus.",
-      bgColor: "bg-brand-4"
     },
     {
       id: "students",
       title: "Student Ministry",
       description: "Inviting students to a life of faith in Jesus Christ",
-      bgColor: "bg-brand-1"
     },
     {
       id: "faith-and-practice",
       title: "Faith & Practice",
       description: "A weekly Sunday school class where we grow together in the Christian faith and learn how to live it out.",
-      bgColor: "bg-brand-4"
     },
     {
       id: "community-groups",
       title: "Community Groups",
       description: "Small groups that meet regularly for fellowship, Bible study, prayer, and mutual support. Community Groups provide a place to grow deeper in faith and build meaningful relationships.",
-      bgColor: "bg-brand-4"
     },
     {
       id: "married",
       title: "Re | Engage",
       description: "Strengthening marriages through biblical teaching and community support. We provide resources, counseling, and events to help couples grow closer to each other and to God.",
-      bgColor: "bg-brand-1"
     },
     {
       id: "local-missions",
       title: "Local Missions",
       description: "Supporting our community through prayer, encouragement, and practical help during times of need. Our care team is here to walk alongside members through life's challenges and celebrations.",
-      bgColor: "bg-brand-4"
     },
     {
       id: "worship",
       title: "Worship Ministry",
       description: "Leading our congregation in worship through music, song, and creative expression. Our worship team creates an atmosphere where people can encounter God and respond to His presence.",
-      bgColor: "bg-brand-1"
     },
     {
       id: "international-missions",
       title: "International Missions",
       description: "Partnering with missionaries and supporting global outreach efforts to spread the Gospel worldwide. We are committed to being a sending church that invests in kingdom work both locally and internationally.",
-      bgColor: "bg-brand-4"
     }
   ];
 
@@ -113,35 +106,17 @@ export default function MinistriesPage() {
         </div>
       </section>
 
-      {/* Ministries Grid Section */}
-      <section id="children" className="min-h-screen flex items-center justify-center bg-brand-4 py-20">
-        <div className="container mx-auto max-w-[1200px] px-6 md:px-12 lg:px-20">
-          <h2 className="text-3xl md:text-4xl font-light text-black mb-12 pt-16 text-center">
+      {/* Ministries Carousel Section */}
+      <section id="children" className="bg-brand-4">
+        <div className="container mx-auto max-w-[1200px] px-6 md:px-12 lg:px-20 pt-20">
+          <h2 className="text-3xl md:text-4xl font-light text-black mb-4 text-center">
             Our Ministries
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {ministries.map((ministry) => (
-              <Link
-                key={ministry.id}
-                href={`/ministries/${ministry.id}`}
-                className="group bg-white rounded-lg shadow-lg p-8 hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer"
-              >
-                <h3 className="text-2xl font-light text-black mb-4 group-hover:text-brand-1 transition-colors">
-                  {ministry.title}
-                </h3>
-                <p className="text-gray-700 leading-relaxed">
-                  {ministry.description}
-                </p>
-                <div className="mt-6 flex items-center text-brand-1 font-semibold group-hover:translate-x-2 transition-transform">
-                  Learn More
-                  <svg className="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                  </svg>
-                </div>
-              </Link>
-            ))}
-          </div>
+          <p className="text-gray-600 text-center">
+            Keep scrolling to explore where you can grow in faith and serve others.
+          </p>
         </div>
+        <MinistryCarousel ministries={ministries} />
       </section>
     </main>
   );
