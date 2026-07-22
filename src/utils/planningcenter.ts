@@ -544,15 +544,23 @@ export async function getPlanningCenterEvents({ perPage = 12 } = {}): Promise<PC
       // fill startsAt when missing
       events = events.map((e) => {
         const insts: Array<{ id?: string; start: string; end?: string | null; raw?: any; recurrence?: string | null; eventTimes?: PCEventTime[] }> = instancesByEvent.get(e.id) ?? [];
+        // The top-level event `links.html` points at a login-gated PCO admin
+        // URL. Each instance's `church_center_url` is the public-facing page
+        // — prefer that for anything shown to visitors.
+        const firstInstance = insts[0]?.raw;
+        const publicUrl = firstInstance?.attributes?.church_center_url ?? e.link;
+        const instanceLocation = firstInstance?.attributes?.location ?? e.location;
         return {
           ...e,
-          instances: insts.map((it) => ({ 
-            id: it.id, 
-            startAt: it.start, 
-            endAt: it.end ?? null, 
-            raw: it.raw, 
+          link: publicUrl,
+          location: instanceLocation,
+          instances: insts.map((it) => ({
+            id: it.id,
+            startAt: it.start,
+            endAt: it.end ?? null,
+            raw: it.raw,
             recurrence: it.recurrence ?? null,
-            eventTimes: it.eventTimes 
+            eventTimes: it.eventTimes
           })),
           nextInstanceStartsAt: earliestByEvent.get(e.id) ?? (insts[0]?.start ?? null),
           startsAt: e.startsAt ?? earliestByEvent.get(e.id) ?? (insts[0]?.start ?? null),
