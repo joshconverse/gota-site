@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import Script from 'next/script';
+import { headers } from "next/headers";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
@@ -103,11 +104,16 @@ export const viewport: Viewport = {
   viewportFit: 'cover',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const headersList = await headers();
+  // Sanity Studio (embedded at /studio) is a full-screen admin tool, not part
+  // of the public site chrome — skip the marketing Header/Footer there.
+  const isStudio = (headersList.get("x-pathname") ?? "").startsWith("/studio");
+
   return (
     <html lang="en">
       <head>
@@ -127,9 +133,9 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Header />
+        {!isStudio && <Header />}
         {children}
-        <Footer />
+        {!isStudio && <Footer />}
       </body>
     </html>
   );
