@@ -471,7 +471,14 @@ export async function getPlanningCenterEvents({ perPage = 12 } = {}): Promise<PC
 
         for (const ev of missing) {
           try {
-            const perUrl = `${instancesUrlBase}?filter[event]=${encodeURIComponent(ev.id)}&filter=approved&where[starts_at][gte]=${today}&per_page=100&order=starts_at&include=event_times,event`;
+            // `filter[event]=<id>` on the flat /event_instances endpoint is not
+            // a recognized PCO filter and is silently ignored, returning an
+            // unscoped, globally-ordered list — instances from unrelated
+            // events then get misattributed to this event. The nested
+            // /events/{id}/event_instances route correctly scopes to just
+            // this event's own instances.
+            const perEventBase = instancesUrlBase.replace(/\/event_instances\/?$/, '');
+            const perUrl = `${perEventBase}/events/${encodeURIComponent(ev.id)}/event_instances?filter=approved&where[starts_at][gte]=${today}&per_page=100&order=starts_at&include=event_times,event`;
             const pr = await retryFetch(perUrl, { headers: { Authorization: auth, Accept: 'application/vnd.api+json' } });
             if (!pr.ok) {
               if (process.env.NODE_ENV !== 'production') {

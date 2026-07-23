@@ -126,7 +126,7 @@ describe('getPlanningCenterEvents', () => {
     global.fetch = vi.fn(async (url: string) => {
       // Provide a per-event fallback instance for e4 so it isn't dropped by
       // the final filtering step (tests expect non-forbidden events to remain).
-      if (url.includes('filter[event]=e4')) {
+      if (url.includes('/events/e4/event_instances')) {
         return { ok: true, json: async () => ({ data: [ { attributes: { start_at: '2025-03-03T10:00:00Z' }, relationships: { event: { data: { id: 'e4' } } } } ] }) } as unknown as Response;
       }
 
@@ -162,7 +162,7 @@ describe('getPlanningCenterEvents', () => {
     // matched first so it can return instance details for the fallback.
     global.fetch = vi.fn(async (url: string) => {
       // Per-event fetch will return a future instance for e1
-      if (url.includes('filter[event]=e1')) {
+      if (url.includes('/events/e1/event_instances')) {
         return { ok: true, json: async () => ({ data: [ { attributes: { start_at: '2025-02-02T09:00:00Z' }, relationships: { event: { data: { id: 'e1' } } } } ] }) } as Response;
       }
 
@@ -187,7 +187,7 @@ describe('getPlanningCenterEvents', () => {
 
     const fetchFn = vi.fn(async (url: string) => {
       // Per-event fallback should also include filter[future]
-      if (url.includes('filter[event]=e9')) {
+      if (url.includes('/events/e9/event_instances')) {
         // Implementation uses a where[starts_at][gte] query param to restrict
         // to future instances; assert that instead of the old
         // filter[future] form.
@@ -216,7 +216,7 @@ describe('getPlanningCenterEvents', () => {
   const eventsData = { data: [ { id: 'e2', attributes: { visible_in_church_center: true, name: 'Event 2' }, links: { html: 'https://example.com/e2' } } ] };
 
     global.fetch = vi.fn(async (url: string) => {
-      if (url.includes('filter[event]=e2')) {
+      if (url.includes('/events/e2/event_instances')) {
         return { ok: true, json: async () => ({ data: [
           { attributes: { start_at: '2024-01-01T09:00:00Z' }, relationships: { event: { data: { id: 'e2' } } } },
           { attributes: { start_at: '2026-05-05T14:30:00Z' }, relationships: { event: { data: { id: 'e2' } } } },
