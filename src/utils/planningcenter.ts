@@ -101,7 +101,13 @@ export async function getPlanningCenterEvents({ perPage = 12 } = {}): Promise<PC
   // Request only events that are visible in Church Center to minimize
   // transferred data and reduce client-side filtering. Also include event_times
   // to get detailed timing information for each event.
-  const visibilityFilter = 'filter[visible_in_church_center]=true';
+  // NOTE: `visible_in_church_center` is a `where[]`-queryable attribute, not a
+  // `filter[]` (PCO's `can_filter` list only supports `future`/`approved`-style
+  // filters). `filter[visible_in_church_center]=true` is silently ignored by
+  // the API and returns *all* events unfiltered, in default (oldest-first)
+  // order — with a small per_page this meant we only ever saw a handful of
+  // the oldest events and could completely miss newer visible events.
+  const visibilityFilter = 'where[visible_in_church_center]=true';
   const url = baseUrl.includes('?')
     ? `${baseUrl}&${visibilityFilter}&per_page=${perPage}&include=event_times`
     : `${baseUrl}?${visibilityFilter}&per_page=${perPage}&include=event_times`;
@@ -218,6 +224,35 @@ export async function getPlanningCenterEvents({ perPage = 12 } = {}): Promise<PC
         console.error('[PlanningCenter] unexpected response shape: data is not an array', { dataType: typeof json.data, sample: JSON.stringify(json.data).slice(0, 1000) });
       }
       return null;
+    }
+
+    // The events endpoint paginates (`per_page` is capped by PCO); follow
+    // `links.next` so a visible event isn't silently dropped just because it
+    // sorted past the first page. Bounded to guard against a runaway loop.
+    let nextUrl: string | null = json.links?.next ?? null;
+    let pageCount = 1;
+    const MAX_EVENT_PAGES = 10;
+    while (nextUrl && pageCount < MAX_EVENT_PAGES) {
+      const pageRes = await retryFetch(nextUrl, {
+        headers: { Authorization: auth, Accept: 'application/vnd.api+json' },
+      });
+      if (!pageRes.ok) {
+        if (process.env.NODE_ENV !== 'production') {
+          console.warn('[PlanningCenter] events pagination request failed, stopping', { status: pageRes.status, url: nextUrl });
+        }
+        break;
+      }
+      const pageJson = await pageRes.json();
+      if (!Array.isArray(pageJson?.data)) break;
+      json.data = json.data.concat(pageJson.data);
+      if (Array.isArray(pageJson.included)) {
+        json.included = (json.included ?? []).concat(pageJson.included);
+      }
+      nextUrl = pageJson.links?.next ?? null;
+      pageCount++;
+    }
+    if (process.env.NODE_ENV !== 'production' && nextUrl) {
+      console.warn('[PlanningCenter] stopped events pagination at page cap with more pages remaining', { pageCount, MAX_EVENT_PAGES });
     }
 
     // Parse event_times from the included array if present
@@ -471,7 +506,14 @@ export async function getPlanningCenterEvents({ perPage = 12 } = {}): Promise<PC
 
         for (const ev of missing) {
           try {
-            const perUrl = `${instancesUrlBase}?filter[event]=${encodeURIComponent(ev.id)}&filter=approved&where[starts_at][gte]=${today}&per_page=100&order=starts_at&include=event_times,event`;
+            // `filter[event]=<id>` on the flat /event_instances endpoint is not
+            // a recognized PCO filter and is silently ignored, returning an
+            // unscoped, globally-ordered list — instances from unrelated
+            // events then get misattributed to this event. The nested
+            // /events/{id}/event_instances route correctly scopes to just
+            // this event's own instances.
+            const perEventBase = instancesUrlBase.replace(/\/event_instances\/?$/, '');
+            const perUrl = `${perEventBase}/events/${encodeURIComponent(ev.id)}/event_instances?filter=approved&where[starts_at][gte]=${today}&per_page=100&order=starts_at&include=event_times,event`;
             const pr = await retryFetch(perUrl, { headers: { Authorization: auth, Accept: 'application/vnd.api+json' } });
             if (!pr.ok) {
               if (process.env.NODE_ENV !== 'production') {

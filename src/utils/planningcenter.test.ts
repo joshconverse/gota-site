@@ -104,7 +104,32 @@ describe('getPlanningCenterEvents', () => {
     await getPlanningCenterEvents({ perPage: 5 });
 
   const firstCallUrl = (fetchFn as unknown as { mock: { calls: unknown[][] } }).mock.calls[0][0] as string;
-    expect(firstCallUrl).toContain('filter[visible_in_church_center]=true');
+    expect(firstCallUrl).toContain('where[visible_in_church_center]=true');
+  });
+
+  it('follows links.next to fetch events beyond the first page', async () => {
+    const page1 = {
+      data: [
+        { id: 'e1', attributes: { visible_in_church_center: true, name: 'Event 1', starts_at: '2025-02-01T10:00:00Z' }, links: { html: 'https://example.com/e1' } },
+      ],
+      links: { next: 'https://api.test/events?offset=1' },
+    };
+    const page2 = {
+      data: [
+        { id: 'e2', attributes: { visible_in_church_center: true, name: 'Event 2', starts_at: '2025-02-02T10:00:00Z' }, links: { html: 'https://example.com/e2' } },
+      ],
+    };
+
+    global.fetch = vi.fn(async (url: string) => {
+      if (url.includes('event_instances')) return { ok: true, json: async () => ({ data: [] }) } as Response;
+      if (url.includes('offset=1')) return { ok: true, json: async () => page2 } as Response;
+      return { ok: true, json: async () => page1 } as Response;
+    }) as unknown as typeof fetch;
+
+    const res = await getPlanningCenterEvents({ perPage: 1 });
+    expect(res).not.toBeNull();
+    const ids = res!.map((e) => e.id).sort();
+    expect(ids).toEqual(['e1', 'e2']);
   });
 
   it('returns null or empty when API does not return data', async () => {
@@ -126,7 +151,7 @@ describe('getPlanningCenterEvents', () => {
     global.fetch = vi.fn(async (url: string) => {
       // Provide a per-event fallback instance for e4 so it isn't dropped by
       // the final filtering step (tests expect non-forbidden events to remain).
-      if (url.includes('filter[event]=e4')) {
+      if (url.includes('/events/e4/event_instances')) {
         return { ok: true, json: async () => ({ data: [ { attributes: { start_at: '2025-03-03T10:00:00Z' }, relationships: { event: { data: { id: 'e4' } } } } ] }) } as unknown as Response;
       }
 
@@ -162,7 +187,7 @@ describe('getPlanningCenterEvents', () => {
     // matched first so it can return instance details for the fallback.
     global.fetch = vi.fn(async (url: string) => {
       // Per-event fetch will return a future instance for e1
-      if (url.includes('filter[event]=e1')) {
+      if (url.includes('/events/e1/event_instances')) {
         return { ok: true, json: async () => ({ data: [ { attributes: { start_at: '2025-02-02T09:00:00Z' }, relationships: { event: { data: { id: 'e1' } } } } ] }) } as Response;
       }
 
@@ -187,7 +212,7 @@ describe('getPlanningCenterEvents', () => {
 
     const fetchFn = vi.fn(async (url: string) => {
       // Per-event fallback should also include filter[future]
-      if (url.includes('filter[event]=e9')) {
+      if (url.includes('/events/e9/event_instances')) {
         // Implementation uses a where[starts_at][gte] query param to restrict
         // to future instances; assert that instead of the old
         // filter[future] form.
@@ -216,7 +241,7 @@ describe('getPlanningCenterEvents', () => {
   const eventsData = { data: [ { id: 'e2', attributes: { visible_in_church_center: true, name: 'Event 2' }, links: { html: 'https://example.com/e2' } } ] };
 
     global.fetch = vi.fn(async (url: string) => {
-      if (url.includes('filter[event]=e2')) {
+      if (url.includes('/events/e2/event_instances')) {
         return { ok: true, json: async () => ({ data: [
           { attributes: { start_at: '2024-01-01T09:00:00Z' }, relationships: { event: { data: { id: 'e2' } } } },
           { attributes: { start_at: '2026-05-05T14:30:00Z' }, relationships: { event: { data: { id: 'e2' } } } },
