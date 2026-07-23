@@ -82,6 +82,11 @@ h1 {
 .border-brand-3 { border-color: var(--brand-3); }
 .border-brand-4 { border-color: var(--brand-4); }
 
+/* Hide scrollbar on native horizontal scroll containers (e.g. carousels)
+   while keeping them keyboard/touch/wheel scrollable. */
+.no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
 /* Simple button look */
 .btn {
   display: inline-block;
