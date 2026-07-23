@@ -110,9 +110,9 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const headersList = await headers();
-  // Sanity Studio (embedded at /studio) is a full-screen admin tool, not part
+  // Sanity Studio (embedded at /sanity) is a full-screen admin tool, not part
   // of the public site chrome — skip the marketing Header/Footer there.
-  const isStudio = (headersList.get("x-pathname") ?? "").startsWith("/studio");
+  const isStudio = (headersList.get("x-pathname") ?? "").startsWith("/sanity");
 
   return (
     <html lang="en">

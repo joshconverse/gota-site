@@ -9,7 +9,7 @@ export default defineConfig({
   title: "Grace on the Ashley",
   projectId,
   dataset,
-  basePath: "/studio",
+  basePath: "/sanity",
   plugins: [structureTool(), visionTool({ defaultApiVersion: apiVersion })],
   schema: {
     types: schemaTypes,
