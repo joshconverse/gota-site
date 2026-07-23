@@ -22,8 +22,8 @@ export default function UpcomingEvents({ events }: { events: PCEvent[] }) {
   if (upcoming.length === 0) return null;
 
   return (
-    <section className="relative bg-brand-4">
-      <div className="container mx-auto max-w-[1200px] px-6 md:px-12 lg:px-20 pt-20">
+    <section className="relative bg-brand-4 py-20">
+      <div className="container mx-auto max-w-[1200px] px-6 md:px-12 lg:px-20 mb-12">
         <h2 className="text-2xl md:text-3xl font-light text-center text-slate-900 mb-4">
           Upcoming Events
         </h2>
