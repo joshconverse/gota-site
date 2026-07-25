@@ -50,8 +50,8 @@ export default function CookieBanner() {
       aria-label="Cookie notice"
       className="fixed inset-x-0 bottom-0 z-50 bg-brand-3 border-t border-slate-300 shadow-lg"
     >
-      <div className="container mx-auto max-w-[1440px] px-6 md:px-12 lg:px-20 py-2 flex flex-row items-center gap-3 sm:gap-4">
-        <p className="text-xs text-slate-900 flex-1">
+      <div className="container mx-auto max-w-[1440px] px-6 md:px-12 lg:px-20 py-4 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-6">
+        <p className="text-sm text-slate-900 flex-1">
           We use cookies, including Google Analytics, to understand how visitors
           use our site. See our{" "}
           <Link href="/privacy" className="underline hover:text-brand-1 transition-colors">
@@ -62,7 +62,7 @@ export default function CookieBanner() {
         <button
           type="button"
           onClick={dismiss}
-          className="shrink-0 bg-brand-2 text-slate-900 text-sm px-4 py-1 rounded-md font-semibold shadow hover:opacity-95 transition"
+          className="shrink-0 self-start sm:self-auto bg-brand-2 text-slate-900 px-6 py-2 rounded-md font-semibold shadow hover:opacity-95 transition"
         >
           OK
         </button>
