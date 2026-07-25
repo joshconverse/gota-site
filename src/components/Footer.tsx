@@ -56,8 +56,12 @@ export default function Footer() {
               className="h-8 w-auto"
             />
           </Link>
-          <div className="text-sm text-slate-600">
-            © {new Date().getFullYear()} Grace on the Ashley
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm text-slate-600">
+            <Link href="/privacy" className="hover:text-brand-1 transition-colors">
+              Privacy &amp; Cookies
+            </Link>
+            <span className="hidden sm:inline" aria-hidden="true">·</span>
+            <span>© {new Date().getFullYear()} Grace on the Ashley</span>
           </div>
         </div>
       </div>
