@@ -27,9 +27,6 @@ export default function UpcomingEvents({ events }: { events: PCEvent[] }) {
         <h2 className="text-2xl md:text-3xl font-light text-center text-slate-900 mb-4">
           Upcoming Events
         </h2>
-        <p className="text-center text-gray-600 max-w-2xl mx-auto">
-          A few things happening around Grace on the Ashley in the next two weeks.
-        </p>
       </div>
       <EventsCarousel events={upcoming} />
     </section>
