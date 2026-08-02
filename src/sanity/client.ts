@@ -5,5 +5,8 @@ export const client = createClient({
   projectId,
   dataset,
   apiVersion,
-  useCdn: false,
+  // Serve reads from Sanity's edge CDN. Content is fetched through Next's ISR
+  // cache (revalidate) anyway, so the CDN's brief propagation delay is invisible
+  // to visitors while cutting cold-fetch latency.
+  useCdn: true,
 });

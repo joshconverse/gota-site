@@ -30,9 +30,15 @@ export const metadata: Metadata = {
 const options = { next: { revalidate: process.env.NODE_ENV === 'development' ? 0 : 30 } };
 
 export default async function IndexPage() {
-  const homepage = await client.fetch<SanityDocument | null>(queries.HOMEPAGE_QUERY, {}, options);
-  const latestStream = await getLatestYouTubeStream();
-  const pcoEvents = await getPlanningCenterEvents({ perPage: 12 }).catch(() => null) ?? [];
+  // Fetch the three data sources concurrently. They're independent, so awaiting
+  // them in series made the cold render wait for the sum of all three; Promise.all
+  // makes it wait only for the slowest one.
+  const [homepage, latestStream, pcoEventsResult] = await Promise.all([
+    client.fetch<SanityDocument | null>(queries.HOMEPAGE_QUERY, {}, options),
+    getLatestYouTubeStream(),
+    getPlanningCenterEvents({ perPage: 12 }).catch(() => null),
+  ]);
+  const pcoEvents = pcoEventsResult ?? [];
 
   const posts = (homepage?.recentPosts as SanityDocument[] | undefined) ?? [];
   const events = (homepage?.upcomingEvents as SanityDocument[] | undefined) ?? [];
