@@ -39,7 +39,7 @@ export default function MinistriesPage() {
     {
       id: "community-groups",
       title: "City Groups",
-      description: "City Groups are the ideal place to build real relationships and the church's first point of contact for care. Meeting throughout the week, they're also where we invite friends and neighbors who don't yet know Christ into community.",
+      description: "The best place to build real relationships, be cared for, and invite others into the family of God — meeting in homes throughout the week.",
     },
     {
       id: "married",

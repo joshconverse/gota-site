@@ -1,6 +1,8 @@
 import type { PCGroup } from '@/utils/planningcenterGroups';
 
-const CHURCH_CENTER_GROUPS_URL = 'https://gotachurch.churchcenteronline.com/groups';
+// Public Church Center domain (…churchcenter.com). Note: …churchcenteronline.com
+// is the admin/login portal and must NOT be used for visitor-facing links.
+const CHURCH_CENTER_GROUPS_URL = 'https://gotachurch.churchcenter.com/groups';
 
 /**
  * Church Center links open in a modal on the site when the
@@ -20,12 +22,10 @@ export default function GroupsGrid({ groups }: { groups: PCGroup[] }) {
     return (
       <div className="text-center max-w-2xl mx-auto">
         <p className="text-lg text-gray-700 leading-relaxed mb-8">
-          Our City Groups are listed in the Church Center app. Browse the current
-          groups, find one that fits your schedule and stage of life, and request
-          to join in just a couple taps.
+          Browse our current groups in Church Center and request to join in a couple taps.
         </p>
         <a
-          href={withModal(CHURCH_CENTER_GROUPS_URL)}
+          href={CHURCH_CENTER_GROUPS_URL}
           target="_blank"
           rel="noopener noreferrer"
           className="inline-block bg-brand-2 text-slate-900 px-8 py-4 rounded-md font-semibold shadow hover:opacity-95 transition"
@@ -47,16 +47,14 @@ export default function GroupsGrid({ groups }: { groups: PCGroup[] }) {
           {group.description && (
             <p className="text-gray-700 leading-relaxed mb-6 flex-1">{group.description}</p>
           )}
-          {group.link && (
-            <a
-              href={withModal(group.link)}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-auto inline-block text-center bg-brand-2 text-slate-900 px-6 py-3 rounded-md font-semibold shadow hover:opacity-95 transition"
-            >
-              Join this group
-            </a>
-          )}
+          <a
+            href={group.link ? withModal(group.link) : CHURCH_CENTER_GROUPS_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-auto inline-block text-center bg-brand-2 text-slate-900 px-6 py-3 rounded-md font-semibold shadow hover:opacity-95 transition"
+          >
+            Join this group
+          </a>
         </div>
       ))}
     </div>

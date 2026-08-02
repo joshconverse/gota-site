@@ -166,9 +166,11 @@ export async function getPlanningCenterGroups({ perPage = 100 } = {}): Promise<P
     const mapped: Array<PCGroup | null> = (json.data as any[]).map((d: any) => {
       try {
         const attrs = d.attributes ?? {};
-        // Only surface groups that are published to Church Center and not archived.
+        // Surface every active group; skip only archived ones. The public
+        // Church Center URL is used for the "Join" link when present, but a
+        // missing URL no longer hides the group from the page.
+        if (attrs.archived_at) return null;
         const publicUrl = attrs.public_church_center_web_url ?? null;
-        if (!publicUrl || attrs.archived_at) return null;
 
         const header = attrs.header_image ?? {};
         const image = header.medium ?? header.original ?? header.thumbnail ?? null;

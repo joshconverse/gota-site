@@ -52,7 +52,7 @@ export default async function CityGroupsPage() {
                 City Groups
               </h1>
               <p className="text-xl md:text-2xl text-white mb-8 max-w-3xl mx-auto">
-                City Groups are the ideal place to build real relationships and our church&apos;s first point of contact for care. They&apos;re also where we invite friends and neighbors who don&apos;t yet know Christ into community.
+                The best place to build real relationships, be cared for, and invite others into the family of God.
               </p>
               <Link
                 href="/ministries"
@@ -74,7 +74,7 @@ export default async function CityGroupsPage() {
             </h2>
             <div className="space-y-6 text-lg text-gray-700 leading-relaxed">
               <p>
-                On Sunday mornings we gather as one church family, but it&apos;s in City Groups that we truly come to know one another. These smaller groups meet throughout the week in homes across the Lowcountry to share a meal, open the Scriptures, pray, and do everyday life together. It&apos;s where the person next to you on Sunday becomes a friend who knows your name, your story, and your needs.
+                We gather as a church on Sundays, but we become family in City Groups &mdash; smaller groups that meet through the week in homes to share a meal, open the Bible, and pray.
               </p>
             </div>
           </div>
@@ -82,18 +82,18 @@ export default async function CityGroupsPage() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="bg-white rounded-lg shadow-lg p-8">
               <h3 className="text-2xl font-semibold text-black mb-4">
-                The ideal place to build relationships
+                Build real relationships
               </h3>
               <p className="text-gray-700 leading-relaxed">
-                We were never meant to follow Jesus alone. City Groups are the best place at Grace on the Ashley to move from being a face in the crowd to being deeply known. Around the same table week after week, you&apos;ll grow in the Word alongside people who encourage you, challenge you, celebrate with you, and walk with you through whatever life brings. Real relationships take time and consistency &mdash; a City Group gives you both.
+                City Groups are where you go from being a face in the crowd to being truly known &mdash; growing in God&apos;s Word alongside people who encourage you and walk with you through whatever life brings.
               </p>
             </div>
             <div className="bg-white rounded-lg shadow-lg p-8">
               <h3 className="text-2xl font-semibold text-black mb-4">
-                Our first point of contact for care
+                Our first place for care
               </h3>
               <p className="text-gray-700 leading-relaxed">
-                When a member faces a hospital stay, a new baby, a job loss, or a season of grief, their City Group is usually the first to know and the first to respond. This is by design. Your group is the front line of care at Grace on the Ashley &mdash; the people bringing meals, praying over you, and standing with you long before a need ever reaches the church office. Being part of a group means you never have to carry life&apos;s hardest moments by yourself.
+                When a need arises &mdash; a hospital stay, a new baby, a loss &mdash; your group is usually first to know and first to respond with prayer, meals, and presence. You never carry life&apos;s hardest moments alone.
               </p>
             </div>
           </div>
@@ -109,10 +109,7 @@ export default async function CityGroupsPage() {
             </h2>
             <div className="space-y-6 text-lg text-gray-700 leading-relaxed">
               <p>
-                City Groups aren&apos;t just for people who already follow Jesus. For many, a living room feels far more approachable than a Sunday service &mdash; and that makes a group one of the most natural places to introduce someone to the gospel and to the family of God.
-              </p>
-              <p>
-                We want every group to keep an open chair. Invite the neighbor you&apos;ve been getting to know, the coworker asking questions about faith, or the friend who wouldn&apos;t set foot in a church building but would happily come to dinner. As they&apos;re welcomed, cared for, and included in honest conversation, many people encounter the love of Christ in a group long before they ever call the church home. Inviting the unbeliever isn&apos;t a program &mdash; it&apos;s simply what happens when a community shaped by grace makes room for one more.
+                City Groups aren&apos;t just for people who already follow Jesus. A living room is often less intimidating than a Sunday service, which makes a group one of the most natural places to introduce a friend, neighbor, or coworker to the gospel. Keep an open chair &mdash; and bring someone with you.
               </p>
             </div>
           </div>
@@ -127,9 +124,7 @@ export default async function CityGroupsPage() {
               Find a City Group
             </h2>
             <p className="text-lg text-gray-700 leading-relaxed">
-              Browse our current groups below. When you find one that fits, tap
-              &ldquo;Join this group&rdquo; to connect with the leaders and request to
-              join through the Church Center app.
+              Browse our groups below and tap &ldquo;Join this group&rdquo; to connect with the leaders through Church Center.
             </p>
           </div>
 
