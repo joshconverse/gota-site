@@ -32,6 +32,20 @@ describe('parseSermonTitle', () => {
     expect(result.pastor).toBe('Pastor Greg Smith');
   });
 
+  it('splits a trailing bare guest-speaker name when the topic carries the passage', () => {
+    const result = parseSermonTitle('08.02.26 - Proverbs 6:6-11 - George Bednar');
+    expect(result.date).not.toBeNull();
+    expect(formatSermonDate(result.date!)).toBe('August 2, 2026');
+    expect(result.topic).toBe('Proverbs 6:6-11');
+    expect(result.pastor).toBe('George Bednar');
+  });
+
+  it('does not treat a trailing topical phrase as a bare speaker name', () => {
+    const result = parseSermonTitle('01.01.26 - Romans 8 - More Than Conquerors');
+    expect(result.topic).toBe('Romans 8 - More Than Conquerors');
+    expect(result.pastor).toBeNull();
+  });
+
   it('recognizes "Guest Preacher" and "Elder" as speaker prefixes', () => {
     const guest = parseSermonTitle('February 15, 2026 - 1 Corinthians 13 - Guest Preacher Curtis Bostic');
     expect(guest.pastor).toBe('Guest Preacher Curtis Bostic');
