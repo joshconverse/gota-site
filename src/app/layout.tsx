@@ -5,6 +5,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import CookieBanner from "@/components/CookieBanner";
 import { SITE_URL, SITE_NAME, OG_IMAGE, OG_IMAGES } from "@/lib/seo";
 
 const geistSans = Geist({
@@ -136,6 +137,7 @@ export default async function RootLayout({
         {!isStudio && <Header />}
         {children}
         {!isStudio && <Footer />}
+        {!isStudio && <CookieBanner />}
       </body>
     </html>
   );

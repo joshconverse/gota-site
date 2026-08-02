@@ -20,10 +20,9 @@ export default function Footer() {
             <Link href="/ministries/children" className="block text-slate-900 hover:text-brand-1 transition-colors">Grace Kids</Link>
             <Link href="/ministries/students" className="block text-slate-900 hover:text-brand-1 transition-colors">Students</Link>
             <Link href="/ministries/faith-and-practice" className="block text-slate-900 hover:text-brand-1 transition-colors">Faith &amp; Practice</Link>
-            <Link href="/ministries/community-groups" className="block text-slate-900 hover:text-brand-1 transition-colors">Community Groups</Link>
+            <Link href="/ministries/community-groups" className="block text-slate-900 hover:text-brand-1 transition-colors">City Groups</Link>
             <Link href="/ministries/married" className="block text-slate-900 hover:text-brand-1 transition-colors">Re | Engage</Link>
             <Link href="/ministries/local-missions" className="block text-slate-900 hover:text-brand-1 transition-colors">Local Missions</Link>
-            <Link href="/ministries/worship" className="block text-slate-900 hover:text-brand-1 transition-colors">Worship</Link>
             <Link href="/ministries/international-missions" className="block text-slate-900 hover:text-brand-1 transition-colors">International Missions</Link>
           </div>
 
@@ -56,8 +55,12 @@ export default function Footer() {
               className="h-8 w-auto"
             />
           </Link>
-          <div className="text-sm text-slate-600">
-            © {new Date().getFullYear()} Grace on the Ashley
+          <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm text-slate-600">
+            <Link href="/privacy" className="hover:text-brand-1 transition-colors">
+              Privacy &amp; Cookies
+            </Link>
+            <span className="hidden sm:inline" aria-hidden="true">·</span>
+            <span>© {new Date().getFullYear()} Grace on the Ashley</span>
           </div>
         </div>
       </div>
