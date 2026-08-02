@@ -20,6 +20,14 @@ const LONG_DATE = /^([A-Z][a-z]+ \d{1,2}),?\s+(\d{4})\s*-\s*/;
 
 const SPEAKER_PREFIX = /^(pastor|preacher|guest preacher|elder)\b/i;
 
+// Common connective/topical words. A trailing dash segment containing any of
+// these reads as a topical phrase ("More Than Conquerors", "The Cross of
+// Christ"), not a bare speaker name — so we must not mistake it for a pastor.
+const NON_NAME_WORDS = new Set([
+  'the', 'a', 'an', 'and', 'or', 'of', 'for', 'to', 'in', 'on', 'with',
+  'than', 'that', 'is', 'are', 'our', 'your', 'his', 'her', 'from', 'by',
+]);
+
 // We normally preach verse-by-verse, so a scripture reference should always
 // be shown when the title provides one — whether that's a bare passage
 // ("Proverbs 17:27-18:8") or a topical title paired with one ("MOBILIZE -
@@ -44,6 +52,26 @@ const BOOK_NAME_PATTERN = new RegExp(`\\b(${BIBLE_BOOKS.join('|')})\\b`, 'i');
 // A chapter:verse reference, e.g. "17:27" — a fallback signal for the rare
 // case a passage is cited without spelling out the book name.
 const VERSE_REFERENCE = /\d+:\d+/;
+
+function hasScriptureReference(text: string) {
+  return BOOK_NAME_PATTERN.test(text) || VERSE_REFERENCE.test(text);
+}
+
+// A trailing segment with no speaker prefix that still reads as a person's
+// name — e.g. a guest speaker entered as "… - George Bednar" (no "Pastor" /
+// "Guest Preacher" label). Deliberately strict: 1–4 title-cased words, at least
+// one lowercase letter (rejects all-caps topical shouts like "MOBILIZE"), no
+// digits/scripture reference, and no topical connective words.
+function looksLikeBareSpeakerName(text: string) {
+  if (/\d/.test(text) || VERSE_REFERENCE.test(text)) return false;
+  if (BOOK_NAME_PATTERN.test(text)) return false;
+  if (!/[a-z]/.test(text)) return false;
+  const words = text.split(/\s+/);
+  if (words.length < 1 || words.length > 4) return false;
+  return words.every(
+    (w) => /^[A-Z][A-Za-z.'-]*$/.test(w) && !NON_NAME_WORDS.has(w.toLowerCase())
+  );
+}
 
 function finalizeTopic(topic: string) {
   const trimmed = topic.trim();
@@ -84,13 +112,17 @@ export function parseSermonTitle(raw: string): ParsedSermonTitle {
 
   const rest = trimmed.slice(dateMatchLength).trim();
 
-  // Only split off a trailing pastor line when it unambiguously names a
-  // speaker, so we don't accidentally chop a scripture reference or topic.
+  // Split off a trailing speaker line when it either unambiguously names a
+  // speaker (a "Pastor"/"Preacher"/"Elder" prefix) or reads as a bare proper
+  // name while the topic before it still carries the passage — the latter
+  // covers guest speakers entered without a title (e.g. "… - George Bednar").
+  // Both guards keep us from chopping a scripture reference or topic segment.
   const lastDashIndex = rest.lastIndexOf(' - ');
   if (lastDashIndex !== -1) {
     const tail = rest.slice(lastDashIndex + 3).trim();
-    if (SPEAKER_PREFIX.test(tail)) {
-      return { date, topic: finalizeTopic(rest.slice(0, lastDashIndex).trim()), pastor: tail };
+    const head = rest.slice(0, lastDashIndex).trim();
+    if (SPEAKER_PREFIX.test(tail) || (looksLikeBareSpeakerName(tail) && hasScriptureReference(head))) {
+      return { date, topic: finalizeTopic(head), pastor: tail };
     }
   }
 
