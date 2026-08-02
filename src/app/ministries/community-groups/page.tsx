@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import RandomHeroImage from '@/components/RandomHeroImage';
 import GroupsGrid from '@/components/ministries/GroupsGrid';
+import { CITY_GROUPS } from '@/lib/cityGroups';
 import { GENERAL_HERO_IMAGES } from '@/lib/heroImages';
 import { OG_IMAGES } from '@/lib/seo';
-import getPlanningCenterGroups from '@/utils/planningcenterGroups';
 
 import type { Metadata } from 'next';
 
@@ -22,16 +22,7 @@ export const metadata: Metadata = {
   },
 };
 
-// Regenerate periodically so the Planning Center group list stays reasonably
-// fresh without making the page fully dynamic.
-export const revalidate = 1800; // 30 minutes
-
-export default async function CityGroupsPage() {
-  // Fetch published groups from Planning Center; fall back to an empty list
-  // (which renders a "browse in Church Center" CTA) if it's unavailable or
-  // credentials aren't configured in this environment.
-  const groups = (await getPlanningCenterGroups({ perPage: 100 }).catch(() => null)) ?? [];
-
+export default function CityGroupsPage() {
   return (
     <main className="min-h-screen bg-white">
       {/* Hero Section */}
@@ -128,7 +119,7 @@ export default async function CityGroupsPage() {
             </p>
           </div>
 
-          <GroupsGrid groups={groups} />
+          <GroupsGrid groups={CITY_GROUPS} />
         </div>
       </section>
     </main>
