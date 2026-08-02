@@ -86,77 +86,116 @@ export async function getLatestYouTubeStream(): Promise<YouTubeVideo | null> {
   }
 
   try {
-    // First, get the channel ID from the handle. `channels?forHandle=` is a
-    // direct handle-to-channel lookup (1 quota unit); the previous approach
-    // used `search?q=<handle>&type=channel` (100 quota units) which was also
-    // unreliable — a text search for the handle string sometimes returned no
-    // results at all, intermittently breaking the whole hero.
+    // Resolve the channel's "uploads" playlist, then read the latest items from
+    // it. We deliberately DON'T use `search?order=date` here: that endpoint lags
+    // several hours behind a just-ended livestream (so a Sunday sermon wouldn't
+    // surface in the hero until mid-week) and costs 100 quota units per call.
+    // The uploads playlist reflects new/ended uploads within minutes and the
+    // whole chain below is 3 quota units total.
+    // `channels?forHandle=` is a direct handle-to-channel lookup (1 unit) and
+    // hands us the uploads playlist id via contentDetails.relatedPlaylists.uploads.
     // Cache upstream responses in Next's Data Cache (works on Vercel's read-only
     // filesystem, unlike the fs-based cache above) to avoid burning YouTube
     // quota on every render, which would force the stale error-fallback path.
-    const searchResponse = await fetch(
-      `https://www.googleapis.com/youtube/v3/channels?part=id&forHandle=${encodeURIComponent(CHANNEL_HANDLE)}&key=${YOUTUBE_API_KEY}`,
+    const channelResponse = await fetch(
+      `https://www.googleapis.com/youtube/v3/channels?part=contentDetails&forHandle=${encodeURIComponent(CHANNEL_HANDLE)}&key=${YOUTUBE_API_KEY}`,
       { next: { revalidate: CACHE_TTL_MS / 1000 } }
     );
 
-    if (!searchResponse.ok) {
-      if (searchResponse.status === 403) {
-        console.warn('YouTube API quota exceeded for stream search - returning null');
+    if (!channelResponse.ok) {
+      if (channelResponse.status === 403) {
+        console.warn('YouTube API quota exceeded for channel lookup - returning null');
         return null;
       }
-      throw new Error(`YouTube API search failed: ${searchResponse.status}`);
+      throw new Error(`YouTube API channel lookup failed: ${channelResponse.status}`);
     }
 
-    const searchData = await searchResponse.json();
-    const channelId = searchData.items?.[0]?.id;
+    const channelData = await channelResponse.json();
+    const uploadsPlaylistId = channelData.items?.[0]?.contentDetails?.relatedPlaylists?.uploads;
 
-    if (!channelId) {
-      throw new Error('Channel not found');
+    if (!uploadsPlaylistId) {
+      throw new Error('Uploads playlist not found');
     }
 
-    // Now get the latest videos from the channel
-    const videosResponse = await fetch(
-      `https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=${channelId}&order=date&type=video&key=${YOUTUBE_API_KEY}&maxResults=10`,
+    // Latest uploads (already newest-first; we re-sort defensively below).
+    const playlistItemsResponse = await fetch(
+      `https://www.googleapis.com/youtube/v3/playlistItems?part=contentDetails&playlistId=${uploadsPlaylistId}&maxResults=10&key=${YOUTUBE_API_KEY}`,
       { next: { revalidate: CACHE_TTL_MS / 1000 } }
     );
 
-    if (!videosResponse.ok) {
-      if (videosResponse.status === 403) {
-        console.warn('YouTube API quota exceeded for videos - returning null');
+    if (!playlistItemsResponse.ok) {
+      if (playlistItemsResponse.status === 403) {
+        console.warn('YouTube API quota exceeded for uploads playlist - returning null');
         return null;
       }
-      throw new Error(`YouTube API videos failed: ${videosResponse.status}`);
+      throw new Error(`YouTube API uploads playlist failed: ${playlistItemsResponse.status}`);
     }
 
-    const videosData = await videosResponse.json();
+    const playlistItemsData = await playlistItemsResponse.json();
 
-    // Find the latest live stream or video, skipping memorials/recaps and
-    // not-yet-aired upcoming placeholders so the hero always shows an actual
-    // sermon that's already happened.
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const latestVideo = videosData.items?.find((item: any) => !isNonSermonVideo(item.snippet?.title ?? '') && !isUpcomingBroadcast(item));
+    const recent = (playlistItemsData.items ?? [])
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      .map((item: any) => ({
+        videoId: item.contentDetails?.videoId as string | undefined,
+        publishedAt: item.contentDetails?.videoPublishedAt as string | undefined,
+      }))
+      .filter((v: { videoId?: string }): v is { videoId: string; publishedAt?: string } => !!v.videoId)
+      .sort(
+        (a: { publishedAt?: string }, b: { publishedAt?: string }) =>
+          new Date(b.publishedAt ?? 0).getTime() - new Date(a.publishedAt ?? 0).getTime()
+      );
 
-    if (!latestVideo) {
+    if (recent.length === 0) {
       return null;
     }
 
-    const videoId = latestVideo.id.videoId;
-    const snippet = latestVideo.snippet;
-
-    // Get detailed video info to check if it's live
+    // One videos.list call (1 unit) fetches title, thumbnails, live status and
+    // liveStreamingDetails for every candidate at once. playlistItems can't tell
+    // us liveBroadcastContent, so we need this to skip "upcoming" placeholders.
+    const ids = recent.map((v: { videoId: string }) => v.videoId).join(',');
     const videoDetailsResponse = await fetch(
-      `https://www.googleapis.com/youtube/v3/videos?part=liveStreamingDetails&id=${videoId}&key=${YOUTUBE_API_KEY}`,
+      `https://www.googleapis.com/youtube/v3/videos?part=snippet,liveStreamingDetails&id=${ids}&key=${YOUTUBE_API_KEY}`,
       { next: { revalidate: CACHE_TTL_MS / 1000 } }
     );
 
-    const videoDetails = videoDetailsResponse.ok ? await videoDetailsResponse.json() : null;
-    const isLive = videoDetails?.items?.[0]?.liveStreamingDetails?.actualStartTime != null;
+    if (!videoDetailsResponse.ok) {
+      if (videoDetailsResponse.status === 403) {
+        console.warn('YouTube API quota exceeded for video details - returning null');
+        return null;
+      }
+      throw new Error(`YouTube API video details failed: ${videoDetailsResponse.status}`);
+    }
+
+    const videoDetailsData = await videoDetailsResponse.json();
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const byId = new Map<string, any>(
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      (videoDetailsData.items ?? []).map((item: any) => [item.id, item])
+    );
+
+    // Walk newest-first and pick the first real, already-aired sermon: skip
+    // memorials/recaps and not-yet-aired "upcoming" placeholders (a scheduled
+    // livestream can be created days ahead with its final title, and must not
+    // outrank last week's completed sermon just because it sorts newer).
+    const latest = recent
+      .map((v: { videoId: string }) => byId.get(v.videoId))
+      .find(
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (item: any) => item && !isNonSermonVideo(item.snippet?.title ?? '') && !isUpcomingBroadcast(item)
+      );
+
+    if (!latest) {
+      return null;
+    }
+
+    const snippet = latest.snippet;
+    const isLive = latest.liveStreamingDetails?.actualStartTime != null;
 
     const video = {
-      id: videoId,
+      id: latest.id,
       title: snippet.title,
       thumbnailUrl: snippet.thumbnails.maxres?.url || snippet.thumbnails.high?.url || snippet.thumbnails.medium?.url || snippet.thumbnails.default?.url,
-      videoUrl: `https://www.youtube.com/watch?v=${videoId}`,
+      videoUrl: `https://www.youtube.com/watch?v=${latest.id}`,
       publishedAt: snippet.publishedAt,
       isLive
     };
