@@ -49,11 +49,23 @@ describe('getLatestYouTubeStream (mocked fetch)', () => {
   });
 
   it('skips a not-yet-aired "upcoming" placeholder and returns last week\'s completed sermon', async () => {
-    const channelSearch = { items: [{ id: 'UC123' }] };
-    const videoSearch = {
+    // channels.list now returns the uploads playlist id, not a bare channel id.
+    const channelLookup = {
+      items: [{ contentDetails: { relatedPlaylists: { uploads: 'UU123' } } }],
+    };
+    // The uploads playlist lists the newest video first (a scheduled placeholder
+    // dated later than last week's real sermon).
+    const uploads = {
+      items: [
+        { contentDetails: { videoId: 'upcoming-id', videoPublishedAt: '2026-07-20T22:04:17Z' } },
+        { contentDetails: { videoId: 'aired-id', videoPublishedAt: '2026-07-20T04:37:48Z' } },
+      ],
+    };
+    // videos.list returns live status + details for both candidates at once.
+    const videoDetails = {
       items: [
         {
-          id: { videoId: 'upcoming-id' },
+          id: 'upcoming-id',
           snippet: {
             title: '07.26.26 - Proverbs - Pastor Kelly Graham',
             liveBroadcastContent: 'upcoming',
@@ -62,21 +74,21 @@ describe('getLatestYouTubeStream (mocked fetch)', () => {
           },
         },
         {
-          id: { videoId: 'aired-id' },
+          id: 'aired-id',
           snippet: {
             title: '07.19.26 - Proverbs 17:27-18:8, 18:20-21 - Pastor Kelly Graham',
             liveBroadcastContent: 'none',
             publishedAt: '2026-07-20T04:37:48Z',
             thumbnails: { high: { url: 'https://example.com/aired.jpg' } },
           },
+          liveStreamingDetails: { actualStartTime: '2026-07-19T14:48:39Z' },
         },
       ],
     };
-    const videoDetails = { items: [{ liveStreamingDetails: { actualStartTime: '2026-07-19T14:48:39Z' } }] };
 
     const fetchMock = vi.fn()
-      .mockResolvedValueOnce({ ok: true, json: async () => channelSearch })
-      .mockResolvedValueOnce({ ok: true, json: async () => videoSearch })
+      .mockResolvedValueOnce({ ok: true, json: async () => channelLookup })
+      .mockResolvedValueOnce({ ok: true, json: async () => uploads })
       .mockResolvedValueOnce({ ok: true, json: async () => videoDetails });
     global.fetch = fetchMock as unknown as typeof fetch;
 
