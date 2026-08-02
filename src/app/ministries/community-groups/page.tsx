@@ -72,19 +72,19 @@ export default function CityGroupsPage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <div className="bg-white rounded-lg shadow-lg p-8">
-              <h3 className="text-2xl font-semibold text-black mb-4">
+              <h3 className="text-2xl font-light text-black mb-4">
                 Build real relationships
               </h3>
               <p className="text-gray-700 leading-relaxed">
-                City Groups are where you go from being a face in the crowd to being truly known &mdash; growing in God&apos;s Word alongside people who encourage you and walk with you through whatever life brings.
+                This is where you go from being a face in the crowd to being truly known &mdash; growing in God&apos;s Word with people who walk with you through whatever life brings.
               </p>
             </div>
             <div className="bg-white rounded-lg shadow-lg p-8">
-              <h3 className="text-2xl font-semibold text-black mb-4">
+              <h3 className="text-2xl font-light text-black mb-4">
                 Our first place for care
               </h3>
               <p className="text-gray-700 leading-relaxed">
-                When a need arises &mdash; a hospital stay, a new baby, a loss &mdash; your group is usually first to know and first to respond with prayer, meals, and presence. You never carry life&apos;s hardest moments alone.
+                When a need arises &mdash; a hospital stay, a new baby, a loss &mdash; your group is usually first to know and first to respond. You never carry life&apos;s hardest moments alone.
               </p>
             </div>
           </div>

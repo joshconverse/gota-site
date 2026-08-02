@@ -49,12 +49,12 @@ export default function MinistriesPage() {
     {
       id: "local-missions",
       title: "Local Missions",
-      description: "Sharing the love of Christ with our Lowcountry neighbors through service and partnerships that meet real needs — including CarePortal, which connects us with local children and families in crisis.",
+      description: "Sharing the love of Christ with our Lowcountry neighbors — meeting real needs through partnerships like CarePortal.",
     },
     {
       id: "international-missions",
       title: "International Missions",
-      description: "Taking the Gospel to the nations by partnering with the International Mission Board (IMB) to send and support missionaries among the unreached peoples of the world.",
+      description: "Taking the Gospel to the nations, partnering with the International Mission Board (IMB) to reach unreached peoples around the world.",
     }
   ];
 
