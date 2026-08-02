@@ -7,18 +7,19 @@ import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'International Missions',
-  description: 'International Missions at Grace on the Ashley partners with missionaries and supports global outreach to spread the Gospel worldwide as a sending church.',
+  description:
+    'International Missions at Grace on the Ashley partners with the International Mission Board (IMB) to send and support missionaries making disciples and multiplying churches among the unreached worldwide.',
   alternates: { canonical: '/ministries/international-missions' },
   robots: { index: false, follow: true },
   openGraph: {
     title: 'International Missions | Grace on the Ashley',
-    description: 'Partnering with missionaries and supporting global outreach to spread the Gospel worldwide.',
+    description: 'Partnering with the International Mission Board to take the Gospel to the nations.',
     url: '/ministries/international-missions',
     images: OG_IMAGES,
   },
 };
 
-export default function MissionsMinistryPage() {
+export default function InternationalMissionsPage() {
   return (
     <main className="min-h-screen bg-white">
       {/* Hero Section */}
@@ -26,20 +27,20 @@ export default function MissionsMinistryPage() {
         <div className="absolute inset-0">
           <RandomHeroImage
             pool={GENERAL_HERO_IMAGES}
-            alt="Missions Ministry background"
+            alt="International Missions background"
             className="w-full h-full object-cover opacity-20"
           />
           <div className="absolute inset-0 bg-gradient-to-r from-green-900/30 to-transparent"></div>
         </div>
-        
+
         <div className="relative z-10 w-full px-6 md:px-12 lg:px-20">
           <div className="max-w-6xl mx-auto">
             <div className="text-center">
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-light text-white mb-6">
-                Missions Ministry
+                International Missions
               </h1>
               <p className="text-xl md:text-2xl text-white mb-8 max-w-3xl mx-auto">
-                Partnering with missionaries and supporting global outreach efforts to spread the Gospel worldwide. We are committed to being a sending church that invests in kingdom work both locally and internationally.
+                Taking the Gospel to the nations by partnering with the International Mission Board to send and support missionaries among the unreached peoples of the world.
               </p>
               <Link
                 href="/ministries"
@@ -52,16 +53,69 @@ export default function MissionsMinistryPage() {
         </div>
       </section>
 
-      {/* Content Section - Placeholder */}
+      {/* Heart for the nations */}
       <section className="py-20 bg-brand-4">
         <div className="container mx-auto max-w-[1200px] px-6 md:px-12 lg:px-20">
-          <div className="text-center max-w-4xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-light text-black mb-8">
-              More Information Coming Soon
+          <div className="max-w-3xl mx-auto text-center">
+            <h2 className="text-3xl md:text-5xl font-light text-black mb-8">
+              A Heart for the Nations
             </h2>
-            <p className="text-lg text-gray-700 leading-relaxed">
-              We&apos;re currently building out this page. Check back soon for more details about our Missions Ministry programs, schedules, and how to get involved.
-            </p>
+            <div className="space-y-6 text-lg text-gray-700 leading-relaxed">
+              <p>
+                Jesus commissioned His church to make disciples of all nations, and much of the world still has little or no access to the Gospel. Grace on the Ashley is committed to being a sending church &mdash; praying, giving, and going so that people in every corner of the globe might hear the good news of Jesus. Our primary partner in that work is the International Mission Board.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* IMB partnership */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto max-w-[1200px] px-6 md:px-12 lg:px-20">
+          <div className="max-w-3xl mx-auto">
+            <h2 className="text-3xl md:text-5xl font-light text-black mb-8 text-center">
+              Our Partnership with the IMB
+            </h2>
+            <div className="space-y-6 text-lg text-gray-700 leading-relaxed">
+              <p>
+                The{' '}
+                <a
+                  href="https://www.imb.org/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-brand-1 font-semibold underline hover:opacity-80"
+                >
+                  International Mission Board (IMB)
+                </a>{' '}
+                helps churches like ours take the Gospel to the ends of the earth. For over 175 years the IMB has sent, trained, and cared for missionaries who live among unreached peoples &mdash; learning their languages, sharing the good news of Jesus, and planting healthy churches that keep multiplying long after the missionary is gone.
+              </p>
+              <p>
+                Through our partnership, Grace on the Ashley supports IMB missionaries with prayer and financial giving, and we stay connected to the work God is doing among the nations. This partnership lets a local church in Charleston have a hand in reaching people we may never meet this side of heaven &mdash; until the day believers from every tribe, tongue, and nation gather to worship together.
+              </p>
+            </div>
+
+            <div className="mt-10 bg-brand-4 rounded-lg shadow-lg p-8 text-center">
+              <h3 className="text-2xl font-semibold text-black mb-4">Explore the work of the IMB</h3>
+              <p className="text-gray-700 leading-relaxed mb-8">
+                Discover where IMB missionaries are serving, read stories of what God is doing among the nations, and learn how you can pray and give.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <a
+                  href="https://www.imb.org/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block bg-brand-2 text-slate-900 px-8 py-4 rounded-md font-semibold shadow hover:opacity-95 transition"
+                >
+                  Visit the IMB
+                </a>
+                <a
+                  href="mailto:office@gotachurch.org"
+                  className="inline-block bg-white text-black px-8 py-4 rounded-md font-semibold shadow hover:opacity-95 transition border border-gray-200"
+                >
+                  Get involved
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </section>

@@ -8,12 +8,12 @@ import { OG_IMAGES } from '@/lib/seo';
 export const metadata: Metadata = {
   title: 'Ministries',
   description:
-    'Explore the ministries of Grace on the Ashley — Grace Kids, Students, Community Groups, Re | Engage marriage ministry, worship, and local & international missions in Charleston, SC.',
+    'Explore the ministries of Grace on the Ashley — Grace Kids, Students, City Groups, Re | Engage marriage ministry, and local & international missions in Charleston, SC.',
   alternates: { canonical: '/ministries' },
   openGraph: {
     title: 'Ministries | Grace on the Ashley',
     description:
-      'Grace Kids, Students, Community Groups, Re | Engage, worship, and missions — find your place to grow and serve at Grace on the Ashley.',
+      'Grace Kids, Students, City Groups, Re | Engage, and missions — find your place to grow and serve at Grace on the Ashley.',
     url: '/ministries',
     images: OG_IMAGES,
   },
@@ -38,8 +38,8 @@ export default function MinistriesPage() {
     },
     {
       id: "community-groups",
-      title: "Community Groups",
-      description: "Small groups that meet regularly for fellowship, Bible study, prayer, and mutual support. Community Groups provide a place to grow deeper in faith and build meaningful relationships.",
+      title: "City Groups",
+      description: "City Groups are the ideal place to build real relationships and the church's first point of contact for care. Meeting throughout the week, they're also where we invite friends and neighbors who don't yet know Christ into community.",
     },
     {
       id: "married",
@@ -49,17 +49,12 @@ export default function MinistriesPage() {
     {
       id: "local-missions",
       title: "Local Missions",
-      description: "Supporting our community through prayer, encouragement, and practical help during times of need. Our care team is here to walk alongside members through life's challenges and celebrations.",
-    },
-    {
-      id: "worship",
-      title: "Worship Ministry",
-      description: "Leading our congregation in worship through music, song, and creative expression. Our worship team creates an atmosphere where people can encounter God and respond to His presence.",
+      description: "Sharing the love of Christ with our Lowcountry neighbors through service and partnerships that meet real needs — including CarePortal, which connects us with local children and families in crisis.",
     },
     {
       id: "international-missions",
       title: "International Missions",
-      description: "Partnering with missionaries and supporting global outreach efforts to spread the Gospel worldwide. We are committed to being a sending church that invests in kingdom work both locally and internationally.",
+      description: "Taking the Gospel to the nations by partnering with the International Mission Board (IMB) to send and support missionaries among the unreached peoples of the world.",
     }
   ];
 
