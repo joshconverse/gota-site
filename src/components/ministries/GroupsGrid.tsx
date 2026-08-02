@@ -2,20 +2,12 @@ import type { CityGroup } from '@/lib/cityGroups';
 
 // Public Church Center domain (…churchcenter.com). Note: …churchcenteronline.com
 // is the admin/login portal and must NOT be used for visitor-facing links.
+//
+// We link directly to each group's Church Center page (opened in a new tab)
+// rather than using the `open-in-church-center-modal=true` in-page modal: that
+// modal is intended for giving/registration flows and just shows an endless
+// loading spinner for a group page (notably in Edge on Windows).
 const CHURCH_CENTER_GROUPS_URL = 'https://gotachurch.churchcenter.com/groups/community-groups';
-
-/**
- * Church Center links open in a modal on the site when the
- * `js.churchcenter.com/modal/v1` script is loaded (it is, site-wide via
- * layout.tsx) and the URL carries `open-in-church-center-modal=true`. The
- * `target="_blank"` fallback still opens the page in a new tab if the modal
- * script doesn't intercept.
- */
-function withModal(url: string) {
-  return url.includes('?')
-    ? `${url}&open-in-church-center-modal=true`
-    : `${url}?open-in-church-center-modal=true`;
-}
 
 export default function GroupsGrid({ groups }: { groups: CityGroup[] }) {
   if (!groups || groups.length === 0) {
@@ -45,7 +37,7 @@ export default function GroupsGrid({ groups }: { groups: CityGroup[] }) {
             <p className="text-sm font-semibold text-brand-1 mb-3">{group.note}</p>
           )}
           <a
-            href={withModal(group.url)}
+            href={group.url}
             target="_blank"
             rel="noopener noreferrer"
             className="mt-6 inline-block text-center bg-brand-2 text-slate-900 px-6 py-3 rounded-md font-semibold shadow hover:opacity-95 transition"
