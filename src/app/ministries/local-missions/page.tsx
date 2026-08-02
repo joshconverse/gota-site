@@ -40,7 +40,7 @@ export default function LocalMissionsPage() {
                 Local Missions
               </h1>
               <p className="text-xl md:text-2xl text-white mb-8 max-w-3xl mx-auto">
-                Sharing the love of Christ with our Lowcountry neighbors through service, generosity, and partnerships that meet real needs &mdash; including CarePortal, which connects us with local children and families in crisis.
+                Sharing the love of Christ with our Lowcountry neighbors &mdash; meeting real needs through partnerships like CarePortal.
               </p>
               <Link
                 href="/ministries"
@@ -62,7 +62,7 @@ export default function LocalMissionsPage() {
             </h2>
             <div className="space-y-6 text-lg text-gray-700 leading-relaxed">
               <p>
-                The mission field isn&apos;t only overseas &mdash; it&apos;s our own street, school, and city. Grace on the Ashley is committed to being good news to Charleston and the surrounding Lowcountry, meeting practical needs and building relationships that open the door to the gospel. One of the most tangible ways we do that is through our partnership with CarePortal.
+                The mission field isn&apos;t only overseas &mdash; it&apos;s our own street, school, and city. We&apos;re committed to being good news across the Lowcountry, meeting real needs and building relationships that open the door to the gospel. One of the clearest ways we do that is our partnership with CarePortal.
               </p>
             </div>
           </div>
@@ -86,20 +86,17 @@ export default function LocalMissionsPage() {
                 >
                   CarePortal
                 </a>{' '}
-                is a care-sharing platform that connects the real, urgent needs of vulnerable children and families directly to local churches. When a caseworker, social worker, or agency in our area identifies a need &mdash; a bed for a child, groceries for a struggling family, safe housing, or help keeping siblings together &mdash; that need is entered into CarePortal and sent straight to churches nearby who are ready to respond.
+                connects the real, urgent needs of local children and families directly to churches. When a caseworker or agency identifies a need &mdash; a bed for a child, groceries, safe housing, help keeping siblings together &mdash; it&apos;s sent to churches nearby who are ready to respond.
               </p>
               <p>
-                As a connected church, Grace on the Ashley receives those requests and steps in to help. Sometimes that means providing a physical item, sometimes it means giving financially, and often it means showing up in person to walk alongside a family in crisis. Every response is a chance to strengthen families, keep children safe, and demonstrate the love of Jesus in a moment of genuine need.
-              </p>
-              <p>
-                It&apos;s a simple but powerful picture of the local church doing what it was made to do &mdash; loving our neighbors right where they are.
+                As a connected church, we step in &mdash; providing an item, giving financially, or showing up in person for a family in crisis. Every response keeps children safe and shows the love of Jesus in a real moment of need.
               </p>
             </div>
 
             <div className="mt-10 bg-brand-4 rounded-lg shadow-lg p-8 text-center">
-              <h3 className="text-2xl font-semibold text-black mb-4">Want to help meet a need?</h3>
+              <h3 className="text-2xl font-light text-black mb-4">Want to help meet a need?</h3>
               <p className="text-gray-700 leading-relaxed mb-8">
-                Learn more about how CarePortal serves local children and families, or reach out to get involved with our Local Missions team.
+                Learn how CarePortal serves local families, or reach out to get involved with our Local Missions team.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <a

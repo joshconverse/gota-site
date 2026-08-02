@@ -40,7 +40,7 @@ export default function InternationalMissionsPage() {
                 International Missions
               </h1>
               <p className="text-xl md:text-2xl text-white mb-8 max-w-3xl mx-auto">
-                Taking the Gospel to the nations by partnering with the International Mission Board to send and support missionaries among the unreached peoples of the world.
+                Taking the Gospel to the nations, partnering with the International Mission Board to reach unreached peoples around the world.
               </p>
               <Link
                 href="/ministries"
@@ -62,7 +62,7 @@ export default function InternationalMissionsPage() {
             </h2>
             <div className="space-y-6 text-lg text-gray-700 leading-relaxed">
               <p>
-                Jesus commissioned His church to make disciples of all nations, and much of the world still has little or no access to the Gospel. Grace on the Ashley is committed to being a sending church &mdash; praying, giving, and going so that people in every corner of the globe might hear the good news of Jesus. Our primary partner in that work is the International Mission Board.
+                Jesus sent His church to make disciples of all nations, yet much of the world still has little or no access to the Gospel. We&apos;re committed to being a sending church &mdash; praying, giving, and going &mdash; and our primary partner in that work is the International Mission Board.
               </p>
             </div>
           </div>
@@ -87,17 +87,17 @@ export default function InternationalMissionsPage() {
                 >
                   International Mission Board (IMB)
                 </a>{' '}
-                helps churches like ours take the Gospel to the ends of the earth. For over 175 years the IMB has sent, trained, and cared for missionaries who live among unreached peoples &mdash; learning their languages, sharing the good news of Jesus, and planting healthy churches that keep multiplying long after the missionary is gone.
+                helps churches like ours take the Gospel to the ends of the earth. For over 175 years it has sent and cared for missionaries who live among unreached peoples &mdash; learning their languages, sharing the good news of Jesus, and planting churches that keep multiplying.
               </p>
               <p>
-                Through our partnership, Grace on the Ashley supports IMB missionaries with prayer and financial giving, and we stay connected to the work God is doing among the nations. This partnership lets a local church in Charleston have a hand in reaching people we may never meet this side of heaven &mdash; until the day believers from every tribe, tongue, and nation gather to worship together.
+                Through this partnership, we support IMB missionaries with prayer and giving and stay connected to what God is doing among the nations &mdash; a hand in reaching people we may never meet, until believers from every tribe and tongue worship together.
               </p>
             </div>
 
             <div className="mt-10 bg-brand-4 rounded-lg shadow-lg p-8 text-center">
-              <h3 className="text-2xl font-semibold text-black mb-4">Explore the work of the IMB</h3>
+              <h3 className="text-2xl font-light text-black mb-4">Explore the work of the IMB</h3>
               <p className="text-gray-700 leading-relaxed mb-8">
-                Discover where IMB missionaries are serving, read stories of what God is doing among the nations, and learn how you can pray and give.
+                See where IMB missionaries serve, read stories from among the nations, and find ways to pray and give.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <a
