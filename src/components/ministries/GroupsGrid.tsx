@@ -67,14 +67,24 @@ export default function GroupsGrid({ groups }: { groups: CityGroup[] }) {
           {group.note && (
             <p className="text-sm font-semibold text-brand-1 mb-2">{group.note}</p>
           )}
-          {group.meets && (
-            <p className="text-sm text-gray-500 mb-3">{group.meets}</p>
+          {(group.region || group.neighborhood) && (
+            <div className="flex flex-wrap gap-2 mb-3">
+              {group.region && (
+                <span className="text-sm text-slate-700 bg-brand-4 rounded-full px-3 py-1">{group.region}</span>
+              )}
+              {group.neighborhood && (
+                <span className="text-sm text-slate-700 bg-brand-4 rounded-full px-3 py-1">{group.neighborhood}</span>
+              )}
+            </div>
           )}
           {group.description && (
             <p className="text-gray-600 leading-relaxed text-base">{group.description}</p>
           )}
+          {group.leaders && (
+            <p className="text-sm text-gray-500 mt-3">Led by {group.leaders}</p>
+          )}
           <div className="mt-auto pt-6 flex items-center text-brand-1 font-semibold group-hover:translate-x-2 transition-transform">
-            View group
+            Request to join
             <ArrowIcon />
           </div>
         </a>

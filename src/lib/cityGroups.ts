@@ -1,36 +1,46 @@
 /**
  * Curated list of City Groups, shown on /ministries/community-groups.
  *
- * These are maintained by hand (rather than pulled live from the Planning
- * Center Groups API) so the page always works regardless of API credentials.
- * Each `url` is the group's public Church Center page — verified to return 200
- * — and is where the "Join this group" button sends people.
+ * Maintained by hand (Church Center is a client-rendered app behind auth, so
+ * this can't be pulled automatically). Each group's details come from its
+ * Church Center page: Region, Neighborhood, the description, and Leaders.
  *
- * To add/remove a group: copy its share link from Church Center
- * (Groups → open the group → Share) and add an entry below. Keep names in the
- * same style as the others.
+ * To update a group: open its page in Church Center and copy the values.
+ * `region`, `neighborhood`, `description`, `leaders`, and `note` are all
+ * optional — the card renders cleanly with whatever is provided.
  */
 
 export type CityGroup = {
   name: string;
   url: string;
+  /** Region tag, e.g. "West Ashley". */
+  region?: string;
+  /** Neighborhood tag, e.g. "Shadowmoss". */
+  neighborhood?: string;
+  /** One- or two-sentence blurb from the group's Church Center page. */
+  description?: string;
+  /** Leader names, e.g. "Aaron & Brenna". */
+  leaders?: string;
   /** Optional short qualifier shown as a label, e.g. "Young adults". */
   note?: string;
-  /** Optional when/where line, e.g. "Sundays · West Ashley". */
-  meets?: string;
-  /** Optional one- or two-sentence blurb shown on the card. */
-  description?: string;
 };
 
 const CC = 'https://gotachurch.churchcenter.com/groups/community-groups';
 
-// NOTE: Church Center is a client-rendered app behind auth, so per-group
-// details (blurb, meeting day/place) can't be pulled automatically. Fill in
-// `meets` / `description` below to make a card richer; both are optional and
-// the card renders cleanly without them.
 export const CITY_GROUPS: CityGroup[] = [
-  { name: 'The Barney Group', url: `${CC}/barney-community-group` },
-  { name: 'The Bostic & Spuur Group', url: `${CC}/bostic-spuur-community-group-young-adults`, note: 'Young adults' },
+  {
+    name: 'The Barney Group',
+    url: `${CC}/barney-community-group`,
+    region: 'West Ashley',
+    neighborhood: 'Shadowmoss',
+    description: 'The Barney Community Group typically meets in the Shadowmoss neighborhood.',
+    leaders: 'Aaron & Brenna',
+  },
+  {
+    name: 'The Bostic & Spuur Group',
+    url: `${CC}/bostic-spuur-community-group-young-adults`,
+    note: 'Young adults',
+  },
   { name: 'The Darms Group', url: `${CC}/darms-community-group` },
   { name: 'The Harkness Group', url: `${CC}/harkness-community-group` },
   { name: 'The Vij Group', url: `${CC}/vij-community-group` },
