@@ -67,14 +67,14 @@ export default function GroupsGrid({ groups }: { groups: CityGroup[] }) {
           {group.note && (
             <p className="text-sm font-semibold text-brand-1 mb-2">{group.note}</p>
           )}
-          {(group.region || group.neighborhood) && (
+          {((group.regions?.length ?? 0) + (group.neighborhoods?.length ?? 0)) > 0 && (
             <div className="flex flex-wrap gap-2 mb-3">
-              {group.region && (
-                <span className="text-sm text-slate-700 bg-brand-4 rounded-full px-3 py-1">{group.region}</span>
-              )}
-              {group.neighborhood && (
-                <span className="text-sm text-slate-700 bg-brand-4 rounded-full px-3 py-1">{group.neighborhood}</span>
-              )}
+              {group.regions?.map((r) => (
+                <span key={`r-${r}`} className="text-sm text-slate-700 bg-brand-4 rounded-full px-3 py-1">{r}</span>
+              ))}
+              {group.neighborhoods?.map((n) => (
+                <span key={`n-${n}`} className="text-sm text-slate-700 bg-brand-4 rounded-full px-3 py-1">{n}</span>
+              ))}
             </div>
           )}
           {group.description && (
