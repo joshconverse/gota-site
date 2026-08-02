@@ -115,7 +115,7 @@ export default function CityGroupsPage() {
               Find a City Group
             </h2>
             <p className="text-lg text-gray-700 leading-relaxed">
-              Browse our groups below and tap &ldquo;Join this group&rdquo; to connect with the leaders through Church Center.
+              Browse our groups below and open any one in Church Center to see the details and join.
             </p>
           </div>
 

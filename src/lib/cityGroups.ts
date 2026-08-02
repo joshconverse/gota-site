@@ -14,12 +14,20 @@
 export type CityGroup = {
   name: string;
   url: string;
-  /** Optional short qualifier shown under the name, e.g. "Young adults". */
+  /** Optional short qualifier shown as a label, e.g. "Young adults". */
   note?: string;
+  /** Optional when/where line, e.g. "Sundays · West Ashley". */
+  meets?: string;
+  /** Optional one- or two-sentence blurb shown on the card. */
+  description?: string;
 };
 
 const CC = 'https://gotachurch.churchcenter.com/groups/community-groups';
 
+// NOTE: Church Center is a client-rendered app behind auth, so per-group
+// details (blurb, meeting day/place) can't be pulled automatically. Fill in
+// `meets` / `description` below to make a card richer; both are optional and
+// the card renders cleanly without them.
 export const CITY_GROUPS: CityGroup[] = [
   { name: 'The Barney Group', url: `${CC}/barney-community-group` },
   { name: 'The Bostic & Spuur Group', url: `${CC}/bostic-spuur-community-group-young-adults`, note: 'Young adults' },
