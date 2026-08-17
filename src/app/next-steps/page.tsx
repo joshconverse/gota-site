@@ -153,10 +153,18 @@ export default function NextStepsPage() {
                 While we hold to Reformed theology in many areas, we remain non-denominational in practice, focusing on biblical faithfulness rather than institutional loyalty.
               </p>
             </div>
-            <div className="mt-8">
+            <div className="mt-8 flex flex-col sm:flex-row gap-4">
+              <a
+                href="https://gotachurch.churchcenter.com/people/forms/684647?open-in-church-center-modal=true"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-block bg-brand-2 text-slate-900 px-8 py-4 rounded-md font-semibold shadow hover:opacity-95 transition"
+              >
+                Become a Member
+              </a>
               <Link
                 href="/ministries"
-                className="inline-block bg-brand-2 text-slate-900 px-8 py-4 rounded-md font-semibold shadow hover:opacity-95 transition"
+                className="inline-block bg-white text-black px-8 py-4 rounded-md font-semibold shadow hover:opacity-95 transition border border-gray-300"
               >
                 Explore Our Ministries
               </Link>
