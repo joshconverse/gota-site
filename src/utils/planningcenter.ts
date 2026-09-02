@@ -9,8 +9,6 @@
  * API route at `/api/planning-center/events` to fetch events from the client.
  */
 
-import fs from 'fs';
-import path from 'path';
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 export type PCEventTime = {
@@ -50,6 +48,19 @@ export type PCEvent = {
 };
 
 const DEFAULT_EVENTS_URL = 'https://api.planningcenteronline.com/calendar/v2/events';
+
+// How long upstream Planning Center responses stay fresh in Next's Data Cache.
+//
+// Building the event list is expensive: the events endpoint paginates, and any
+// event without a resolved instance triggers an extra per-event lookup, so a
+// single call can fan out to a couple dozen sequential round-trips (each with
+// retries and backoff sleeps). Previously none of those were cached — `fetch`
+// defaults to no-store — so every render of the homepage repaid the whole cost
+// AND stayed dynamic because of the uncached fetches. Caching upstream in the
+// Data Cache means that fan-out happens once per TTL instead of once per
+// request. The old `logs/pco-events-cache.json` file cache it replaces never
+// worked in production: Vercel's filesystem is ephemeral per invocation.
+export const PCO_CACHE_TTL_SECONDS = 6 * 60 * 60; // 6 hours
 
 function buildAuthHeader(): string | null {
   const pat = process.env.PLANNING_CENTER_PAT;
@@ -117,46 +128,15 @@ export async function getPlanningCenterEvents({ perPage = 12 } = {}): Promise<PC
     console.debug('[PlanningCenter] fetching', url, 'auth=', auth.split(' ')[0]);
   }
 
-  // Check cache first - if fresh (< 6 hours old), return cached data
-  const CACHE_TTL_MS = 6 * 60 * 60 * 1000; // 6 hours in milliseconds
-  try {
-    const cachePath = path.join(process.cwd(), 'logs', 'pco-events-cache.json');
-    if (fs.existsSync(cachePath)) {
-      const txt = fs.readFileSync(cachePath, 'utf8');
-      const parsed = JSON.parse(txt);
-      if (parsed && parsed.ts && Array.isArray(parsed.events)) {
-        const cacheAge = Date.now() - new Date(parsed.ts).getTime();
-        if (cacheAge < CACHE_TTL_MS) {
-          if (process.env.NODE_ENV !== 'production') {
-            console.log('[PlanningCenter] returning fresh cached events', { 
-              cacheTs: parsed.ts, 
-              ageMinutes: Math.round(cacheAge / 60000),
-              ttlMinutes: Math.round(CACHE_TTL_MS / 60000)
-            });
-          }
-          return parsed.events as PCEvent[];
-        } else {
-          if (process.env.NODE_ENV !== 'production') {
-            console.log('[PlanningCenter] cache expired, fetching fresh data', { 
-              cacheTs: parsed.ts, 
-              ageMinutes: Math.round(cacheAge / 60000),
-              ttlMinutes: Math.round(CACHE_TTL_MS / 60000)
-            });
-          }
-        }
-      }
-    }
-  } catch (cacheErr) {
-    if (process.env.NODE_ENV !== 'production') console.warn('[PlanningCenter] failed to read cache', cacheErr);
-  }
-
   try {
     // Use a small retry wrapper to make the helper resilient to
     // transient network errors from the remote API.
     async function retryFetch(u: string, opts: RequestInit, retries = 2, backoff = 300) {
       for (let attempt = 0; attempt <= retries; attempt++) {
         try {
-          const r = await fetch(u, opts);
+          // Every Planning Center request in this module goes through here, so
+          // this is the single place that opts them all into the Data Cache.
+          const r = await fetch(u, { ...opts, next: { revalidate: PCO_CACHE_TTL_SECONDS } });
 
           // If the server returns 5xx, we may retry a few times as it's
           // often a transient backend issue. Don't retry on 4xx.
@@ -615,18 +595,6 @@ export async function getPlanningCenterEvents({ perPage = 12 } = {}): Promise<PC
 
     /* eslint-enable @typescript-eslint/no-explicit-any */
 
-    // Persist a small cache of the last-successful events so we can
-    // continue to serve reasonable content if the external API is
-    // temporarily unavailable.
-    try {
-      const logsDir = path.join(process.cwd(), 'logs');
-      fs.mkdirSync(logsDir, { recursive: true });
-      const cachePath = path.join(logsDir, 'pco-events-cache.json');
-      fs.writeFileSync(cachePath, JSON.stringify({ ts: new Date().toISOString(), events }));
-    } catch (writeErr) {
-      if (process.env.NODE_ENV !== 'production') console.warn('[PlanningCenter] failed to write events cache', writeErr);
-    }
-
     // Filter to future events since filter=approved doesn't filter by date
     const now = new Date();
     const futureEvents = events.filter(e => {
@@ -651,31 +619,13 @@ export async function getPlanningCenterEvents({ perPage = 12 } = {}): Promise<PC
     
     return futureEvents;
   } catch (err) {
-    // If the fetch failed for reasons other than missing credentials
-    // (network issues or 5xx), try to return a cached copy even if expired
-    // as a fallback to keep the site functional.
+    // Callers decide how to degrade: the homepage catches this and renders
+    // without events, and the API route maps the status onto a response.
+    // (There used to be a stale-file fallback here, but it read from a cache
+    // that never existed on Vercel's ephemeral filesystem — the Data Cache's
+    // own stale-while-revalidate behaviour is what actually keeps the site
+    // serving content when Planning Center is briefly unavailable.)
     console.error('Planning Center fetch failed', err);
-
-    try {
-      const cachePath = path.join(process.cwd(), 'logs', 'pco-events-cache.json');
-      if (fs.existsSync(cachePath)) {
-        const txt = fs.readFileSync(cachePath, 'utf8');
-        const parsed = JSON.parse(txt);
-        if (parsed && Array.isArray(parsed.events)) {
-          const cacheAge = parsed.ts ? Date.now() - new Date(parsed.ts).getTime() : Infinity;
-          if (process.env.NODE_ENV !== 'production') {
-            console.warn('[PlanningCenter] returning cached events (possibly stale) due to fetch failure', { 
-              cacheTs: parsed.ts,
-              ageMinutes: parsed.ts ? Math.round(cacheAge / 60000) : 'unknown'
-            });
-          }
-          return parsed.events as PCEvent[];
-        }
-      }
-    } catch (cacheErr) {
-      if (process.env.NODE_ENV !== 'production') console.warn('[PlanningCenter] failed to read events cache', cacheErr);
-    }
-
     throw err;
   }
 }

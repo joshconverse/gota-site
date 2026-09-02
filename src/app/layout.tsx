@@ -1,11 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import Script from 'next/script';
-import { headers } from "next/headers";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import CookieBanner from "@/components/CookieBanner";
 import { SITE_URL, SITE_NAME, OG_IMAGE, OG_IMAGES } from "@/lib/seo";
 
 const geistSans = Geist({
@@ -105,16 +101,15 @@ export const viewport: Viewport = {
   viewportFit: 'cover',
 }
 
-export default async function RootLayout({
+// Deliberately NOT async and free of dynamic APIs (`headers()`, `cookies()`).
+// Anything dynamic here applies to every route in the app and would opt the
+// whole site out of static generation. Site chrome lives in the `(site)` route
+// group's layout instead.
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const headersList = await headers();
-  // Sanity Studio (embedded at /sanity) is a full-screen admin tool, not part
-  // of the public site chrome — skip the marketing Header/Footer there.
-  const isStudio = (headersList.get("x-pathname") ?? "").startsWith("/sanity");
-
   return (
     <html lang="en">
       <head>
@@ -134,10 +129,7 @@ export default async function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {!isStudio && <Header />}
         {children}
-        {!isStudio && <Footer />}
-        {!isStudio && <CookieBanner />}
       </body>
     </html>
   );
