@@ -1,5 +1,4 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import fs from 'fs';
 import * as youtube from './youtube';
 
 const OLD = process.env.NEXT_PUBLIC_YOUTUBE_API_KEY;
@@ -27,25 +26,14 @@ describe('youtube utils (basic)', () => {
 
 describe('getLatestYouTubeStream (mocked fetch)', () => {
   const originalFetch = global.fetch;
-  const cachePath = 'logs/youtube-stream-cache.json';
 
   beforeEach(() => {
     process.env.NEXT_PUBLIC_YOUTUBE_API_KEY = 'test-key';
-    try {
-      if (fs.existsSync(cachePath)) fs.unlinkSync(cachePath);
-    } catch {
-      // ignore
-    }
   });
 
   afterEach(() => {
     global.fetch = originalFetch;
     vi.restoreAllMocks();
-    try {
-      if (fs.existsSync(cachePath)) fs.unlinkSync(cachePath);
-    } catch {
-      // ignore
-    }
   });
 
   it('skips a not-yet-aired "upcoming" placeholder and returns last week\'s completed sermon', async () => {

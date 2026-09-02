@@ -1,5 +1,4 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import fs from 'fs';
 import getPlanningCenterEvents from './planningcenter';
 
 describe('getPlanningCenterEvents', () => {
@@ -12,13 +11,6 @@ describe('getPlanningCenterEvents', () => {
     process.env.PLANNING_CENTER_PAT = 'test-token';
     process.env.PLANNING_CENTER_EVENTS_URL = 'https://api.test/events';
     process.env.PLANNING_CENTER_EVENT_INSTANCES_URL = 'https://api.test/event_instances';
-    // Ensure no persisted cache interferes with tests
-    try {
-      const cachePath = 'logs/pco-events-cache.json';
-      if (fs.existsSync(cachePath)) fs.unlinkSync(cachePath);
-    } catch {
-      // ignore
-    }
     // Stub global Date so `new Date()` and `Date.now()` return a fixed date
     class MockDate extends Date {
       constructor(...args: ConstructorParameters<typeof Date>) {
@@ -340,24 +332,32 @@ describe('getPlanningCenterEvents', () => {
     }
   });
 
-  it('returns cached events when external fetch fails', async () => {
-    // Write a small cache file
-    const cachePath = 'logs/pco-events-cache.json';
-    const cached = { ts: new Date().toISOString(), events: [ { id: 'cached1', title: 'Cached Event' } ] };
-    const fs = await import('fs');
-    fs.mkdirSync('logs', { recursive: true });
-    fs.writeFileSync(cachePath, JSON.stringify(cached));
+  // Every upstream request must opt into Next's Data Cache. Without this the
+  // homepage's Planning Center fan-out (paginated events + a per-event instance
+  // lookup for anything unresolved) re-ran on every single request, and the
+  // uncached `fetch` also forced the route to be dynamically rendered — which
+  // is what was burning Vercel Fluid Active CPU.
+  it('issues every request with a revalidate window so responses are cached', async () => {
+    const events = { data: [{ id: 'e1', attributes: { name: 'Event 1', starts_at: '2025-06-01T10:00:00Z', visible_in_church_center: true } }] };
+    const fetchFn = vi.fn(async () => ({ ok: true, json: async () => events } as Response));
+    global.fetch = fetchFn as unknown as typeof fetch;
 
-    // Simulate network failure
+    await getPlanningCenterEvents({ perPage: 3 });
+
+    expect(fetchFn.mock.calls.length).toBeGreaterThan(0);
+    for (const call of fetchFn.mock.calls) {
+      const init = (call as unknown[])[1] as { next?: { revalidate?: number } } | undefined;
+      expect(init?.next?.revalidate).toBeGreaterThan(0);
+    }
+  });
+
+  it('throws when the external fetch fails rather than serving a stale file cache', async () => {
+    // The old behaviour read a last-known-good copy from `logs/`, which never
+    // survived on Vercel's ephemeral filesystem. Callers degrade instead: the
+    // homepage catches and renders without events.
     global.fetch = vi.fn(async () => { throw new TypeError('network unreachable'); }) as unknown as typeof fetch;
 
-    const res = await getPlanningCenterEvents({ perPage: 3 });
-    expect(res).not.toBeNull();
-    expect(res).toHaveLength(1);
-    expect(res![0].id).toBe('cached1');
-
-    // cleanup
-    fs.unlinkSync(cachePath);
+    await expect(getPlanningCenterEvents({ perPage: 3 })).rejects.toThrow();
   });
 
   it('throws a 503 when credentials are not configured', async () => {
