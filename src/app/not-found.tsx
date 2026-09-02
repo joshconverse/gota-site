@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import CookieBanner from "@/components/CookieBanner";
 
 // Lives at the app root (not inside the `(site)` group) because Next only uses
 // `app/not-found.tsx` for unmatched URLs, and the root layout no longer renders
@@ -28,6 +29,10 @@ export default function NotFound() {
         </div>
       </main>
       <Footer />
+      {/* The analytics scripts in the root layout load on 404s too, so the
+          consent notice has to be here as well — it previously came from the
+          root layout, which no longer renders any chrome. */}
+      <CookieBanner />
     </>
   );
 }

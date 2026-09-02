@@ -60,7 +60,7 @@ const DEFAULT_EVENTS_URL = 'https://api.planningcenteronline.com/calendar/v2/eve
 // Data Cache means that fan-out happens once per TTL instead of once per
 // request. The old `logs/pco-events-cache.json` file cache it replaces never
 // worked in production: Vercel's filesystem is ephemeral per invocation.
-const PCO_CACHE_TTL_SECONDS = 6 * 60 * 60; // 6 hours
+export const PCO_CACHE_TTL_SECONDS = 6 * 60 * 60; // 6 hours
 
 function buildAuthHeader(): string | null {
   const pat = process.env.PLANNING_CENTER_PAT;

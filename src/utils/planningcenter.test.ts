@@ -315,11 +315,6 @@ describe('getPlanningCenterEvents', () => {
   });
 
   it('throws a 503 when fetch consistently fails after retries', async () => {
-    // Ensure no cached events are present from other tests
-    const fs = await import('fs');
-    const cachePath = 'logs/pco-events-cache.json';
-    if (fs.existsSync(cachePath)) fs.unlinkSync(cachePath);
-
     global.fetch = vi.fn(async () => { throw new TypeError('network unreachable'); }) as unknown as typeof fetch;
 
     try {

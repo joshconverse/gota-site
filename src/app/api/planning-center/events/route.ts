@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import getPlanningCenterEvents from '@/utils/planningcenter';
+import getPlanningCenterEvents, { PCO_CACHE_TTL_SECONDS } from '@/utils/planningcenter';
 
 export async function GET() {
   try {
@@ -7,10 +7,10 @@ export async function GET() {
     return NextResponse.json({ events }, {
       status: 200,
       headers: {
-        // Match the upstream Data Cache TTL in `utils/planningcenter`. Without
-        // this the CDN revalidated on every hit, so each request paid for a
-        // fresh function invocation.
-        'Cache-Control': 'public, s-maxage=21600, stale-while-revalidate=3600', // 6 hours
+        // Derived from the upstream Data Cache TTL so the two can't drift.
+        // Without a Cache-Control header the CDN revalidated on every hit, so
+        // each request paid for a fresh function invocation.
+        'Cache-Control': `public, s-maxage=${PCO_CACHE_TTL_SECONDS}, stale-while-revalidate=3600`,
       },
     });
   } catch (err) {
